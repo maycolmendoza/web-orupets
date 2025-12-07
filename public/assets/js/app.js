@@ -68,18 +68,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const trigger = document.createElement("button");
   trigger.id = "open-popup";
-  trigger.className = "fixed bottom-5 right-5 z-40 p-4 rounded-full bg-emerald-400 text-slate-950 shadow-2xl shadow-emerald-900/40 hover:-translate-y-0.5 transition";
-  trigger.setAttribute("aria-label", "Abrir pop up");
+  trigger.className = "fixed bottom-5 right-5 z-40 p-4 rounded-full bg-amber-400 text-[#0a0f1c] shadow-2xl shadow-black/30 hover:-translate-y-0.5 transition opacity-0 pointer-events-none";
+  trigger.setAttribute("aria-label", "Ir al inicio");
   trigger.innerHTML = `
     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
     </svg>
   `;
 
   document.body.appendChild(overlay);
   document.body.appendChild(trigger);
 
-  const open = () => overlay.classList.remove("hidden");
+  const open = () => window.scrollTo({ top: 0, behavior: "smooth" });
   const close = () => overlay.classList.add("hidden");
 
   trigger.addEventListener("click", open);
@@ -91,4 +91,15 @@ document.addEventListener("DOMContentLoaded", () => {
   overlay.querySelector("#popup-primary").addEventListener("click", () => {
     window.location.href = "/catalogo/";
   });
+
+  const toggleTopButton = () => {
+    if (window.scrollY > 160) {
+      trigger.classList.remove("opacity-0", "pointer-events-none");
+    } else {
+      trigger.classList.add("opacity-0", "pointer-events-none");
+    }
+  };
+
+  window.addEventListener("scroll", toggleTopButton);
+  toggleTopButton();
 });

@@ -28,11 +28,6 @@
       0% { opacity: 0.45; transform: scale(1); }
       100% { opacity: 0; transform: scale(1.8); }
     }
-    @keyframes hueShift {
-      0% { filter: hue-rotate(0deg); }
-      50% { filter: hue-rotate(40deg); }
-      100% { filter: hue-rotate(0deg); }
-    }
     @keyframes shimmer {
       0% { transform: translateX(-100%); }
       100% { transform: translateX(100%); }
@@ -46,7 +41,7 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
       animation: shimmer 1.6s infinite;
     }
   </style>
@@ -55,16 +50,16 @@
   <script src="/assets/js/cart.js" defer></script>
   <script src="/assets/js/app.js" defer></script>
 </head>
-<body class="bg-[#05070d] text-white font-sans">
+<body class="bg-[#05070d] text-white">
   <div id="navbar"></div>
 
   <main class="relative overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-br from-[#05070d] via-[#0a0f1c] to-[#0c1424] opacity-95 pointer-events-none"></div>
+    <div class="absolute inset-0 bg-gradient-to-br from-[#05070d] via-[#0b1324] to-[#0f1c32] opacity-95 pointer-events-none"></div>
 
     <!-- HERO -->
     <section class="relative isolate max-w-6xl mx-auto px-6 pt-20 pb-12">
       <div class="absolute -z-20 inset-x-[-20%] top-[-35%] aspect-[5/2] bg-[radial-gradient(circle_at_20%_40%,rgba(255,255,255,0.06),transparent_45%),radial-gradient(circle_at_80%_30%,rgba(255,255,255,0.05),transparent_35%),radial-gradient(circle_at_60%_90%,rgba(255,255,255,0.04),transparent_40%)]"></div>
-      <div class="absolute -z-10 inset-x-0 -top-24 h-[320px]  opacity-95"></div>
+      <div class="absolute -z-10 inset-x-0 -top-24 h-[320px] bg-[linear-gradient(120deg,#0a0f1c_0%,#0b1220_40%,#0f172a_100%)] opacity-95"></div>
 
       <div class="relative overflow-hidden rounded-3xl bg-[#0a0f1c]/95 text-white ring-1 ring-white/10 shadow-2xl shadow-black/40">
         <div class="absolute inset-0 bg-[radial-gradient(circle_at_18%_15%,rgba(255,255,255,0.05),transparent_30%),radial-gradient(circle_at_85%_15%,rgba(255,255,255,0.04),transparent_25%)]"></div>
@@ -117,14 +112,14 @@
           </div>
 
           <div class="relative w-full max-w-lg mx-auto space-y-4">
-            <div class="relative w-full aspect-[4/5] rounded-3xl border border-dashed border-white/30 bg-white/5 shadow-2xl shadow-black/30 flex items-center justify-center overflow-hidden">
-              <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.04),transparent_45%),radial-gradient(circle_at_70%_70%,rgba(255,255,255,0.03),transparent_50%)]"></div>
+            <div class="relative w-full aspect-[4/5] rounded-3xl border border-dashed border-white/25 bg-white/5 shadow-2xl shadow-black/30 flex items-center justify-center overflow-hidden">
+              <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.05),transparent_45%),radial-gradient(circle_at_70%_70%,rgba(255,255,255,0.04),transparent_50%)]"></div>
               <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-6 gap-2">
-                <p class="text-sm font-semibold text-white">Coloca aquí la imagen PNG del collar sin fondo</p>
-                <p class="text-xs text-white/70">Ideal 1200x1500px, con áángulo 3/4 y iluminación lateral.</p>
+                <p class="text-sm font-semibold text-white">Coloca aqui la imagen PNG del collar sin fondo</p>
+                <p class="text-xs text-white/70">Ideal 1200x1500px, angulo 3/4 y luz lateral.</p>
               </div>
             </div>
-         
+            
           </div>
         </div>
       </div>
@@ -138,7 +133,7 @@
 
         <div class="relative flex items-center gap-4 px-5 py-4 overflow-x-auto scrollbar-none">
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 border border-white/20 text-xs font-semibold text-white">
-              <span class="w-2 h-2 bg-sky-300 rounded-full animate-pulse"></span>
+            <span class="w-2 h-2 bg-amber-300 rounded-full animate-pulse"></span>
             En vivo
           </div>
 
@@ -162,40 +157,8 @@
       </div>
     </section>
 
-    <!-- ANIMACION RESINA -->
-    <section class="relative max-w-6xl mx-auto px-6 pb-12 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-      <div class="space-y-4">
-        <p class="text-sm font-semibold text-amber-300 uppercase tracking-wide">Resina reactiva</p>
-        <h2 class="text-3xl font-black text-white leading-tight">Estuche que cambia con la luz y se conecta en segundos.</h2>
-        <p class="text-white/80">La resina sellada protege el chip NFC/QR y refleja la luz para ser visible. Al acercarlo a un telefono, las ondas de lectura se activan y envian tus datos.</p>
-        <div class="grid grid-cols-2 gap-3 text-sm text-white/80">
-          <div class="p-4 rounded-2xl bg-white/5 border border-white/10">
-            <p class="font-semibold text-white">Color reactivo</p>
-            <p>Brilla segun la luz ambiente.</p>
-          </div>
-          <div class="p-4 rounded-2xl bg-white/5 border border-white/10">
-            <p class="font-semibold text-white">Ondas visibles</p>
-            <p>Lectura inmediata al contacto.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#121827] via-[#0f1624] to-[#0c1320] p-8 shadow-2xl shadow-orange-900/30">
-        <div class="absolute -top-12 -left-10 w-40 h-40 bg-amber-500/25 blur-3xl rounded-full"></div>
-        <div class="absolute -bottom-14 -right-12 w-48 h-48 bg-orange-400/20 blur-3xl rounded-full"></div>
-
-        <div class="relative grid grid-cols-[1fr_auto] gap-6 items-center">
-          <div class="relative h-full flex items-center justify-center">
-            <img src="assets/img/d1.png" alt="">
-          
-          </div>
-         
-        </div>
-      </div>
-    </section>
-
     <!-- METRICAS -->
-      <section class="relative max-w-6xl mx-auto px-6 pb-10">
+    <section class="relative max-w-6xl mx-auto px-6 pb-10">
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
         <div class="p-5 bg-white/6 border border-white/10 rounded-2xl shadow-lg shadow-orange-900/25 text-center md:text-left">
           <p class="text-sm text-white/60">Alertas gestionadas</p>
@@ -237,11 +200,11 @@
 
     <!-- COMO FUNCIONA -->
     <section class="relative max-w-6xl mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-10 items-center">
-      <div class="absolute inset-0 -z-10 rounded-3xl bg-gradient-to-br from-slate-900/85 via-slate-900/65 to-slate-950/85 border border-white/5"></div>
+      <div class="absolute inset-0 -z-10 bg-gradient-to-br from-slate-900/85 via-slate-900/65 to-slate-950/85 rounded-3xl blur-xl border border-white/5"></div>
       <div class="space-y-5">
         <p class="text-sm font-semibold text-amber-300 uppercase tracking-wide">Como funciona</p>
         <h2 class="text-3xl md:text-4xl font-black text-white leading-tight">Escanea, identifica y avisa en segundos.</h2>
-        <p class="text-white/80 max-w-2xl">Todo es pasivo: NFC + QR te conectan sin apps ni bateria. Pensado para que cualquiera pueda ayudarte a reunir a tu mascota.</p>
+        <p class="text-white/80 max-w-2xl">Disenado para que cualquiera pueda ayudarte a reunir a tu mascota, aun sin aplicaciones ni datos moviles.</p>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div class="p-4 rounded-2xl bg-white/5 border border-white/10">
             <div class="flex items-center gap-2 text-amber-200 font-semibold">
@@ -262,28 +225,28 @@
               <span class="w-8 h-8 rounded-full bg-amber-400/15 flex items-center justify-center text-sm">3</span>
               Recibe
             </div>
-            <p class="text-sm text-white/70 mt-2">Aviso directo a tu WhatsApp con datos y ubicacion aproximada.</p>
+            <p class="text-sm text-white/70 mt-2">Mensaje directo a tu WhatsApp con contacto y ubicacion aproximada.</p>
           </div>
         </div>
       </div>
 
-      <div class="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-slate-800 to-slate-900 p-8 shadow-2xl shadow-cyan-900/40">
-        <div class="absolute -top-16 -right-16 w-40 h-40 bg-cyan-500/20 blur-3xl rounded-full"></div>
-        <div class="absolute -bottom-12 -left-10 w-40 h-40 bg-cyan-400/20 blur-3xl rounded-full"></div>
+      <div class="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#0f172a] to-[#0b1221] p-8 shadow-2xl shadow-black/35">
+        <div class="absolute -top-16 -right-16 w-40 h-40 bg-white/10 blur-3xl rounded-full"></div>
+        <div class="absolute -bottom-12 -left-10 w-40 h-40 bg-white/8 blur-3xl rounded-full"></div>
 
-        <div class="relative space-y-5">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/20 border border-cyan-300/30 text-xs font-semibold text-cyan-100">
+        <div class="relative space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-semibold text-white">
             Siempre activo
           </div>
-          <h3 class="text-2xl font-bold text-white">Listo para exteriores</h3>
-          <p class="text-white/80">Collar pasivo con tag metalico, resina sellada y color reactivo. Resistente y visible para cualquier telefono.</p>
+          <h3 class="text-2xl font-bold text-white">Listo para usar en exteriores</h3>
+          <p class="text-white/80">Collar pasivo con tag metalico y QR redundante. Resistente a golpes y agua, pensado para mascotas activas.</p>
           <ul class="space-y-2 text-white/80 text-sm">
-            <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-sky-300"></span><span>Sin bateria, sin suscripciones.</span></li>
-            <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-sky-300"></span><span>Compatible con camara o NFC.</span></li>
-            <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-sky-300"></span><span>Actualiza datos en minutos.</span></li>
+            <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-white/80"></span><span>Sin bateria, sin suscripciones.</span></li>
+            <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-white/80"></span><span>Compatible con camara o NFC.</span></li>
+            <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-white/80"></span><span>Actualiza datos en minutos.</span></li>
           </ul>
           <div class="flex flex-wrap gap-3">
-            <button onclick="addToCart('COLLAR_OP')" class="bg-sky-400 text-slate-900 px-5 py-3 rounded-xl font-semibold hover:-translate-y-0.5 transition shadow-lg shadow-blue-900/30">
+            <button onclick="addToCart('COLLAR_OP')" class="bg-white text-[#0a0f1c] px-5 py-3 rounded-xl font-semibold hover:-translate-y-0.5 transition shadow-lg shadow-black/30">
               Collar Eco
             </button>
             <button onclick="addToCart('COLLAR_OP_PLUS')" class="bg-white/10 border border-white/25 text-white px-5 py-3 rounded-xl font-semibold hover:bg-white/15 transition">
@@ -293,13 +256,41 @@
         </div>
       </div>
     </section>
-  </main>
 
-  <div id="footer"></div>
+    <!-- ANIMACION RESINA -->
+    <section class="relative max-w-6xl mx-auto px-6 pb-12 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-center">
+      <div class="space-y-3">
+        <p class="text-xs font-semibold text-white/60 uppercase tracking-[0.12em]">Resina reactiva</p>
+        <h2 class="text-3xl font-black text-white leading-tight">Estuche que cambia con la luz y se conecta en segundos.</h2>
+        <p class="text-white/80 text-sm md:text-base">La resina sellada protege el chip NFC/QR y refleja la luz para ser visible. Al acercarlo a un telefono, las ondas de lectura se activan y envian tus datos.</p>
+        <div class="grid grid-cols-2 gap-3 text-sm text-white/80">
+          <div class="p-4 rounded-2xl bg-white/5 border border-white/10">
+            <p class="font-semibold text-white">Color reactivo</p>
+            <p>Brilla segun la luz ambiente.</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-white/5 border border-white/10">
+            <p class="font-semibold text-white">Ondas visibles</p>
+            <p>Lectura inmediata al contacto.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="relative overflow-hidden rounded-3xl flex justify-center">
+        <div class="relative w-full max-w-[360px] aspect-[3/4] rounded-3xl bg-white/5 border border-white/10 shadow-2xl shadow-black/40 overflow-hidden select-none">
+          <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.05),transparent_45%),radial-gradient(circle_at_70%_70%,rgba(255,255,255,0.04),transparent_50%)] pointer-events-none"></div>
+          <img src="assets/img/d11.png" alt="Collar OruPets" class="w-full h-full object-contain select-none pointer-events-none" draggable="false" oncontextmenu="return false;">
+          <div class="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/10 via-transparent to-black/35"></div>
+          <div class="absolute top-3 right-3 text-[10px] font-semibold px-2 py-1 rounded-full bg-white/10 border border-white/20 text-white/80">Preview protegido</div>
+        </div>
+      </div>
+    </section>
+
+    <div id="footer"></div>
+  </main>
 
   <script>
     const homeCatalog = document.getElementById("home-catalog");
-    const renderSkeleton = () => {
+    const renderHomeSkeleton = () => {
       if (!homeCatalog) return;
       homeCatalog.innerHTML = Array.from({ length: 3 }).map(() => `
         <article class="min-w-[240px] md:min-w-0 snap-start bg-white/5 border border-white/10 rounded-2xl shadow-lg shadow-black/25 p-4 space-y-3">
@@ -314,11 +305,11 @@
       `).join("");
     };
 
-    const renderProducts = () => {
-      if (!homeCatalog || !Array.isArray(PRODUCTS)) return;
+    if (homeCatalog && Array.isArray(PRODUCTS)) {
+      renderHomeSkeleton();
       const destacados = PRODUCTS.slice(0, 3);
       homeCatalog.innerHTML = destacados.map(p => `
-        <article class="bg-[#0d1322]/80 border border-white/10 rounded-2xl shadow-lg shadow-orange-900/25 hover:border-amber-400/30 hover:-translate-y-1 transition flex flex-col min-w-[240px] md:min-w-0 snap-start">
+        <article class="bg-[#0d1322]/80 border border-white/10 rounded-2xl shadow-lg shadow-black/25 hover:border-amber-400/30 hover:-translate-y-1 transition flex flex-col min-w-[240px] md:min-w-0 snap-start">
           <div class="h-44 overflow-hidden rounded-t-2xl bg-slate-800/80">
             <img src="${p.img}" alt="${p.nombre}" class="w-full h-full object-cover" loading="lazy">
           </div>
@@ -338,13 +329,6 @@
           </div>
         </article>
       `).join("");
-    };
-
-    if (homeCatalog) {
-      renderSkeleton();
-      // Render productos tras breve espera para que se note el skeleton
-      setTimeout(renderProducts, 200);
-      window.addEventListener("load", renderProducts);
     }
   </script>
 </body>
