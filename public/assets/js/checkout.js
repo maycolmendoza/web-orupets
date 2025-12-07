@@ -52,10 +52,22 @@ function mostrarResumen() {
 mostrarResumen();
 
 function validarFormulario() {
-  const campos = ["nombre", "telefono", "distrito", "entrega"];
+  const campos = ["nombre", "telefono", "entrega"];
   for (const id of campos) {
     const input = document.getElementById(id);
     if (!input || !input.value.trim()) return false;
+  }
+  const entrega = document.getElementById("entrega")?.value;
+  if (entrega === "envio") {
+    const reqEnv = ["departamento", "provincia", "distrito", "direccion-envio"];
+    for (const id of reqEnv) {
+      const input = document.getElementById(id);
+      if (!input || !input.value.trim()) return false;
+    }
+  }
+  if (entrega === "recojo") {
+    const punto = document.getElementById("punto-recojo");
+    if (!punto || !punto.value.trim()) return false;
   }
   return true;
 }
@@ -65,21 +77,32 @@ function finalizarPedido(event) {
 
   const items = obtenerDetalleCarrito();
   if (items.length === 0) {
-    alert("Tu carrito esta vacio.");
+    if (typeof showAppPush === "function") {
+      showAppPush("Tu carrito esta vacio.", "error");
+    } else {
+      alert("Tu carrito esta vacio.");
+    }
     return;
   }
 
   if (!validarFormulario()) {
-    alert("Completa los datos obligatorios.");
+    if (typeof showAppPush === "function") {
+      showAppPush("Completa los datos obligatorios.", "error");
+    } else {
+      alert("Completa los datos obligatorios.");
+    }
     return;
   }
 
   const nombre = document.getElementById("nombre").value.trim();
   const telefono = document.getElementById("telefono").value.trim();
-  const distrito = document.getElementById("distrito").value.trim();
-  const direccion = document.getElementById("direccion").value.trim();
   const entrega = document.getElementById("entrega").value.trim();
   const comentarios = document.getElementById("comentarios").value.trim();
+  const direccionEnvio = document.getElementById("direccion-envio")?.value.trim();
+  const departamento = document.getElementById("departamento")?.value.trim();
+  const provincia = document.getElementById("provincia")?.value.trim();
+  const distrito = document.getElementById("distrito")?.value.trim();
+  const puntoRecojo = document.getElementById("punto-recojo")?.value.trim();
 
   let productosTxt = "";
   let total = 0;
@@ -95,13 +118,18 @@ function finalizarPedido(event) {
 *Cliente*
 ${nombre}
 Tel: ${telefono}
-Distrito: ${distrito}
-Direccion: ${direccion || "Sin direccion"}
+${entrega === "envio"
+  ? `Envio (Shalom):
+Departamento: ${departamento || "-"}
+Provincia: ${provincia || "-"}
+Distrito: ${distrito || "-"}
+Direccion: ${direccionEnvio || "-"}`
+  : `Recojo en: ${puntoRecojo || "Por definir"}`}
 
 *Productos*
 ${productosTxt}
 Total: S/ ${total.toFixed(2)}
-Entrega: ${entrega}
+Entrega: ${entrega === "envio" ? "Envio por Shalom" : `Recojo en ${puntoRecojo || "punto a coordinar"}`}
 Comentarios: ${comentarios || "Ninguno"}`;
 
   const url = `https://wa.me/${NUMERO_EMPRESA}?text=${encodeURIComponent(mensaje)}`;
@@ -110,5 +138,36 @@ Comentarios: ${comentarios || "Ninguno"}`;
 
   // Reset carrito
   clearCart();
-  alert("Pedido enviado por WhatsApp.");
+  if (typeof showAppModal === "function") {
+    showAppModal({
+      title: "Pedido enviado",
+      message: "Abrimos WhatsApp con tu pedido. Confirmaremos envio o recojo segun elegiste."
+    });
+  } else {
+    alert("Pedido enviado por WhatsApp.");
+  }
 }
+
+// Toggle UI segun entrega
+document.addEventListener("DOMContentLoaded", () => {
+  const entrega = document.getElementById("entrega");
+  const grupoEnvio = document.getElementById("grupo-envio");
+  const grupoRecojo = document.getElementById("grupo-recojo");
+  const toggle = () => {
+    if (!entrega) return;
+    if (entrega.value === "envio") {
+      grupoEnvio?.classList.remove("hidden");
+      grupoRecojo?.classList.add("hidden");
+    } else if (entrega.value === "recojo") {
+      grupoRecojo?.classList.remove("hidden");
+      grupoEnvio?.classList.add("hidden");
+    } else {
+      grupoEnvio?.classList.add("hidden");
+      grupoRecojo?.classList.add("hidden");
+    }
+  };
+  if (entrega) {
+    entrega.addEventListener("change", toggle);
+    toggle();
+  }
+});

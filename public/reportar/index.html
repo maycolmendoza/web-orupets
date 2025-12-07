@@ -2,40 +2,168 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Reportar mascota encontrada - OruPets</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --font-base: 'Inter', 'SF Pro Display', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    body { font-family: var(--font-base); letter-spacing: -0.01em; scroll-behavior: smooth; }
+    h1, h2, h3 { font-family: var(--font-base); letter-spacing: -0.02em; }
+    @keyframes shimmer { 0% { transform: translateX(-100%);} 100% { transform: translateX(100%);} }
+    .loader-bar { position: relative; overflow: hidden; background: rgba(255,255,255,0.08); }
+    .loader-bar::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent); animation: shimmer 1.8s ease-in-out infinite; }
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 700ms cubic-bezier(0.22,1,0.36,1), transform 700ms cubic-bezier(0.22,1,0.36,1); will-change: opacity, transform; }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+  </style>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="/assets/js/cart.js" defer></script>
   <script src="/assets/js/report.js" defer></script>
   <script src="/assets/js/app.js" defer></script>
 </head>
-<body class="bg-gray-50">
+<body class="bg-[#05070d] text-white min-h-screen relative overflow-x-hidden">
+  <div class="absolute inset-0 bg-gradient-to-br from-[#05070d] via-[#0b1324] to-[#0f1c32] opacity-90 pointer-events-none"></div>
+  <div id="app-loader" class="fixed inset-0 z-[120] bg-slate-950/90 backdrop-blur-sm flex items-center justify-center transition-opacity duration-400">
+    <div class="w-[320px] max-w-[80%] rounded-2xl border border-white/10 bg-[#0b1221] shadow-2xl shadow-black/60 p-5 space-y-3">
+      <div class="flex items-center gap-3">
+        <span class="relative flex h-10 w-10 items-center justify-center rounded-full bg-amber-400 text-slate-950 font-black text-xl shadow-inner shadow-black/50 overflow-hidden">
+          <img src="/assets/img/logo.jpg" alt="OruPets" class="w-full h-full object-cover pointer-events-none select-none" draggable="false" oncontextmenu="return false;">
+        </span>
+        <div class="space-y-1">
+          <p class="text-sm font-semibold text-white">Iniciando reporte</p>
+          <p class="text-xs text-white/60">Cargando formulario seguro...</p>
+        </div>
+      </div>
+      <div class="h-2 rounded-full loader-bar"></div>
+    </div>
+  </div>
+
   <div id="navbar"></div>
 
-  <section class="max-w-4xl mx-auto mt-10 px-4">
-    <h1 class="text-3xl font-bold text-gray-900 mb-4">Reportar mascota encontrada</h1>
-    <p class="text-gray-600 mb-6">
-      Si encontraste un collar OruPets, llena los datos y enviaremos la alerta por WhatsApp al duenio.
-    </p>
+  <main class="relative max-w-5xl mx-auto mt-16 px-4 pb-14 space-y-8">
+    <header class="reveal">
+      <p class="text-xs font-semibold text-white/60 uppercase tracking-[0.12em]">Reportar</p>
+      <h1 class="text-3xl md:text-4xl font-black tracking-tight">Reportar mascota encontrada</h1>
+      <p class="text-white/75 text-sm md:text-base max-w-3xl">Si encontraste un collar OruPets, completa los datos para avisar al due&ntilde;o por WhatsApp. No necesitas apps extra.</p>
+      <div class="flex flex-wrap gap-3 text-xs text-white/70 mt-3">
+        <span class="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-white/5 border border-white/10">
+          <span class="w-2 h-2 rounded-full bg-emerald-300 animate-pulse"></span> Envio inmediato a WhatsApp
+        </span>
+        <span class="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-white/5 border border-white/10">
+          <span class="w-2 h-2 rounded-full bg-amber-300"></span> Sin apps ni registro
+        </span>
+      </div>
+    </header>
 
-    <div class="bg-white p-6 rounded-lg shadow">
-      <form id="report-form" class="grid grid-cols-1 gap-4" onsubmit="enviarReporte(event)">
-        <input id="codigo" type="text" placeholder="Codigo del collar (ej: COLLAR_OP_123)" class="p-3 border rounded" required>
-        <input id="nombre-reportante" type="text" placeholder="Tu nombre" class="p-3 border rounded" required>
-        <input id="telefono-reportante" type="tel" placeholder="Tu telefono" class="p-3 border rounded" required>
-        <input id="ubicacion" type="text" placeholder="Ubicacion aproximada" class="p-3 border rounded" required>
-        <textarea id="mensaje" class="p-3 border rounded" placeholder="Comentario adicional (estado de la mascota, referencias)"></textarea>
+    <section class="reveal grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-6 items-start">
+      <div class="relative rounded-3xl border border-white/10 bg-[#0c121f]/90 p-6 shadow-2xl shadow-black/30 overflow-hidden">
+        <div class="absolute -top-16 -right-10 w-48 h-48 bg-white/5 blur-3xl rounded-full"></div>
+        <div class="absolute -bottom-14 -left-14 w-56 h-56 bg-white/5 blur-3xl rounded-full"></div>
+        <div class="relative space-y-4">
+          <div class="flex items-center gap-2 text-xs font-semibold bg-white/10 border border-white/15 px-3 py-1 rounded-full w-fit backdrop-blur">
+            Alerta segura
+          </div>
+          <h2 class="text-2xl font-bold text-white">Datos para contactar al due&ntilde;o</h2>
+          <p class="text-white/75 text-sm">Enviaremos tu reporte por WhatsApp al contacto registrado en el collar.</p>
 
-        <button class="bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold">
-          Enviar alerta por WhatsApp
-        </button>
-      </form>
+          <form id="report-form" class="grid grid-cols-1 gap-4" onsubmit="enviarReporte(event)">
+            <div class="space-y-2">
+              <label for="codigo" class="text-xs font-semibold text-white/70">C&oacute;digo del collar</label>
+              <input id="codigo" type="text" placeholder="Ej: COLLAR_OP_123" class="bg-white/5 border border-white/15 rounded-xl px-3 py-3 text-white placeholder-white/50 focus:border-amber-300 outline-none transition">
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="space-y-2">
+                <label for="nombre-reportante" class="text-xs font-semibold text-white/70">Tu nombre</label>
+                <input id="nombre-reportante" type="text" placeholder="Nombre" class="bg-white/5 border border-white/15 rounded-xl px-3 py-3 text-white placeholder-white/50 focus:border-amber-300 outline-none transition">
+              </div>
+              <div class="space-y-2">
+                <label for="telefono-reportante" class="text-xs font-semibold text-white/70">Tu tel&eacute;fono</label>
+                <input id="telefono-reportante" type="tel" placeholder="Ej: 999999999" class="bg-white/5 border border-white/15 rounded-xl px-3 py-3 text-white placeholder-white/50 focus:border-amber-300 outline-none transition">
+              </div>
+            </div>
+            <div class="space-y-2">
+              <label for="ubicacion" class="text-xs font-semibold text-white/70">Ubicaci&oacute;n aproximada</label>
+              <input id="ubicacion" type="text" placeholder="Ej: Parque central, Av. X con Calle Y" class="bg-white/5 border border-white/15 rounded-xl px-3 py-3 text-white placeholder-white/50 focus:border-amber-300 outline-none transition">
+            </div>
+            <div class="space-y-2">
+              <label for="mensaje" class="text-xs font-semibold text-white/70">Comentario adicional</label>
+              <textarea id="mensaje" class="bg-white/5 border border-white/15 rounded-xl px-3 py-3 text-white placeholder-white/50 focus:border-amber-300 outline-none transition min-h-[120px]" placeholder="Estado de la mascota, referencias de color, collar, etc."></textarea>
+            </div>
 
-      <p class="text-xs text-gray-500 mt-4">
-        Usaremos este mensaje solo para contactar al duenio. Gracias por ayudar a que una mascota vuelva a casa.
-      </p>
-    </div>
-  </section>
+            <button class="bg-amber-400 hover:bg-amber-300 text-[#0a0f1c] py-3 rounded-xl font-semibold shadow-lg shadow-black/30 flex items-center justify-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 4h16v12H5.17L4 17.17V4zm4 4h8m-8 4h5" />
+              </svg>
+              Enviar alerta por WhatsApp
+            </button>
+          </form>
+
+          <p class="text-xs text-white/60">Usaremos tu mensaje s&oacute;lo para contactar al due&ntilde;o. Gracias por ayudar a que una mascota vuelva a casa.</p>
+        </div>
+      </div>
+
+      <div class="reveal space-y-4">
+        <div class="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-xl shadow-black/25">
+          <div class="flex items-center gap-2 text-sm font-semibold text-amber-200">
+            <span class="w-2 h-2 rounded-full bg-emerald-300 animate-pulse"></span> Paso a paso
+          </div>
+          <ul class="mt-3 space-y-3 text-sm text-white/75">
+            <li class="flex gap-3">
+              <span class="text-amber-200 font-bold">1.</span>
+              <span>Ingresa el c&oacute;digo exacto del collar (est&aacute; grabado junto al QR/NFC).</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="text-amber-200 font-bold">2.</span>
+              <span>Describe d&oacute;nde te encuentras y c&oacute;mo est&aacute; la mascota.</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="text-amber-200 font-bold">3.</span>
+              <span>Enviamos un WhatsApp inmediato al contacto del due&ntilde;o.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-xl shadow-black/25 space-y-3 text-sm text-white/75">
+          <div class="flex items-center gap-2 text-sm font-semibold text-amber-200">
+            <span class="w-2 h-2 rounded-full bg-amber-300"></span> Tips r&aacute;pidos
+          </div>
+          <p>Mant&eacute;n al perro/gato en un lugar seguro. Si hay placa telef&oacute;nica, llama tambi&eacute;n.</p>
+          <p>Si necesitas ayuda adicional, escribe a <a href="mailto:hola@orupets.com" class="text-amber-300 hover:text-amber-200">hola@orupets.com</a>.</p>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <div id="footer"></div>
+
+  <script>
+    (function() {
+      const sections = Array.from(document.querySelectorAll("main section, main header, main .reveal"));
+      if (!("IntersectionObserver" in window) || !sections.length) return;
+      sections.forEach(sec => sec.classList.add("reveal"));
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
+      sections.forEach(sec => obs.observe(sec));
+    })();
+  </script>
+  <script>
+    (function() {
+      const loader = document.getElementById("app-loader");
+      if (!loader) return;
+      const hide = () => {
+        loader.classList.add("opacity-0", "pointer-events-none");
+        setTimeout(() => loader.remove(), 500);
+      };
+      window.addEventListener("load", () => setTimeout(hide, 320));
+      setTimeout(hide, 5000);
+    })();
+  </script>
 </body>
 </html>

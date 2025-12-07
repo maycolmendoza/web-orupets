@@ -8,34 +8,65 @@
         <span class="relative flex h-8 w-8 items-center justify-center rounded-full bg-amber-400 text-slate-950 font-black text-lg shadow-inner shadow-black/50 overflow-hidden">
           <img src="/assets/img/logo.jpg" alt="OruPets" class="w-full h-full object-cover pointer-events-none select-none" draggable="false" oncontextmenu="return false;">
         </span>
-        <span class="hidden sm:inline text-xl font-black tracking-tight drop-shadow">OruPets</span>
+        <span class="text-xl font-black tracking-tight drop-shadow">OruPets</span>
       </span>
     </a>
 
-    <div class="flex-1 flex justify-center min-w-0">
-      <div class="flex items-center gap-2 bg-white/10 border border-white/15 px-2 py-1 rounded-full shadow-lg shadow-black/30 overflow-x-auto scrollbar-none backdrop-blur-2xl w-full max-w-md justify-center min-w-0">
-        <a href="/catalogo/" class="whitespace-nowrap px-4 py-2 rounded-full text-sm font-semibold text-white hover:bg-white/10 transition-colors">Catalogo</a>
-        <a href="/reportar/" class="whitespace-nowrap px-4 py-2 rounded-full text-sm font-semibold text-white hover:bg-white/10 transition-colors">Reportar</a>
-        <a href="/carrito/" class="relative whitespace-nowrap px-4 py-2 rounded-full text-sm font-semibold text-white hover:bg-white/10 transition-colors flex items-center gap-2">
-          <span>Carrito</span>
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"
-              d="M3 3h2l1 4m0 0h12l1.2-3.6A1 1 0 0 0 18.2 2H6.4M6 7l1.6 8.2A1 1 0 0 0 8.6 16h8.8a1 1 0 0 0 .98-.8L20 9M9 21h.01M16 21h.01" />
-          </svg>
-          <span id="cart-count" class="absolute -top-1.5 -right-2 bg-white text-amber-800 rounded-full text-xs px-2 py-0.5 leading-none shadow">0</span>
-        </a>
-      </div>
-    </div>
+    <div class="flex-1"></div>
 
-    <div class="hidden sm:flex items-center gap-2 text-sm font-semibold text-white/80">
-      <button id="share-button" type="button" class="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-amber-400 text-[#0a0f1c] border border-transparent hover:brightness-110 transition shadow-lg shadow-black/30" aria-label="Compartir">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7" />
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M16 8l-4-4-4 4" />
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M12 4v13" />
-        </svg>
-        <span class="text-xs font-semibold hidden md:inline">Compartir</span>
+    <div class="relative">
+      <button id="nav-toggle" class="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/15 text-white shadow-lg shadow-black/30 backdrop-blur-2xl hover:bg-white/15 transition">
+        <span class="text-sm font-semibold">Men&uacute;</span>
+        <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
       </button>
+
+      <div id="nav-panel" class="hidden absolute right-0 mt-2 w-64 sm:w-72 rounded-2xl border border-white/10 bg-[#0c1221]/90 backdrop-blur-2xl shadow-2xl shadow-black/40 overflow-hidden origin-top-right">
+        <div class="p-4 flex items-center gap-3 border-b border-white/10">
+          <span class="relative flex h-10 w-10 items-center justify-center rounded-full bg-amber-400 text-slate-950 font-black text-xl shadow-inner shadow-black/50 overflow-hidden">
+            <img src="/assets/img/logo.jpg" alt="OruPets" class="w-full h-full object-cover pointer-events-none select-none" draggable="false" oncontextmenu="return false;">
+          </span>
+          <div>
+            <p class="text-white font-bold text-base leading-tight">OruPets</p>
+            <p class="text-white/60 text-xs">Protecci&oacute;n pasiva NFC/QR</p>
+          </div>
+        </div>
+
+        <div class="flex flex-col p-3 gap-2 text-sm font-semibold text-white">
+          <a href="/catalogo/" class="flex items-center justify-between px-3 py-2 rounded-xl hover:bg-white/10 transition">
+            <span>Cat&aacute;logo</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+          <a href="/reportar/" class="flex items-center justify-between px-3 py-2 rounded-xl hover:bg-white/10 transition">
+            <span>Reportar</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M12 8v4m0 4h.01M5 19h14l-7-14-7 14z" />
+            </svg>
+          </a>
+          <a href="/carrito/" class="flex items-center justify-between px-3 py-2 rounded-xl hover:bg-white/10 transition relative">
+            <span>Carrito</span>
+            <div class="flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"
+                  d="M3 3h2l1 4m0 0h12l1.2-3.6A1 1 0 0 0 18.2 2H6.4M6 7l1.6 8.2A1 1 0 0 0 8.6 16h8.8a1 1 0 0 0 .98-.8L20 9M9 21h.01M16 21h.01" />
+              </svg>
+              <span id="cart-count" class="inline-flex items-center justify-center bg-white text-amber-800 rounded-full text-[11px] px-2 py-0.5 leading-none shadow">0</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="px-3 pb-3">
+          <button id="share-button" type="button" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-amber-400 text-[#0a0f1c] font-semibold shadow-lg shadow-black/30 hover:translate-y-[-1px] transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M16 8l-4-4-4 4" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M12 4v13" />
+            </svg>
+            Compartir
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </nav>

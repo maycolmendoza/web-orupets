@@ -29,14 +29,35 @@ function addToCart(id) {
   const existing = cart.find(item => item.id === id);
 
   if (existing) {
-    existing.qty = (existing.qty || 1) + 1;
-  } else {
-    cart.push({ id: product.id, qty: 1 });
+    if (typeof showAppConfirm === "function") {
+      showAppConfirm({
+        title: "Producto ya agregado",
+        message: `${product.nombre} ya est&aacute; en tu carrito. ¿Quieres quitarlo?`,
+        confirmText: "Quitar del carrito",
+        cancelText: "Mantener"
+      }).then(ok => {
+        if (ok) {
+          removeFromCart(id);
+          if (typeof showAppPush === "function") {
+            showAppPush("Producto quitado del carrito", "info");
+          }
+        }
+      });
+    }
+    return;
   }
+
+  cart.push({ id: product.id, qty: 1 });
 
   saveCart(cart);
   renderCart();
-  alert("Producto agregado al carrito");
+  if (typeof showAppModal === "function") {
+    showAppModal({
+      title: "Agregado al carrito",
+      message: `${product.nombre} se agreg&oacute; correctamente. Revisa tu carrito cuando quieras.`,
+      url: ""
+    });
+  }
 }
 
 function updateQty(id, newQty) {

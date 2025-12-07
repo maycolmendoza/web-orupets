@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -8,17 +8,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --font-base: 'Inter', 'SF Pro Display', 'Segoe UI', system-ui, -apple-system, sans-serif;
-    }
-    body {
-      font-family: var(--font-base);
-      letter-spacing: -0.01em;
-    }
-    h1, h2, h3 {
-      font-family: var(--font-base);
-      letter-spacing: -0.02em;
-    }
+    :root { --font-base: 'Inter', 'SF Pro Display', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    body { font-family: var(--font-base); letter-spacing: -0.01em; scroll-behavior: smooth; }
+    h1, h2, h3 { font-family: var(--font-base); letter-spacing: -0.02em; }
+    @keyframes shimmer { 0% { transform: translateX(-100%);} 100% { transform: translateX(100%);} }
+    .loader-bar { position: relative; overflow: hidden; background: rgba(255,255,255,0.08); }
+    .loader-bar::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent); animation: shimmer 1.8s ease-in-out infinite; }
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 700ms cubic-bezier(0.22,1,0.36,1), transform 700ms cubic-bezier(0.22,1,0.36,1); will-change: opacity, transform; }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
   </style>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="/assets/js/products.js"></script>
@@ -26,26 +23,42 @@
   <script src="/assets/js/checkout.js" defer></script>
   <script src="/assets/js/app.js" defer></script>
 </head>
-<body class="bg-[#05070d] text-white">
+<body class="bg-[#05070d] text-white min-h-screen">
+  <div class="absolute inset-0 bg-gradient-to-br from-[#05070d] via-[#0b1324] to-[#0f1c32] opacity-90 pointer-events-none"></div>
+  <div id="app-loader" class="fixed inset-0 z-[120] bg-slate-950/90 backdrop-blur-sm flex items-center justify-center transition-opacity duration-400">
+    <div class="w-[320px] max-w-[80%] rounded-2xl border border-white/10 bg-[#0b1221] shadow-2xl shadow-black/60 p-5 space-y-3">
+      <div class="flex items-center gap-3">
+        <span class="relative flex h-10 w-10 items-center justify-center rounded-full bg-amber-400 text-slate-950 font-black text-xl shadow-inner shadow-black/50 overflow-hidden">
+          <img src="/assets/img/logo.jpg" alt="OruPets" class="w-full h-full object-cover pointer-events-none select-none" draggable="false" oncontextmenu="return false;">
+        </span>
+        <div class="space-y-1">
+          <p class="text-sm font-semibold text-white">Preparando checkout</p>
+          <p class="text-xs text-white/60">Confirmando carrito y datos...</p>
+        </div>
+      </div>
+      <div class="h-2 rounded-full loader-bar"></div>
+    </div>
+  </div>
+
   <div id="navbar"></div>
 
-  <section class="max-w-5xl mx-auto mt-10 px-4 space-y-6">
-    <header class="space-y-2">
+  <section class="relative max-w-5xl mx-auto mt-14 px-4 space-y-6">
+    <header class="space-y-2 reveal">
       <p class="text-xs font-semibold text-white/60 uppercase tracking-[0.12em]">Checkout</p>
       <h1 class="text-3xl md:text-4xl font-black tracking-tight text-white">Completar mi pedido</h1>
-      <p class="text-white/70 text-sm max-w-2xl">Confirma tus datos de contacto y dirección. Tu collar NFC/QR llegará listo para usarse.</p>
+      <p class="text-white/70 text-sm max-w-2xl">Confirma tus datos de contacto y direccion. Tu collar NFC/QR llegar&aacute; listo para usarse.</p>
     </header>
 
-    <div class="grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] gap-6 reveal">
       <div class="bg-[#0c121f]/90 border border-white/10 rounded-2xl shadow-2xl shadow-black/30 p-6 space-y-4">
         <h2 class="text-xl font-bold text-white">Datos del cliente</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <input type="text" placeholder="Nombre completo" class="bg-white/5 border border-white/15 rounded-lg px-3 py-2 text-white placeholder-white/50">
-          <input type="email" placeholder="Correo electrónico" class="bg-white/5 border border-white/15 rounded-lg px-3 py-2 text-white placeholder-white/50">
-          <input type="tel" placeholder="Teléfono" class="bg-white/5 border border-white/15 rounded-lg px-3 py-2 text-white placeholder-white/50">
+          <input type="email" placeholder="Correo electronico" class="bg-white/5 border border-white/15 rounded-lg px-3 py-2 text-white placeholder-white/50">
+          <input type="tel" placeholder="Telefono" class="bg-white/5 border border-white/15 rounded-lg px-3 py-2 text-white placeholder-white/50">
           <input type="text" placeholder="Ciudad" class="bg-white/5 border border-white/15 rounded-lg px-3 py-2 text-white placeholder-white/50">
         </div>
-        <textarea placeholder="Dirección completa" class="bg-white/5 border border-white/15 rounded-lg px-3 py-2 w-full text-white placeholder-white/50 min-h-[100px]"></textarea>
+        <textarea placeholder="Direccion completa" class="bg-white/5 border border-white/15 rounded-lg px-3 py-2 w-full text-white placeholder-white/50 min-h-[100px]"></textarea>
       </div>
 
       <div class="bg-[#0c121f]/90 border border-white/10 rounded-2xl shadow-2xl shadow-black/30 p-6 space-y-4">
@@ -56,10 +69,10 @@
             <span id="total" class="font-bold text-white text-lg">S/ 0</span>
           </div>
           <div class="flex items-center justify-between">
-            <span>Envío estimado</span>
+            <span>Envio estimado</span>
             <span class="text-white">S/ 0</span>
           </div>
-          <p class="text-xs text-white/50">Coordinamos envío o recojo después de confirmar.</p>
+          <p class="text-xs text-white/50">Coordinamos envio o recojo despues de confirmar.</p>
         </div>
         <a href="/carrito/" class="inline-flex items-center gap-2 text-sm font-semibold text-amber-300 hover:text-amber-200">
           Volver al carrito
@@ -73,7 +86,34 @@
   </section>
 
   <div id="footer"></div>
+
+  <script>
+    (function() {
+      const sections = Array.from(document.querySelectorAll("section, header, .grid"));
+      if (!("IntersectionObserver" in window) || !sections.length) return;
+      sections.forEach(sec => sec.classList.add("reveal"));
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
+      sections.forEach(sec => obs.observe(sec));
+    })();
+  </script>
+  <script>
+    (function() {
+      const loader = document.getElementById("app-loader");
+      if (!loader) return;
+      const hide = () => {
+        loader.classList.add("opacity-0", "pointer-events-none");
+        setTimeout(() => loader.remove(), 500);
+      };
+      window.addEventListener("load", () => setTimeout(hide, 320));
+      setTimeout(hide, 5000);
+    })();
+  </script>
 </body>
 </html>
-
-

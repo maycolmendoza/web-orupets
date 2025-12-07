@@ -10,7 +10,11 @@ function enviarReporte(event) {
   const mensajeExtra = document.getElementById("mensaje").value.trim();
 
   if (!codigo || !nombre || !telefono || !ubicacion) {
-    alert("Completa los datos requeridos.");
+    if (typeof showAppPush === "function") {
+      showAppPush("Completa los datos requeridos.", "error");
+    } else {
+      alert("Completa los datos requeridos.");
+    }
     return;
   }
 
@@ -27,6 +31,13 @@ Por favor contactar al duenio.`;
 
   const url = `https://wa.me/${NUMERO_ALERTA}?text=${encodeURIComponent(mensaje)}`;
   window.open(url, "_blank");
-  alert("Gracias por reportar, enviaremos el mensaje por WhatsApp.");
+  if (typeof showAppModal === "function") {
+    showAppModal({
+      title: "Reporte enviado",
+      message: "Abrimos WhatsApp con tu mensaje. Gracias por ayudar a la mascota a volver a casa."
+    });
+  } else {
+    alert("Gracias por reportar, enviaremos el mensaje por WhatsApp.");
+  }
   document.getElementById("report-form").reset();
 }
