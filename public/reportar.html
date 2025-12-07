@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reportar mascota encontrada - OruPets</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-base: 'Inter', 'SF Pro Display', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+    body {
+      font-family: var(--font-base);
+      letter-spacing: -0.01em;
+    }
+    h1, h2, h3 {
+      font-family: var(--font-base);
+      letter-spacing: -0.02em;
+    }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/assets/js/cart.js" defer></script>
+  <script src="/assets/js/report.js" defer></script>
+  <script src="/assets/js/app.js" defer></script>
+</head>
+<body class="bg-gray-50">
+  <div id="navbar"></div>
+
+  <section class="max-w-4xl mx-auto mt-10 px-4">
+    <h1 class="text-3xl font-bold text-gray-900 mb-4">Reportar mascota encontrada</h1>
+    <p class="text-gray-600 mb-6">
+      Si encontraste un collar OruPets, llena los datos y enviaremos la alerta por WhatsApp al duenio.
+    </p>
+
+    <div class="bg-white p-6 rounded-lg shadow">
+      <form id="report-form" class="grid grid-cols-1 gap-4" onsubmit="enviarReporte(event)">
+        <input id="codigo" type="text" placeholder="Codigo del collar (ej: COLLAR_OP_123)" class="p-3 border rounded" required>
+        <input id="nombre-reportante" type="text" placeholder="Tu nombre" class="p-3 border rounded" required>
+        <input id="telefono-reportante" type="tel" placeholder="Tu telefono" class="p-3 border rounded" required>
+        <input id="ubicacion" type="text" placeholder="Ubicacion aproximada" class="p-3 border rounded" required>
+        <textarea id="mensaje" class="p-3 border rounded" placeholder="Comentario adicional (estado de la mascota, referencias)"></textarea>
+
+        <button class="bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold">
+          Enviar alerta por WhatsApp
+        </button>
+      </form>
+
+      <p class="text-xs text-gray-500 mt-4">
+        Usaremos este mensaje solo para contactar al duenio. Gracias por ayudar a que una mascota vuelva a casa.
+      </p>
+    </div>
+  </section>
+
+  <div id="footer"></div>
+</body>
+</html>

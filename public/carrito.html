@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Carrito - OruPets</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-base: 'Inter', 'SF Pro Display', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+    body {
+      font-family: var(--font-base);
+      letter-spacing: -0.01em;
+    }
+    h1, h2, h3 {
+      font-family: var(--font-base);
+      letter-spacing: -0.02em;
+    }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/assets/js/products.js"></script>
+  <script src="/assets/js/cart.js" defer></script>
+  <script src="/assets/js/app.js" defer></script>
+</head>
+<body class="bg-[#05070d] text-white">
+  <div id="navbar"></div>
+
+  <main class="max-w-6xl mx-auto mt-14 px-4 pb-12 space-y-6">
+    <header class="flex flex-col gap-2">
+      <p class="text-xs font-semibold text-white/60 uppercase tracking-[0.12em]">Carrito</p>
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
+        <h1 class="text-3xl md:text-4xl font-black tracking-tight">Resumen de tu compra</h1>
+        <a href="/catalogo/" class="inline-flex items-center gap-2 text-sm font-semibold text-amber-300 hover:text-amber-200">
+          Seguir explorando
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+      <p class="text-white/70 text-sm max-w-2xl">Verifica tus collares/tag NFC + QR. Sin apps, sin batería. Puedes editar cantidades antes de finalizar.</p>
+    </header>
+
+    <div class="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-6">
+      <div id="empty" class="hidden col-span-full text-center text-white/70 mt-10 bg-white/5 border border-white/10 rounded-2xl py-12 px-6">
+        <p class="text-lg font-semibold text-white">Tu carrito está vacío.</p>
+        <p class="text-sm text-white/60 mt-1">Añade un collar o tag para continuar.</p>
+        <a href="/catalogo/" class="mt-4 inline-flex items-center gap-2 bg-white text-[#0a0f1c] px-6 py-3 rounded-xl font-semibold shadow hover:-translate-y-0.5 transition">
+          Ver catálogo
+        </a>
+      </div>
+
+      <div id="cart-container" class="space-y-4"></div>
+
+      <aside id="summary" class="hidden bg-[#0c121f]/90 text-white rounded-2xl border border-white/10 shadow-2xl shadow-black/30 p-5 space-y-4 h-fit sticky top-24">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xl font-bold">Resumen</h2>
+          <button onclick="clearCart()" class="text-xs font-semibold text-red-300 hover:text-red-200 underline">Vaciar carrito</button>
+        </div>
+        <div class="space-y-2 text-sm text-white/70">
+          <div class="flex items-center justify-between">
+            <span>Subtotal</span>
+            <span id="total" class="font-bold text-white text-lg">S/ 0</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span>Envío estimado</span>
+            <span class="text-white">S/ 0</span>
+          </div>
+          <p class="text-xs text-white/50">Coordinamos envío o recojo después de confirmar.</p>
+        </div>
+        <a href="/checkout/"
+          class="inline-flex w-full justify-center bg-white text-[#0a0f1c] hover:bg-gray-100 px-5 py-3 rounded-xl font-semibold shadow-lg shadow-black/30">
+          Continuar con la compra
+        </a>
+      </aside>
+    </div>
+  </main>
+
+  <div id="footer"></div>
+</body>
+</html>

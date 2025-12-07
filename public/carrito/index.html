@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Carrito - OruPets</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/assets/js/products.js"></script>
+  <script src="/assets/js/cart.js" defer></script>
+  <script src="/assets/js/app.js" defer></script>
+</head>
+<body class="bg-gray-50">
+  <div id="navbar"></div>
+
+  <section class="max-w-5xl mx-auto mt-10 px-4">
+    <h1 class="text-3xl font-bold text-gray-900 mb-6">Tu carrito</h1>
+
+    <div id="empty" class="hidden text-center text-gray-600 mt-16">
+      <p>Tu carrito esta vacio.</p>
+      <a href="/catalogo/" class="mt-4 inline-block bg-green-600 text-white px-6 py-2 rounded-lg">
+        Ver catalogo
+      </a>
+    </div>
+
+    <div id="cart-container"></div>
+
+    <div id="summary" class="hidden mt-8 p-5 bg-white rounded-lg shadow space-y-2">
+      <div class="flex items-center justify-between">
+        <h2 class="text-xl font-bold text-gray-900">Resumen</h2>
+        <button onclick="clearCart()" class="text-sm text-red-600 hover:text-red-700">Vaciar carrito</button>
+      </div>
+      <p class="text-lg text-gray-700">Total:
+        <span id="total" class="font-bold text-green-700">S/ 0</span>
+      </p>
+      <a href="/checkout/"
+        class="inline-block bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold">
+        Continuar con la compra
+      </a>
+    </div>
+  </section>
+
+  <div id="footer"></div>
+</body>
+</html>

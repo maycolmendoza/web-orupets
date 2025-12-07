@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Catalogo OruPets</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/assets/js/products.js"></script>
+  <script src="/assets/js/cart.js" defer></script>
+  <script src="/assets/js/app.js" defer></script>
+</head>
+<body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
+  <div id="navbar"></div>
+
+  <main class="flex-1">
+    <section class="max-w-6xl mx-auto mt-12 px-4 space-y-8">
+      <div class="bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-3xl p-8 shadow-lg">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div class="space-y-2">
+            <p class="text-sm font-semibold text-white/80 uppercase tracking-wide">Catalogo</p>
+            <h1 class="text-3xl md:text-4xl font-bold leading-tight">Proteccion pasiva lista para usar</h1>
+            <p class="text-white/90 text-sm md:text-base max-w-2xl">
+              Collares y tags NFC/QR que funcionan 24/7 sin bateria ni apps. Pensados para resistir golpes, agua y sol.
+            </p>
+          </div>
+          <div class="bg-white/10 border border-white/20 rounded-2xl p-4 text-sm text-white/90">
+            <p class="font-semibold text-white">Entrega rapida</p>
+            <p>Delivery o recojo en puntos cercanos.</p>
+            <p class="mt-2 font-semibold text-white">Soporte en minutos</p>
+            <p>Actualiza datos de contacto cuando quieras.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div>
+          <p class="text-sm font-semibold text-green-700">Linea OruPets</p>
+          <h2 class="text-2xl font-bold">Elige el nivel de seguridad pasiva</h2>
+          <p class="text-gray-600 text-sm">Todos incluyen NFC + QR y estan listos para registrar tu mascota.</p>
+        </div>
+        <div class="flex gap-2 flex-wrap">
+          <button data-filter="todos" class="filter-chip bg-green-600 text-white px-4 py-2 rounded-full text-sm font-semibold">Todos</button>
+          <button data-filter="Nuevo" class="filter-chip bg-white border border-gray-200 px-4 py-2 rounded-full text-sm font-semibold text-gray-700 hover:border-gray-400">Nuevos</button>
+          <button data-filter="Tendencia" class="filter-chip bg-white border border-gray-200 px-4 py-2 rounded-full text-sm font-semibold text-gray-700 hover:border-gray-400">Tendencia</button>
+          <button data-filter="Mas vendido" class="filter-chip bg-white border border-gray-200 px-4 py-2 rounded-full text-sm font-semibold text-gray-700 hover:border-gray-400">Mas vendido</button>
+          <button data-sort="precio-asc" class="filter-chip bg-white border border-gray-200 px-4 py-2 rounded-full text-sm font-semibold text-gray-700 hover:border-gray-400">Precio ↑</button>
+          <button data-sort="precio-desc" class="filter-chip bg-white border border-gray-200 px-4 py-2 rounded-full text-sm font-semibold text-gray-700 hover:border-gray-400">Precio ↓</button>
+          <a href="/carrito/" class="ml-2 text-green-700 font-semibold hover:text-green-800 text-sm">Ver carrito</a>
+        </div>
+      </div>
+
+      <div id="catalogo" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6"></div>
+    </section>
+  </main>
+
+  <div id="footer"></div>
+
+  <script>
+    const area = document.getElementById("catalogo");
+
+    let currentFilter = "todos";
+    let currentSort = null;
+
+    function renderCatalog() {
+      area.innerHTML = "";
+
+      let items = [...PRODUCTS];
+
+      if (currentFilter !== "todos") {
+        items = items.filter(p => p.badge === currentFilter);
+      }
+
+      if (currentSort === "precio-asc") {
+        items.sort((a, b) => a.precio - b.precio);
+      } else if (currentSort === "precio-desc") {
+        items.sort((a, b) => b.precio - a.precio);
+      }
+
+      items.forEach(p => {
+        area.innerHTML += `
+          <article class="bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-lg transition flex flex-col">
+            <div class="overflow-hidden rounded-t-2xl h-48 bg-gray-50">
+              <img src="${p.img}" alt="${p.nombre}" class="w-full h-full object-cover">
+            </div>
+
+            <div class="flex-1 p-5 space-y-2">
+              <div class="flex items-center justify-between gap-2">
+                <div>
+                  <h2 class="font-bold text-xl text-gray-900">${p.nombre}</h2>
+                  <p class="text-xs text-gray-500">${p.categoria}</p>
+                </div>
+                <span class="text-xs px-2 py-1 rounded-full bg-green-100 text-green-700 font-semibold">${p.badge || "Destacado"}</span>
+              </div>
+              <p class="text-gray-600 text-sm leading-relaxed flex-1">${p.desc}</p>
+              <div class="flex items-center justify-between pt-2">
+                <p class="text-green-700 font-bold text-xl">S/ ${p.precio}</p>
+                <button onclick="addToCart('${p.id}')"
+                  class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold">
+                  Agregar
+                </button>
+              </div>
+            </div>
+          </article>
+        `;
+      });
+    }
+
+    function initFilters() {
+      const chips = document.querySelectorAll(".filter-chip");
+      chips.forEach(chip => {
+        chip.addEventListener("click", () => {
+          const filter = chip.getAttribute("data-filter");
+          const sort = chip.getAttribute("data-sort");
+
+          if (filter) {
+            currentFilter = filter;
+          }
+          if (sort) {
+            currentSort = sort;
+          }
+
+          chips.forEach(c => c.classList.remove("bg-green-600", "text-white"));
+          chips.forEach(c => c.classList.add("bg-white", "text-gray-700"));
+
+          chip.classList.add("bg-green-600", "text-white");
+          chip.classList.remove("bg-white", "text-gray-700");
+
+          renderCatalog();
+        });
+      });
+    }
+
+    renderCatalog();
+    initFilters();
+  </script>
+</body>
+</html>
