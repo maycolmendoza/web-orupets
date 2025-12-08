@@ -1,22 +1,24 @@
 import { analyzeImage } from './ia.js';
 import { uploadToSupabase, saveReportToSupabase, supabaseConfigured } from './supabase.js';
 
-const photoInput = document.getElementById('photo-input');
-const photoDrop = document.getElementById('photo-drop');
-const preview = document.getElementById('photo-preview');
-const previewImg = document.getElementById('preview-img');
-const fileMeta = document.getElementById('file-meta');
-const submitBtn = document.getElementById('submit-btn');
+const photoInput = document.getElementById('foto-mascota');
+const photoTrigger = document.getElementById('photo-trigger');
+const photoPreview = document.getElementById('photo-preview');
+const photoPreviewImg = document.getElementById('photo-preview-img');
+const photoFilename = document.getElementById('photo-filename');
 const analyzeStatus = document.getElementById('analyze-status');
-const locationBtn = document.getElementById('gps-btn');
-const locationInput = document.getElementById('location-input');
-const locationStatus = document.getElementById('location-status');
-const descriptionInput = document.getElementById('description');
+const submitBtn = document.getElementById('submit-btn');
+const locationBtn = document.getElementById('btn-ubicacion');
+const locationInput = document.getElementById('ubicacion');
+const locationStatus = document.getElementById('ubicacion-status');
+const descriptionInput = document.getElementById('mensaje');
 const resultType = document.getElementById('result-type');
 const resultBreed = document.getElementById('result-breed');
 const resultNsfw = document.getElementById('result-nsfw');
 const confidenceText = document.getElementById('confidence-text');
 const supabaseNotice = document.getElementById('supabase-notice');
+const statusHelper = document.getElementById('status-helper');
+const modeHelper = document.getElementById('mode-helper');
 
 let selectedFile = null;
 let analysisResult = null;
@@ -24,13 +26,20 @@ let gpsLocation = null;
 let isAnalyzing = false;
 let queuedAnalysis = false;
 
+function setStatus(message, color = '#cbd5e1') {
+  if (analyzeStatus) {
+    analyzeStatus.textContent = message;
+    analyzeStatus.style.color = color;
+  }
+  if (statusHelper) statusHelper.textContent = message;
+}
+
 function showError(msg) {
-  analyzeStatus.textContent = msg;
-  analyzeStatus.style.color = '#ef4444';
+  setStatus(msg, '#ef4444');
   resultType.textContent = 'Reintenta';
   resultBreed.textContent = '-';
   resultNsfw.textContent = 'Bloqueado';
-  resultNsfw.className = 'badge-red';
+  resultNsfw.className = 'text-red-400 font-semibold';
   confidenceText.textContent = '';
   submitBtn.disabled = true;
 }
@@ -41,9 +50,9 @@ function showResults(data) {
     : 'No identificado';
   resultBreed.textContent = data.breed;
   resultNsfw.textContent = `${(1 - data.nsfwConfidence).toFixed(2)} seguro / ${(data.nsfwConfidence * 100).toFixed(1)}% NSFW`;
-  resultNsfw.className = data.nsfwConfidence > 0.4 ? 'badge-red' : 'badge-green';
+  resultNsfw.className = data.nsfwConfidence > 0.4 ? 'text-red-400 font-semibold' : 'text-emerald-300 font-semibold';
   confidenceText.textContent = `Raza confianza: ${(data.breedConfidence * 100).toFixed(1)}%`;
-  analyzeStatus.style.color = '#9fb2d9';
+  setStatus('Listo, detectamos a tu mascota.', '#9fb2d9');
   submitBtn.disabled = false;
 }
 
@@ -61,54 +70,40 @@ async function getGPSLocation() {
 }
 
 function resetPreview() {
-  preview.classList.add('empty');
-  previewImg.style.display = 'none';
-  previewImg.src = '';
-  fileMeta.textContent = 'Ningún archivo seleccionado.';
+  photoPreview?.classList.add('hidden');
+  photoPreviewImg.src = '';
+  photoFilename.textContent = '';
   analysisResult = null;
-  analyzeStatus.textContent = 'Esperando una foto para analizar.';
+  setStatus('Sube una foto para analizar');
   confidenceText.textContent = '';
-  resultType.textContent = 'Sube una foto';
+  resultType.textContent = 'Sin foto';
   resultBreed.textContent = '-';
   resultNsfw.textContent = 'Sin revisar';
+  resultNsfw.className = '';
   submitBtn.disabled = true;
 }
 
 if (!supabaseConfigured && supabaseNotice) {
-  supabaseNotice.textContent = 'Modo demo: la IA funciona, el envío se simula sin Supabase. Configura las claves para guardar de verdad.';
-  supabaseNotice.style.color = '#f6c344';
-  analyzeStatus.textContent = 'Modo demo activo. Sube una foto para analizar.';
+  supabaseNotice.textContent = 'Modo demo: simulamos subida y guardado cuando no hay claves de Supabase.';
+  modeHelper.textContent = 'Configura las claves de Supabase para activar el guardado real.';
+  setStatus('Modo demo activo. Sube una foto para analizar.');
 }
 
 function handleFile(file) {
   if (!file) return resetPreview();
   selectedFile = file;
-  fileMeta.textContent = `${file.name} • ${(file.size / 1024).toFixed(1)} KB`;
   const url = URL.createObjectURL(file);
-  previewImg.src = url;
-  previewImg.onload = () => URL.revokeObjectURL(url);
-  previewImg.style.display = 'block';
-  preview.classList.remove('empty');
+  photoPreviewImg.src = url;
+  photoPreviewImg.onload = () => URL.revokeObjectURL(url);
+  photoFilename.textContent = file.name;
+  photoPreview?.classList.remove('hidden');
   queuedAnalysis = true;
   startAnalysis();
 }
 
-photoDrop.addEventListener('click', () => photoInput.click());
-photoInput.addEventListener('change', (ev) => {
+photoTrigger?.addEventListener('click', () => photoInput?.click());
+photoInput?.addEventListener('change', (ev) => {
   const [file] = ev.target.files || [];
-  handleFile(file);
-});
-photoDrop.addEventListener('dragover', (ev) => {
-  ev.preventDefault();
-  photoDrop.style.borderColor = '#f6c344';
-});
-photoDrop.addEventListener('dragleave', () => {
-  photoDrop.style.borderColor = 'rgba(255,255,255,0.18)';
-});
-photoDrop.addEventListener('drop', (ev) => {
-  ev.preventDefault();
-  photoDrop.style.borderColor = 'rgba(255,255,255,0.18)';
-  const file = ev.dataTransfer.files?.[0];
   handleFile(file);
 });
 
@@ -121,8 +116,7 @@ async function startAnalysis() {
   if (!selectedFile) return showError('Por favor selecciona una foto primero.');
   isAnalyzing = true;
   submitBtn.disabled = true;
-  analyzeStatus.style.color = '#9fb2d9';
-  analyzeStatus.textContent = 'Analizando la imagen automáticamente...';
+  setStatus('Analizando la imagen automáticamente...', '#9fb2d9');
   resultType.textContent = 'Analizando';
   resultBreed.textContent = 'Analizando';
   resultNsfw.textContent = 'Analizando';
@@ -143,7 +137,6 @@ async function startAnalysis() {
 
     analysisResult = result;
     showResults(result);
-    analyzeStatus.textContent = 'Listo, detectamos a tu mascota.';
   } catch (err) {
     console.error(err);
     analysisResult = null;
@@ -154,27 +147,27 @@ async function startAnalysis() {
   }
 }
 
-locationBtn.addEventListener('click', async () => {
+locationBtn?.addEventListener('click', async () => {
   locationStatus.textContent = 'Solicitando ubicación...';
+  locationStatus.classList.remove('text-red-400');
   try {
     gpsLocation = await getGPSLocation();
     locationInput.value = `${gpsLocation.lat.toFixed(6)}, ${gpsLocation.lng.toFixed(6)}`;
     locationStatus.textContent = 'Ubicación añadida.';
-    locationStatus.style.color = '#9fb2d9';
+    locationStatus.classList.add('text-slate-300');
   } catch (err) {
     locationStatus.textContent = err.message;
-    locationStatus.style.color = '#ef4444';
+    locationStatus.classList.add('text-red-400');
   }
 });
 
-submitBtn.addEventListener('click', async () => {
+submitBtn?.addEventListener('click', async () => {
   if (!selectedFile) return showError('Debes subir una foto para enviar el reporte.');
   if (isAnalyzing) return showError('Espera a que terminemos de analizar la foto.');
   if (!analysisResult) return showError('Necesitamos validar que sea perro o gato antes de enviar.');
   if (analysisResult.nsfwConfidence > 0.5) return showError('No podemos enviar contenido marcado como NSFW.');
 
-  analyzeStatus.style.color = '#9fb2d9';
-  analyzeStatus.textContent = 'Subiendo a Supabase...';
+  setStatus('Subiendo a Supabase...', '#9fb2d9');
   submitBtn.disabled = true;
 
   try {
@@ -194,10 +187,9 @@ submitBtn.addEventListener('click', async () => {
     };
 
     await saveReportToSupabase(payload);
-    analyzeStatus.textContent = supabaseConfigured
+    setStatus(supabaseConfigured
       ? '¡Reporte enviado con éxito!'
-      : 'Envío simulado. Configura Supabase para guardar el reporte.';
-    analyzeStatus.style.color = '#14f195';
+      : 'Envío simulado. Configura Supabase para guardar el reporte real.', '#14f195');
     confidenceText.textContent = '';
   } catch (err) {
     console.error(err);
