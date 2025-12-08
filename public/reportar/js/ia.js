@@ -1,5 +1,9 @@
-// IA pipeline con onnxruntime-web
-import * as ort from 'https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js';
+// IA pipeline con onnxruntime-web (espera el objeto global "ort" cargado desde el HTML)
+const ort = window.ort;
+
+if (!ort) {
+  throw new Error('onnxruntime-web no está cargado. Verifica el script en index.html');
+}
 
 const MODEL_URLS = {
   animal: 'https://huggingface.co/ScottMueller/Cats_v_Dogs.ONNX/resolve/main/model.onnx',

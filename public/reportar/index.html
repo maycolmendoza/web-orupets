@@ -137,7 +137,7 @@
   <header>
     <p class="pill">Reporte seguro</p>
     <h1>Reportar mascota encontrada</h1>
-    <p class="small">Sube una foto, validamos con IA que sea un perro o gato, revisamos contenido seguro y enviamos el aviso a la comunidad.</p>
+    <p class="small">Sube una foto y la analizamos al instante con IA. Solo permitimos perros o gatos y bloqueamos contenido inseguro antes de enviarlo.</p>
   </header>
 
   <main>
@@ -154,6 +154,11 @@
         </div>
         <div class="preview empty" id="photo-preview">
           <img id="preview-img" alt="Vista previa" />
+        </div>
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+          <button class="btn-primary" id="submit-btn">Enviar reporte</button>
+          <div class="status" id="analyze-status">Esperando una foto para analizar.</div>
+          <div class="status" id="supabase-notice"></div>
         </div>
         <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px;">
           <button class="btn-secondary" id="analyze-btn">Analizar foto con IA</button>
@@ -183,11 +188,11 @@
           <div id="results" class="card" style="padding: 14px; background: rgba(255,255,255,0.02);">
             <div class="result-row">
               <span class="result-label">Tipo de animal</span>
-              <span class="result-value" id="result-type">Pendiente</span>
+              <span class="result-value" id="result-type">Sube una foto</span>
             </div>
             <div class="result-row">
               <span class="result-label">Raza estimada</span>
-              <span class="result-value" id="result-breed">Pendiente</span>
+              <span class="result-value" id="result-breed">-</span>
             </div>
             <div class="result-row">
               <span class="result-label">Contenido seguro</span>
@@ -202,6 +207,7 @@
 
   <footer>OruPets • Gracias por ayudar a reunir mascotas con sus familias.</footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
   <script type="module" src="./js/main.js"></script>
 </body>
 </html>
