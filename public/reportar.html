@@ -25,34 +25,210 @@
   <script src="/assets/js/report.js" defer></script>
   <script src="/assets/js/app.js" defer></script>
 </head>
-<body class="bg-gray-50">
+<body class="bg-[#050911] text-white">
   <div id="navbar"></div>
 
-  <section class="max-w-4xl mx-auto mt-10 px-4">
-    <h1 class="text-3xl font-bold text-gray-900 mb-4">Reportar mascota encontrada</h1>
-    <p class="text-gray-600 mb-6">
-      Si encontraste un collar OruPets, llena los datos y enviaremos la alerta por WhatsApp al duenio.
-    </p>
+  <section class="relative overflow-hidden py-12">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(251,189,35,0.08),transparent_45%),radial-gradient(circle_at_80%_0%,rgba(255,255,255,0.05),transparent_35%)]"></div>
+    <div class="max-w-6xl mx-auto px-4 lg:px-8 relative space-y-6">
+      <div class="flex items-center gap-2 text-xs font-semibold bg-white/10 border border-white/15 px-4 py-2 rounded-full w-fit backdrop-blur">
+        Reporte express
+      </div>
+      <div class="grid grid-cols-1 xl:grid-cols-[1.05fr_0.95fr] gap-6 items-start">
+        <div class="relative rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8 shadow-2xl shadow-black/30 overflow-hidden">
+          <div class="absolute -top-16 -right-10 w-48 h-48 bg-white/5 blur-3xl rounded-full"></div>
+          <div class="absolute -bottom-14 -left-14 w-56 h-56 bg-white/5 blur-3xl rounded-full"></div>
+          <div class="relative space-y-5">
+            <p class="text-sm uppercase tracking-[0.2em] text-amber-200/90">Encontraste una mascota</p>
+            <h1 class="text-3xl md:text-4xl font-bold text-white leading-tight">Reporta en 3 pasos, sin crear cuenta</h1>
+            <p class="text-white/80 text-base">
+              Si la mascota no tiene collar OruPets o el perfil es privado, env&iacute;a una alerta r&aacute;pida con foto, ubicaci&oacute;n y una nota corta.
+              Nosotros la distribuimos al due&ntilde;o o a la comunidad.
+            </p>
+            <div class="grid sm:grid-cols-3 gap-3 text-sm">
+              <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
+                <p class="text-amber-300 font-semibold mb-1">1. Foto r&aacute;pida</p>
+                <p class="text-white/70">Usa la c&aacute;mara del m&oacute;vil o sube una imagen.</p>
+              </div>
+              <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
+                <p class="text-amber-300 font-semibold mb-1">2. Comparte ubicaci&oacute;n</p>
+                <p class="text-white/70">Un toque para geolocalizar y compartir un link seguro.</p>
+              </div>
+              <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
+                <p class="text-amber-300 font-semibold mb-1">3. Elige a qui&eacute;n</p>
+                <p class="text-white/70">Abrimos WhatsApp listo para el due&ntilde;o o la comunidad.</p>
+              </div>
+            </div>
+            <div class="flex flex-wrap items-center gap-3 text-sm text-white/70">
+              <div class="flex items-center gap-2">
+                <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                Respuesta inmediata por WhatsApp
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="h-2 w-2 rounded-full bg-amber-300"></span>
+                Sin registro ni descarga
+              </div>
+            </div>
+          </div>
+        </div>
 
-    <div class="bg-white p-6 rounded-lg shadow">
-      <form id="report-form" class="grid grid-cols-1 gap-4" onsubmit="enviarReporte(event)">
-        <input id="codigo" type="text" placeholder="Codigo del collar (ej: COLLAR_OP_123)" class="p-3 border rounded" required>
-        <input id="nombre-reportante" type="text" placeholder="Tu nombre" class="p-3 border rounded" required>
-        <input id="telefono-reportante" type="tel" placeholder="Tu telefono" class="p-3 border rounded" required>
-        <input id="ubicacion" type="text" placeholder="Ubicacion aproximada" class="p-3 border rounded" required>
-        <textarea id="mensaje" class="p-3 border rounded" placeholder="Comentario adicional (estado de la mascota, referencias)"></textarea>
+        <div class="relative rounded-3xl border border-white/10 bg-white/10 p-6 md:p-7 shadow-2xl shadow-black/30 backdrop-blur">
+          <div class="absolute -top-10 right-6 w-24 h-24 bg-amber-300/20 blur-3xl rounded-full"></div>
+          <div class="relative space-y-5">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+              <div>
+                <p class="text-sm text-white/70">&iquest;A qui&eacute;n quieres alertar?</p>
+                <h2 class="text-xl font-semibold text-white">Selecciona el destino</h2>
+              </div>
+              <div class="flex items-center gap-2 bg-white/10 border border-white/15 rounded-full p-1">
+                <button type="button" data-destino="dueno" class="destino-btn px-4 py-2 rounded-full text-sm font-semibold bg-white text-[#0a0f1c] shadow">
+                  Due&ntilde;o directo
+                </button>
+                <button type="button" data-destino="comunidad" class="destino-btn px-4 py-2 rounded-full text-sm font-semibold text-white/80 hover:text-white transition">
+                  Comunidad OruPets
+                </button>
+              </div>
+            </div>
 
-        <button class="bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold">
-          Enviar alerta por WhatsApp
-        </button>
-      </form>
+            <form id="report-form" class="space-y-4" onsubmit="enviarReporte(event)">
+              <input type="hidden" id="destino" name="destino" value="dueno">
 
-      <p class="text-xs text-gray-500 mt-4">
-        Usaremos este mensaje solo para contactar al duenio. Gracias por ayudar a que una mascota vuelva a casa.
-      </p>
+              <div class="grid sm:grid-cols-2 gap-3">
+                <div class="space-y-2">
+                  <label for="foto-mascota" class="text-xs font-semibold text-white/70">Foto r&aacute;pida</label>
+                  <div id="photo-trigger" class="group relative border-2 border-dashed border-white/20 bg-white/5 hover:border-amber-300 hover:bg-white/10 transition rounded-xl p-4 cursor-pointer">
+                    <div class="flex items-center justify-between gap-3">
+                      <div class="flex items-center gap-3">
+                        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-amber-300">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 7h3l1-2h8l1 2h3a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V8a1 1 0 011-1zm9 11a4 4 0 100-8 4 4 0 000 8z" />
+                          </svg>
+                        </div>
+                        <div>
+                          <p class="text-sm font-semibold text-white">Tomar o subir foto</p>
+                          <p class="text-xs text-white/60">Funciona en iOS, Android y desktop</p>
+                        </div>
+                      </div>
+                      <span class="text-[11px] font-semibold uppercase tracking-wide text-amber-200/90">Tocar</span>
+                    </div>
+                    <input id="foto-mascota" type="file" accept="image/*" capture="environment" class="hidden" />
+                    <div id="photo-preview" class="mt-3 hidden rounded-lg overflow-hidden border border-white/10 bg-white/5">
+                      <img id="photo-preview-img" src="" alt="Foto de la mascota" class="w-full h-36 object-cover">
+                      <div class="px-3 py-2 text-xs text-white/70 flex items-center justify-between">
+                        <span id="photo-filename" class="truncate"></span>
+                        <span class="text-amber-200/80">Adjunta en WhatsApp</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="space-y-2">
+                  <label for="ubicacion" class="text-xs font-semibold text-white/70">Ubicaci&oacute;n</label>
+                  <div class="bg-white/5 border border-white/15 rounded-xl p-3 space-y-2">
+                    <div class="flex gap-2">
+                      <input id="ubicacion" type="text" placeholder="Comparte tu ubicaci&oacute;n o un punto de referencia" class="flex-1 bg-transparent text-white placeholder-white/50 outline-none text-sm" required>
+                      <button id="btn-ubicacion" type="button" class="px-3 py-2 rounded-lg text-xs font-semibold bg-amber-300 text-[#0a0f1c] hover:bg-amber-200 transition">
+                        Usar GPS
+                      </button>
+                    </div>
+                    <p id="ubicacion-status" class="text-[11px] text-white/60">Solo se usa para contactar al due&ntilde;o/comunidad.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="space-y-2">
+                <label for="mensaje" class="text-xs font-semibold text-white/70">Descripci&oacute;n (opcional)</label>
+                <textarea id="mensaje" class="w-full bg-white/5 border border-white/15 rounded-xl px-3 py-3 text-white placeholder-white/50 focus:border-amber-300 outline-none transition min-h-[120px]" placeholder="Color del pelaje, collar, estado, se mueve con alguien, etc."></textarea>
+              </div>
+
+              <div class="grid sm:grid-cols-2 gap-3">
+                <div class="space-y-2">
+                  <label for="codigo" class="text-xs font-semibold text-white/70">C&oacute;digo del collar (si lo tiene)</label>
+                  <input id="codigo" type="text" placeholder="Ej: COLLAR_OP_123" class="bg-white/5 border border-white/15 rounded-xl px-3 py-3 text-white placeholder-white/50 focus:border-amber-300 outline-none transition">
+                </div>
+                <div class="space-y-2">
+                  <label class="text-xs font-semibold text-white/70">Contacto (opcional)</label>
+                  <div class="grid grid-cols-1 gap-2">
+                    <input id="nombre-reportante" type="text" placeholder="Tu nombre" class="bg-white/5 border border-white/15 rounded-xl px-3 py-3 text-white placeholder-white/50 focus:border-amber-300 outline-none transition">
+                    <input id="telefono-reportante" type="tel" placeholder="Tu tel&eacute;fono" class="bg-white/5 border border-white/15 rounded-xl px-3 py-3 text-white placeholder-white/50 focus:border-amber-300 outline-none transition">
+                  </div>
+                </div>
+              </div>
+
+              <button class="w-full bg-amber-400 hover:bg-amber-300 text-[#0a0f1c] py-3 rounded-xl font-semibold shadow-lg shadow-amber-500/30 flex items-center justify-center gap-2 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 4h16v12H5.17L4 17.17V4zm4 4h8m-8 4h5" />
+                </svg>
+                Enviar alerta por WhatsApp
+              </button>
+
+              <p class="text-xs text-white/60 text-center">
+                Solo usamos tus datos para avisar al due&ntilde;o o a la comunidad. Gracias por ayudar a que esta mascota vuelva a casa.
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
   <div id="footer"></div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const destinoInput = document.getElementById("destino");
+      const destinoButtons = document.querySelectorAll(".destino-btn");
+      destinoButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          destinoButtons.forEach((b) => b.classList.remove("bg-white", "text-[#0a0f1c]", "shadow"));
+          btn.classList.add("bg-white", "text-[#0a0f1c]", "shadow");
+          destinoInput.value = btn.dataset.destino;
+        });
+      });
+
+      const photoInput = document.getElementById("foto-mascota");
+      const photoTrigger = document.getElementById("photo-trigger");
+      const photoPreview = document.getElementById("photo-preview");
+      const photoPreviewImg = document.getElementById("photo-preview-img");
+      const photoFilename = document.getElementById("photo-filename");
+
+      photoTrigger?.addEventListener("click", () => photoInput?.click());
+      photoInput?.addEventListener("change", () => {
+        const file = photoInput.files?.[0];
+        if (file) {
+          const url = URL.createObjectURL(file);
+          photoPreviewImg.src = url;
+          photoFilename.textContent = file.name;
+          photoPreview.classList.remove("hidden");
+        } else {
+          photoPreview.classList.add("hidden");
+        }
+      });
+
+      const ubicacionBtn = document.getElementById("btn-ubicacion");
+      const ubicacionInput = document.getElementById("ubicacion");
+      const ubicacionStatus = document.getElementById("ubicacion-status");
+
+      ubicacionBtn?.addEventListener("click", () => {
+        if (!navigator.geolocation) {
+          ubicacionStatus.textContent = "Tu navegador no permite compartir ubicaci\u00f3n. Escribe una referencia.";
+          return;
+        }
+        ubicacionStatus.textContent = "Solicitando ubicaci\u00f3n segura...";
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            const { latitude, longitude } = pos.coords;
+            const mapsLink = `https://maps.google.com/?q=${latitude},${longitude}`;
+            ubicacionInput.value = mapsLink;
+            ubicacionStatus.textContent = "Ubicaci\u00f3n agregada. Puedes editarla si quieres.";
+          },
+          () => {
+            ubicacionStatus.textContent = "No pudimos obtener la ubicaci\u00f3n. Escribe una referencia manual.";
+          },
+          { enableHighAccuracy: true, timeout: 8000 }
+        );
+      });
+    });
+  </script>
 </body>
 </html>

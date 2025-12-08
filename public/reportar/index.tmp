@@ -1,10 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Reportar mascota encontrada - OruPets</title>
-  <meta name="theme-color" content="#0b1324" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -43,11 +42,11 @@
   <div id="navbar"></div>
 
   <main class="relative max-w-5xl mx-auto mt-16 px-4 pb-14 space-y-8">
-    <header class="reveal space-y-3">
+    <header class="reveal">
       <br>
       <p class="text-xs font-semibold text-white/60 uppercase tracking-[0.12em]">Reportar</p>
       <h1 class="text-3xl md:text-4xl font-black tracking-tight">Mascota encontrada</h1>
-      <p class="text-white/75 text-sm md:text-base max-w-3xl">Esta alerta es para mascotas sin collar OruPets. Se enviara directo a la comunidad en WhatsApp.</p>
+      <p class="text-white/75 text-sm md:text-base max-w-3xl">Ayudalo a volver a casa.</p>
     </header>
 
     <section class="reveal grid grid-cols-1 xl:grid-cols-[1.05fr_0.95fr] gap-6 items-start">
@@ -58,25 +57,25 @@
           <div class="flex items-center gap-2 text-xs font-semibold bg-white/10 border border-white/15 px-3 py-1 rounded-full w-fit backdrop-blur">
             Alerta segura
           </div>
-          <h2 class="text-2xl font-bold text-white">Reporta en 3 pasos rapidos</h2>
-          <p class="text-white/75 text-sm">Sube o toma una foto, comparte tu ubicacion y agrega una nota corta. Nosotros abrimos WhatsApp con todo listo.</p>
+          <h2 class="text-2xl font-bold text-white">Reporta en 3 pasos r&aacute;pidos</h2>
+          <p class="text-white/75 text-sm">Para mascotas sin collar OruPets o perfil privado. Env&iacute;a foto, ubicaci&oacute;n y una nota corta.</p>
 
           <div class="grid sm:grid-cols-2 gap-3 text-sm">
             <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
               <p class="text-amber-300 font-semibold mb-1">1. Foto</p>
-              <p class="text-white/70">Abre la camara o sube una imagen.</p>
+              <p class="text-white/70">Abre la c&aacute;mara o sube una imagen.</p>
             </div>
             <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
-              <p class="text-amber-300 font-semibold mb-1">2. Ubicacion</p>
+              <p class="text-amber-300 font-semibold mb-1">2. Ubicaci&oacute;n</p>
               <p class="text-white/70">Un toque para compartir GPS o escribe la referencia.</p>
             </div>
             <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
               <p class="text-amber-300 font-semibold mb-1">3. Destino</p>
-              <p class="text-white/70">Se envia directo a la comunidad OruPets.</p>
+              <p class="text-white/70">Elige due&ntilde;o directo o comunidad OruPets.</p>
             </div>
             <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
-              <p class="text-amber-300 font-semibold mb-1">Tip rapido</p>
-              <p class="text-white/70"><span class="w-2 h-2 rounded-full bg-emerald-300 inline-block animate-pulse"></span> Manten al perro/gato en un lugar seguro mientras envias la alerta.</p>
+              <p class="text-amber-300 font-semibold mb-1">Obligatorio</p>
+              <p class="text-white/70"> <span class="w-2 h-2 rounded-full bg-emerald-300 animate-pulse"></span> MantÃ©n al perro/gato en un lugar seguro</p>
             </div>
           </div>
           <div class="flex flex-wrap items-center gap-3 text-sm text-white/70">
@@ -99,7 +98,7 @@
             <div>
               <p class="text-xs font-semibold text-white/60 uppercase tracking-[0.14em]">Destino</p>
               <h3 class="text-xl font-semibold text-white">Alertaremos a la comunidad OruPets</h3>
-     
+              <p class="text-sm text-white/70">Para mascotas sin collar: tu mensaje va directo a la comunidad en WhatsApp.</p>
             </div>
             <div class="flex items-center gap-2 bg-emerald-400/20 text-emerald-100 border border-emerald-300/30 rounded-full px-4 py-2 text-xs font-semibold">
               Comunidad activa 24/7
@@ -111,7 +110,7 @@
 
             <div class="grid sm:grid-cols-2 gap-3">
               <div class="space-y-2">
-                <label for="foto-mascota" class="text-xs font-semibold text-white/70">Foto rapida</label>
+                <label for="foto-mascota" class="text-xs font-semibold text-white/70">Foto r&aacute;pida</label>
                 <div id="photo-trigger" class="group relative border-2 border-dashed border-white/20 bg-white/10 hover:border-amber-300 hover:bg-white/15 transition rounded-xl p-4 cursor-pointer">
                   <div class="flex items-center justify-between gap-3">
                     <div class="flex items-center gap-3">
@@ -139,7 +138,7 @@
               </div>
 
               <div class="space-y-2">
-                <label for="ubicacion" class="text-xs font-semibold text-white/70">Ubicacion</label>
+                <label for="ubicacion" class="text-xs font-semibold text-white/70">Ubicaci&oacute;n</label>
                 <div class="bg-white/10 border border-white/15 rounded-xl p-3 space-y-2">
                   <div class="flex gap-2">
                     <input id="ubicacion" type="text" placeholder="Comparte GPS o un punto de referencia" class="flex-1 bg-transparent text-white placeholder-white/50 outline-none text-sm">
@@ -147,17 +146,17 @@
                       Usar GPS
                     </button>
                   </div>
-                  <p id="ubicacion-status" class="text-[11px] text-white/60">Solo se usa para contactar a la comunidad.</p>
+                  <p id="ubicacion-status" class="text-[11px] text-white/60">Solo se usa para contactar al due&ntilde;o/comunidad.</p>
                 </div>
               </div>
             </div>
 
             <div class="space-y-2">
-              <label for="mensaje" class="text-xs font-semibold text-white/70">Descripcion (opcional)</label>
+              <label for="mensaje" class="text-xs font-semibold text-white/70">Descripci&oacute;n (opcional)</label>
               <textarea id="mensaje" class="w-full bg-white/10 border border-white/15 rounded-xl px-3 py-3 text-white placeholder-white/50 focus:border-amber-300 outline-none transition min-h-[110px]" placeholder="Color, estado, collar, referencia de calle, etc."></textarea>
             </div>
 
-      
+   
 
             <button class="w-full bg-amber-400 hover:bg-amber-300 text-[#0a0f1c] py-3 rounded-xl font-semibold shadow-lg shadow-amber-500/30 flex items-center justify-center gap-2 transition">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -167,7 +166,7 @@
             </button>
 
             <p class="text-xs text-white/60 text-center">
-          Gracias por ayudar a que vuelva a casa.
+            Gracias por ayudar a que vuelva a casa.
             </p>
           </form>
         </div>
@@ -202,7 +201,7 @@
       const ubicacionInput = document.getElementById("ubicacion");
       const ubicacionStatus = document.getElementById("ubicacion-status");
 
-      const obtenerGPS = () => {
+      ubicacionBtn?.addEventListener("click", () => {
         if (!navigator.geolocation) {
           ubicacionStatus.textContent = "Tu navegador no permite compartir ubicacion. Escribe una referencia.";
           return;
@@ -220,9 +219,7 @@
           },
           { enableHighAccuracy: true, timeout: 8000 }
         );
-      };
-
-      ubicacionBtn?.addEventListener("click", obtenerGPS);
+      });
     })();
   </script>
   <script>

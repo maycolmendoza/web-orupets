@@ -1,43 +1,60 @@
-const NUMERO_ALERTA = "519XXXXXXXX"; // Reemplaza con el numero que recibe alertas
+const NUMERO_ALERTA = "519XXXXXXXX"; // Dueno directo (no se usa en este flujo)
+const URL_COMUNIDAD = "https://whatsapp.com/channel/0029Vb6fgCc8PgsAtjXes801"; // Canal oficial OruPets
 
 function enviarReporte(event) {
   event.preventDefault();
 
-  const codigo = document.getElementById("codigo").value.trim();
-  const nombre = document.getElementById("nombre-reportante").value.trim();
-  const telefono = document.getElementById("telefono-reportante").value.trim();
-  const ubicacion = document.getElementById("ubicacion").value.trim();
-  const mensajeExtra = document.getElementById("mensaje").value.trim();
+  const destino = "comunidad"; // Solo comunidad para mascotas sin collar
+  const codigo = document.getElementById("codigo")?.value.trim() || "";
+  const nombre = document.getElementById("nombre-reportante")?.value.trim() || "";
+  const telefono = document.getElementById("telefono-reportante")?.value.trim() || "";
+  const ubicacion = document.getElementById("ubicacion")?.value.trim() || "";
+  const descripcion = document.getElementById("mensaje")?.value.trim() || "";
+  const foto = document.getElementById("foto-mascota")?.files?.[0];
+  const fotoNombre = foto?.name || "";
 
-  if (!codigo || !nombre || !telefono || !ubicacion) {
+  if (!ubicacion && !descripcion) {
     if (typeof showAppPush === "function") {
-      showAppPush("Completa los datos requeridos.", "error");
+      showAppPush("Agrega ubicacion o una breve descripcion.", "error");
     } else {
-      alert("Completa los datos requeridos.");
+      alert("Agrega ubicacion o una breve descripcion.");
     }
     return;
   }
 
-  const mensaje =
-`*Reporte de mascota encontrada*
+  const numeroDestino = URL_COMUNIDAD;
+  const tituloDestino = "Comunidad OruPets (canal)";
 
-Codigo del collar: ${codigo}
-Reporta: ${nombre}
-Telefono: ${telefono}
-Ubicacion: ${ubicacion}
-Notas: ${mensajeExtra || "Sin comentarios"}
+  const mensaje = [
+    "*Alerta de mascota encontrada*",
+    `Destino: ${tituloDestino}`,
+    codigo ? `C\u00f3digo del collar: ${codigo}` : "",
+    `Ubicacion: ${ubicacion || "No indicada"}`,
+    `Descripcion: ${descripcion || "Sin descripcion"}`,
+    `Foto: Adjunta la imagen al enviar ${fotoNombre ? `(${fotoNombre})` : ""}`,
+    nombre || telefono ? `Contacto: ${nombre || "An\u00f3nimo"}${telefono ? " - " + telefono : ""}` : "",
+    "",
+    "Por favor ayudar a reencontrar a la mascota con su familia."
+  ].filter(Boolean).join("\n");
 
-Por favor contactar al duenio.`;
+  // Abrimos el canal; copiamos el mensaje para que el usuario lo pegue si WhatsApp no lo adjunta automaticamente
+  navigator.clipboard?.writeText(mensaje).catch(() => {});
+  window.open(numeroDestino, "_blank");
 
-  const url = `https://wa.me/${NUMERO_ALERTA}?text=${encodeURIComponent(mensaje)}`;
-  window.open(url, "_blank");
   if (typeof showAppModal === "function") {
     showAppModal({
-      title: "Reporte enviado",
-      message: "Abrimos WhatsApp con tu mensaje. Gracias por ayudar a la mascota a volver a casa."
+      title: "Reporte listo para enviar",
+      message: "Abrimos el canal de WhatsApp. Pegamos tu mensaje en el portapapeles; adjunta la foto y pegalo si no aparece automaticamente."
     });
   } else {
-    alert("Gracias por reportar, enviaremos el mensaje por WhatsApp.");
+    alert("Abrimos el canal de WhatsApp. Copiamos el mensaje; pegalo si no aparece y adjunta la foto.");
   }
-  document.getElementById("report-form").reset();
+
+  const form = document.getElementById("report-form");
+  form?.reset();
+
+  const photoPreview = document.getElementById("photo-preview");
+  const ubicacionStatus = document.getElementById("ubicacion-status");
+  if (photoPreview) photoPreview.classList.add("hidden");
+  if (ubicacionStatus) ubicacionStatus.textContent = "Solo se usa para contactar a la comunidad.";
 }
