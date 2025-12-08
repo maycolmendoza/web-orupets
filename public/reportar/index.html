@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Reportar mascota encontrada - OruPets</title>
-  <meta name="theme-color" content="#0b1324" />
+  <title>Reportar mascota encontrada | OruPets</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root { --font-base: 'Inter', 'SF Pro Display', 'Segoe UI', system-ui, -apple-system, sans-serif; }
     body { font-family: var(--font-base); letter-spacing: -0.01em; scroll-behavior: smooth; }
@@ -22,22 +21,39 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
 </head>
-<body class="bg-[#05070d] text-white min-h-screen relative overflow-x-hidden">
-  <div class="absolute inset-0 bg-gradient-to-br from-[#05070d] via-[#0b1324] to-[#0f1c32] opacity-90 pointer-events-none"></div>
-  <div id="app-loader" class="fixed inset-0 z-[120] bg-slate-950/90 backdrop-blur-sm flex items-center justify-center transition-opacity duration-400">
-    <div class="w-[320px] max-w-[80%] rounded-2xl border border-white/10 bg-[#0b1221] shadow-2xl shadow-black/60 p-5 space-y-3">
-      <div class="flex items-center gap-3">
-        <span class="relative flex h-10 w-10 items-center justify-center rounded-full bg-amber-400 text-slate-950 font-black text-xl shadow-inner shadow-black/50 overflow-hidden">
-          <img src="/assets/img/logo.jpg" alt="OruPets" class="w-full h-full object-cover pointer-events-none select-none" draggable="false" oncontextmenu="return false;">
-        </span>
-        <div class="space-y-1">
-          <p class="text-sm font-semibold text-white">Iniciando reporte</p>
-          <p class="text-xs text-white/60">Cargando formulario seguro...</p>
+<body>
+  <header>
+    <p class="pill">Reporte seguro</p>
+    <h1>Reportar mascota encontrada</h1>
+    <p class="small">Sube una foto y la analizamos al instante con IA. Solo permitimos perros o gatos y bloqueamos contenido inseguro antes de enviarlo.</p>
+  </header>
+
+  <main>
+    <section class="card grid grid-2">
+      <div class="grid" style="gap: 12px;">
+        <div>
+          <label for="photo-input">Foto de la mascota *</label>
+          <div class="file-drop" id="photo-drop">
+            <strong>Click o arrastra una imagen</strong>
+            <p class="small">Acepta formatos .jpg, .png, .heic. Obligatoria para continuar.</p>
+            <input type="file" id="photo-input" accept="image/*" />
+          </div>
+          <div class="file-meta" id="file-meta">Ningún archivo seleccionado.</div>
         </div>
+        <div class="preview empty" id="photo-preview">
+          <img id="preview-img" alt="Vista previa" />
+        </div>
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+          <button class="btn-primary" id="submit-btn">Enviar reporte</button>
+          <div class="status" id="analyze-status">Esperando una foto para analizar.</div>
+          <div class="status" id="supabase-notice"></div>
+        </div>
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px;">
+          <button class="btn-secondary" id="analyze-btn">Analizar foto con IA</button>
+          <button class="btn-primary" id="submit-btn">Enviar reporte</button>
+        </div>
+        <div class="status" id="analyze-status">Esperando una foto para analizar.</div>
       </div>
-      <div class="h-2 rounded-full loader-bar"></div>
-    </div>
-  </div>
 
   <div id="navbar"></div>
 
@@ -89,7 +105,6 @@
             </div>
           </div>
         </div>
-      </div>
 
       <div class="relative rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-black/30 overflow-hidden">
         <div class="absolute -top-10 right-4 w-32 h-32 bg-amber-200/10 blur-3xl rounded-full"></div>
