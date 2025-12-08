@@ -3,255 +3,205 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Reportar mascota encontrada - OruPets</title>
-  <meta name="theme-color" content="#0b1324" />
+  <title>Reportar mascota encontrada | OruPets</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root { --font-base: 'Inter', 'SF Pro Display', 'Segoe UI', system-ui, -apple-system, sans-serif; }
-    body { font-family: var(--font-base); letter-spacing: -0.01em; scroll-behavior: smooth; }
-    h1, h2, h3 { font-family: var(--font-base); letter-spacing: -0.02em; }
-    @keyframes shimmer { 0% { transform: translateX(-100%);} 100% { transform: translateX(100%);} }
-    .loader-bar { position: relative; overflow: hidden; background: rgba(255,255,255,0.08); }
-    .loader-bar::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent); animation: shimmer 1.8s ease-in-out infinite; }
-    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 700ms cubic-bezier(0.22,1,0.36,1), transform 700ms cubic-bezier(0.22,1,0.36,1); will-change: opacity, transform; }
-    .reveal.is-visible { opacity: 1; transform: translateY(0); }
-  </style> 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="/assets/js/cart.js" defer></script>
-  <script src="/assets/js/report.js" defer></script>
-  <script src="/assets/js/app.js" defer></script>
+    :root {
+      --bg: #05070d;
+      --panel: #0d1321;
+      --panel-light: #111a2b;
+      --accent: #f6c344;
+      --danger: #ef4444;
+      --muted: #9fb2d9;
+      --text: #f8fafc;
+      --shadow: 0 18px 48px rgba(0,0,0,0.35);
+      --radius: 14px;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+      color-scheme: dark;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle at 20% 20%, rgba(246,195,68,0.06), transparent 30%),
+                  radial-gradient(circle at 80% 0%, rgba(140,162,255,0.08), transparent 30%),
+                  var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    header {
+      padding: 32px 24px 8px;
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+    h1 {
+      margin: 8px 0 6px;
+      font-size: clamp(28px, 4vw, 36px);
+      letter-spacing: -0.02em;
+    }
+    p { margin: 0; }
+    main {
+      max-width: 1080px;
+      margin: 0 auto 48px;
+      padding: 0 24px 48px;
+      display: grid;
+      gap: 18px;
+    }
+    .card {
+      background: linear-gradient(145deg, var(--panel), var(--panel-light));
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+    }
+    .card h2 {
+      margin: 0 0 12px;
+      font-size: 18px;
+      letter-spacing: -0.01em;
+    }
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+    .grid-2 {
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+    label { font-size: 14px; color: var(--muted); display: block; margin-bottom: 6px; }
+    input[type="file"] { display: none; }
+    .file-drop {
+      border: 1.5px dashed rgba(255,255,255,0.18);
+      padding: 18px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: border-color 160ms ease, background 160ms ease;
+      background: rgba(255,255,255,0.02);
+    }
+    .file-drop:hover { border-color: var(--accent); background: rgba(246,195,68,0.04); }
+    .file-drop strong { color: var(--text); }
+    .file-meta { margin-top: 10px; font-size: 13px; color: var(--muted); }
+    .preview {
+      width: 100%;
+      height: 220px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: #0a0f1c;
+      border: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .preview img { width: 100%; height: 100%; object-fit: cover; display: none; }
+    .preview.empty::after { content: 'Vista previa'; color: var(--muted); font-size: 13px; }
+    textarea, input[type="text"] {
+      width: 100%;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      padding: 12px 14px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 140ms ease;
+    }
+    textarea:focus, input[type="text"]:focus { border-color: var(--accent); }
+    textarea { min-height: 120px; resize: vertical; }
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 80ms ease, box-shadow 120ms ease, opacity 160ms ease;
+    }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
+    .btn-primary { background: var(--accent); color: #0b0f1c; box-shadow: 0 12px 30px rgba(246,195,68,0.25); }
+    .btn-primary:hover { transform: translateY(-1px); }
+    .btn-secondary { background: rgba(255,255,255,0.08); color: var(--text); border: 1px solid rgba(255,255,255,0.12); }
+    .pill { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.06); border-radius: 999px; padding: 6px 10px; font-size: 12px; color: var(--muted); }
+    .status { font-size: 14px; color: var(--muted); margin-top: 6px; }
+    .result-row { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px dashed rgba(255,255,255,0.08); }
+    .result-row:last-child { border-bottom: none; }
+    .result-label { color: var(--muted); font-size: 13px; }
+    .result-value { font-weight: 700; }
+    .badge-green { color: #14f195; }
+    .badge-red { color: var(--danger); }
+    .small { font-size: 12px; color: var(--muted); }
+    footer { text-align: center; padding: 20px 24px 36px; color: var(--muted); font-size: 13px; }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-<body class="bg-[#05070d] text-white min-h-screen relative overflow-x-hidden">
-  <div class="absolute inset-0 bg-gradient-to-br from-[#05070d] via-[#0b1324] to-[#0f1c32] opacity-90 pointer-events-none"></div>
-  <div id="app-loader" class="fixed inset-0 z-[120] bg-slate-950/90 backdrop-blur-sm flex items-center justify-center transition-opacity duration-400">
-    <div class="w-[320px] max-w-[80%] rounded-2xl border border-white/10 bg-[#0b1221] shadow-2xl shadow-black/60 p-5 space-y-3">
-      <div class="flex items-center gap-3">
-        <span class="relative flex h-10 w-10 items-center justify-center rounded-full bg-amber-400 text-slate-950 font-black text-xl shadow-inner shadow-black/50 overflow-hidden">
-          <img src="/assets/img/logo.jpg" alt="OruPets" class="w-full h-full object-cover pointer-events-none select-none" draggable="false" oncontextmenu="return false;">
-        </span>
-        <div class="space-y-1">
-          <p class="text-sm font-semibold text-white">Iniciando reporte</p>
-          <p class="text-xs text-white/60">Cargando formulario seguro...</p>
+<body>
+  <header>
+    <p class="pill">Reporte seguro</p>
+    <h1>Reportar mascota encontrada</h1>
+    <p class="small">Sube una foto, validamos con IA que sea un perro o gato, revisamos contenido seguro y enviamos el aviso a la comunidad.</p>
+  </header>
+
+  <main>
+    <section class="card grid grid-2">
+      <div class="grid" style="gap: 12px;">
+        <div>
+          <label for="photo-input">Foto de la mascota *</label>
+          <div class="file-drop" id="photo-drop">
+            <strong>Click o arrastra una imagen</strong>
+            <p class="small">Acepta formatos .jpg, .png, .heic. Obligatoria para continuar.</p>
+            <input type="file" id="photo-input" accept="image/*" />
+          </div>
+          <div class="file-meta" id="file-meta">Ningún archivo seleccionado.</div>
         </div>
-      </div>
-      <div class="h-2 rounded-full loader-bar"></div>
-    </div>
-  </div>
-
-  <div id="navbar"></div>
-
-  <main class="relative max-w-5xl mx-auto mt-16 px-4 pb-14 space-y-8">
-    <header class="reveal space-y-3">
-      <br>
-      <p class="text-xs font-semibold text-white/60 uppercase tracking-[0.12em]">Reportar</p>
-      <h1 class="text-3xl md:text-4xl font-black tracking-tight">Mascota encontrada</h1>
-      <p class="text-white/75 text-sm md:text-base max-w-3xl">Esta alerta es para mascotas sin collar OruPets. Se enviara directo a la comunidad en WhatsApp.</p>
-    </header>
-
-    <section class="reveal grid grid-cols-1 xl:grid-cols-[1.05fr_0.95fr] gap-6 items-start">
-      <div class="relative rounded-3xl border border-white/10 bg-[#0c121f]/90 p-6 shadow-2xl shadow-black/30 overflow-hidden">
-        <div class="absolute -top-16 -right-10 w-48 h-48 bg-white/5 blur-3xl rounded-full"></div>
-        <div class="absolute -bottom-14 -left-14 w-56 h-56 bg-white/5 blur-3xl rounded-full"></div>
-        <div class="relative space-y-4">
-          <div class="flex items-center gap-2 text-xs font-semibold bg-white/10 border border-white/15 px-3 py-1 rounded-full w-fit backdrop-blur">
-            Alerta segura
-          </div>
-          <h2 class="text-2xl font-bold text-white">Reporta en 3 pasos rapidos</h2>
-          <p class="text-white/75 text-sm">Sube o toma una foto, comparte tu ubicacion y agrega una nota corta. Nosotros abrimos WhatsApp con todo listo.</p>
-
-          <div class="grid sm:grid-cols-2 gap-3 text-sm">
-            <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
-              <p class="text-amber-300 font-semibold mb-1">1. Foto</p>
-              <p class="text-white/70">Abre la camara o sube una imagen.</p>
-            </div>
-            <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
-              <p class="text-amber-300 font-semibold mb-1">2. Ubicacion</p>
-              <p class="text-white/70">Un toque para compartir GPS o escribe la referencia.</p>
-            </div>
-            <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
-              <p class="text-amber-300 font-semibold mb-1">3. Destino</p>
-              <p class="text-white/70">Se envia directo a la comunidad OruPets.</p>
-            </div>
-            <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
-              <p class="text-amber-300 font-semibold mb-1">Tip rapido</p>
-              <p class="text-white/70"><span class="w-2 h-2 rounded-full bg-emerald-300 inline-block animate-pulse"></span> Manten al perro/gato en un lugar seguro mientras envias la alerta.</p>
-            </div>
-          </div>
-          <div class="flex flex-wrap items-center gap-3 text-sm text-white/70">
-            <div class="flex items-center gap-2">
-              <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              Sin registro ni descargas
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="h-2 w-2 rounded-full bg-amber-300"></span>
-              Compatible con iOS, Android y desktop
-            </div>
-          </div>
+        <div class="preview empty" id="photo-preview">
+          <img id="preview-img" alt="Vista previa" />
         </div>
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px;">
+          <button class="btn-secondary" id="analyze-btn">Analizar foto con IA</button>
+          <button class="btn-primary" id="submit-btn">Enviar reporte</button>
+        </div>
+        <div class="status" id="analyze-status">Esperando una foto para analizar.</div>
       </div>
 
-      <div class="relative rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-black/30 overflow-hidden">
-        <div class="absolute -top-10 right-4 w-32 h-32 bg-amber-200/10 blur-3xl rounded-full"></div>
-        <div class="relative space-y-5">
-          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-            <div>
-              <p class="text-xs font-semibold text-white/60 uppercase tracking-[0.14em]">Destino</p>
-              <h3 class="text-xl font-semibold text-white">Alertaremos a la comunidad OruPets</h3>
-     
+      <div class="grid" style="gap: 14px;">
+        <div>
+          <h2>Ubicación (opcional)</h2>
+          <p class="small">Puedes compartir tu GPS o escribir una referencia para guiar a la comunidad.</p>
+          <div class="grid" style="grid-template-columns: 1fr auto; gap: 10px;">
+            <input type="text" id="location-input" placeholder="Referencia o enlace de mapa" />
+            <button class="btn-secondary" id="gps-btn">Usar GPS</button>
+          </div>
+          <div class="status" id="location-status">No hemos solicitado tu ubicación.</div>
+        </div>
+
+        <div>
+          <h2>Descripción (opcional)</h2>
+          <textarea id="description" placeholder="Color, collar, estado o referencia de calle"></textarea>
+        </div>
+
+        <div>
+          <h2>Resultados del análisis</h2>
+          <div id="results" class="card" style="padding: 14px; background: rgba(255,255,255,0.02);">
+            <div class="result-row">
+              <span class="result-label">Tipo de animal</span>
+              <span class="result-value" id="result-type">Pendiente</span>
             </div>
-            <div class="flex items-center gap-2 bg-emerald-400/20 text-emerald-100 border border-emerald-300/30 rounded-full px-4 py-2 text-xs font-semibold">
-              Comunidad activa 24/7
+            <div class="result-row">
+              <span class="result-label">Raza estimada</span>
+              <span class="result-value" id="result-breed">Pendiente</span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">Contenido seguro</span>
+              <span class="result-value" id="result-nsfw">Sin revisar</span>
             </div>
           </div>
-
-          <form id="report-form" class="space-y-4" onsubmit="enviarReporte(event)">
-            <input type="hidden" id="destino" name="destino" value="comunidad">
-
-            <div class="grid sm:grid-cols-2 gap-3">
-              <div class="space-y-2">
-                <label for="foto-mascota" class="text-xs font-semibold text-white/70">Foto rapida</label>
-                <div id="photo-trigger" class="group relative border-2 border-dashed border-white/20 bg-white/10 hover:border-amber-300 hover:bg-white/15 transition rounded-xl p-4 cursor-pointer">
-                  <div class="flex items-center justify-between gap-3">
-                    <div class="flex items-center gap-3">
-                      <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-amber-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 7h3l1-2h8l1 2h3a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V8a1 1 0 011-1zm9 11a4 4 0 100-8 4 4 0 000 8z" />
-                        </svg>
-                      </div>
-                      <div>
-                        <p class="text-sm font-semibold text-white">Tomar o subir foto</p>
-                        <p class="text-xs text-white/60">Se adjunta en WhatsApp</p>
-                      </div>
-                    </div>
-                    <span class="text-[11px] font-semibold uppercase tracking-wide text-amber-200/90">Tocar</span>
-                  </div>
-                  <input id="foto-mascota" type="file" accept="image/*" capture="environment" class="hidden" />
-                  <div id="photo-preview" class="mt-3 hidden rounded-lg overflow-hidden border border-white/10 bg-white/5">
-                    <img id="photo-preview-img" src="" alt="Foto de la mascota" class="w-full h-32 object-cover">
-                    <div class="px-3 py-2 text-xs text-white/70 flex items-center justify-between">
-                      <span id="photo-filename" class="truncate"></span>
-                      <span class="text-amber-200/80">Adjunta al enviar</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="space-y-2">
-                <label for="ubicacion" class="text-xs font-semibold text-white/70">Ubicacion</label>
-                <div class="bg-white/10 border border-white/15 rounded-xl p-3 space-y-2">
-                  <div class="flex gap-2">
-                    <input id="ubicacion" type="text" placeholder="Comparte GPS o un punto de referencia" class="flex-1 bg-transparent text-white placeholder-white/50 outline-none text-sm">
-                    <button id="btn-ubicacion" type="button" class="px-3 py-2 rounded-lg text-xs font-semibold bg-amber-300 text-[#0a0f1c] hover:bg-amber-200 transition">
-                      Usar GPS
-                    </button>
-                  </div>
-                  <p id="ubicacion-status" class="text-[11px] text-white/60">Solo se usa para contactar a la comunidad.</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="space-y-2">
-              <label for="mensaje" class="text-xs font-semibold text-white/70">Descripcion (opcional)</label>
-              <textarea id="mensaje" class="w-full bg-white/10 border border-white/15 rounded-xl px-3 py-3 text-white placeholder-white/50 focus:border-amber-300 outline-none transition min-h-[110px]" placeholder="Color, estado, collar, referencia de calle, etc."></textarea>
-            </div>
-
-      
-
-            <button class="w-full bg-amber-400 hover:bg-amber-300 text-[#0a0f1c] py-3 rounded-xl font-semibold shadow-lg shadow-amber-500/30 flex items-center justify-center gap-2 transition">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 4h16v12H5.17L4 17.17V4zm4 4h8m-8 4h5" />
-              </svg>
-              Enviar alerta por WhatsApp
-            </button>
-
-            <p class="text-xs text-white/60 text-center">
-          Gracias por ayudar a que vuelva a casa.
-            </p>
-          </form>
+          <p class="small" id="confidence-text"></p>
         </div>
       </div>
     </section>
   </main>
 
-  <div id="footer"></div>
+  <footer>OruPets • Gracias por ayudar a reunir mascotas con sus familias.</footer>
 
-  <script>
-    (function() {
-      const photoInput = document.getElementById("foto-mascota");
-      const photoTrigger = document.getElementById("photo-trigger");
-      const photoPreview = document.getElementById("photo-preview");
-      const photoPreviewImg = document.getElementById("photo-preview-img");
-      const photoFilename = document.getElementById("photo-filename");
-
-      photoTrigger?.addEventListener("click", () => photoInput?.click());
-      photoInput?.addEventListener("change", () => {
-        const file = photoInput.files?.[0];
-        if (file) {
-          const url = URL.createObjectURL(file);
-          photoPreviewImg.src = url;
-          photoFilename.textContent = file.name;
-          photoPreview.classList.remove("hidden");
-        } else {
-          photoPreview.classList.add("hidden");
-        }
-      });
-
-      const ubicacionBtn = document.getElementById("btn-ubicacion");
-      const ubicacionInput = document.getElementById("ubicacion");
-      const ubicacionStatus = document.getElementById("ubicacion-status");
-
-      const obtenerGPS = () => {
-        if (!navigator.geolocation) {
-          ubicacionStatus.textContent = "Tu navegador no permite compartir ubicacion. Escribe una referencia.";
-          return;
-        }
-        ubicacionStatus.textContent = "Solicitando ubicacion segura...";
-        navigator.geolocation.getCurrentPosition(
-          (pos) => {
-            const { latitude, longitude } = pos.coords;
-            const mapsLink = "https://maps.google.com/?q=" + latitude + "," + longitude;
-            ubicacionInput.value = mapsLink;
-            ubicacionStatus.textContent = "Ubicacion agregada. Puedes editarla si quieres.";
-          },
-          () => {
-            ubicacionStatus.textContent = "No pudimos obtener la ubicacion. Escribe una referencia manual.";
-          },
-          { enableHighAccuracy: true, timeout: 8000 }
-        );
-      };
-
-      ubicacionBtn?.addEventListener("click", obtenerGPS);
-    })();
-  </script>
-  <script>
-    (function() {
-      const sections = Array.from(document.querySelectorAll("main section, main header, main .reveal"));
-      if (!("IntersectionObserver" in window) || !sections.length) return;
-      sections.forEach(sec => sec.classList.add("reveal"));
-      const obs = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            obs.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.2 });
-      sections.forEach(sec => obs.observe(sec));
-    })();
-  </script>
-  <script>
-    (function() {
-      const loader = document.getElementById("app-loader");
-      if (!loader) return;
-      const hide = () => {
-        loader.classList.add("opacity-0", "pointer-events-none");
-        setTimeout(() => loader.remove(), 500);
-      };
-      window.addEventListener("load", () => setTimeout(hide, 320));
-      setTimeout(hide, 5000);
-    })();
-  </script>
+  <script type="module" src="./js/main.js"></script>
 </body>
 </html>
