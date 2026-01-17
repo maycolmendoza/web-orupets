@@ -12,6 +12,11 @@ async function enviarReporte(event) {
   const descripcion = document.getElementById("mensaje")?.value.trim() || "";
   const foto = document.getElementById("foto-mascota")?.files?.[0];
   const fotoNombre = foto?.name || "";
+  if (!window.__analisisMascota?.valido) {
+    mostrarAviso("La foto debe mostrar claramente un perro o gato válido.");
+    return;
+  }
+
 
   if (!ubicacion && !descripcion) {
     if (typeof showAppPush === "function") {
@@ -38,30 +43,34 @@ async function enviarReporte(event) {
   ].filter(Boolean).join("\n");
 
   const files = foto ? [foto] : [];
-  const puedeCompartirArchivos = files.length && navigator.canShare && navigator.canShare({ files, text: mensaje });
+  const canShareWithFiles = files.length && navigator.canShare && navigator.canShare({ files, text: mensaje });
+  const canShareText = navigator.share && navigator.canShare && navigator.canShare({ text: mensaje });
 
-  // Opcion principal: Web Share API con foto adjunta (si el dispositivo lo soporta)
-  if (puedeCompartirArchivos) {
+  // 1) Mejor experiencia: compartir con imagen + texto (Android/iOS modernos)
+  if (canShareWithFiles) {
     try {
       await navigator.share({ files, text: mensaje, title: "Reporte de mascota - OruPets" });
-      if (typeof showAppModal === "function") {
-        showAppModal({
-          title: "Reporte listo",
-          message: "Se abrio el menu de compartir. Elige WhatsApp y selecciona la comunidad OruPets; la foto ya va adjunta."
-        });
-      } else {
-        alert("Elige WhatsApp en el menu de compartir y selecciona la comunidad OruPets; la foto va adjunta.");
-      }
-      document.getElementById("report-form")?.reset();
-      document.getElementById("photo-preview")?.classList.add("hidden");
-      document.getElementById("ubicacion-status")?.textContent = "Solo se usa para contactar a la comunidad.";
+      limpiarFormulario();
+      mostrarAviso("Se abrio el menu de compartir. Elige WhatsApp y selecciona la comunidad OruPets; la foto ya va adjunta.");
       return;
-    } catch (err) {
-      // Continua al fallback
+    } catch (_) {
+      // sigue a siguiente opcion
     }
   }
 
-  // Fallback: abrir canal y copiar mensaje; el usuario debe pegar y adjuntar la foto manualmente
+  // 2) Solo texto via share (elige WhatsApp y pega texto)
+  if (canShareText) {
+    try {
+      await navigator.share({ text: mensaje, title: "Reporte de mascota - OruPets" });
+      limpiarFormulario();
+      mostrarAviso("Comparte en WhatsApp y pega el mensaje. Adjunta la foto manualmente si no se adjunta.");
+      return;
+    } catch (_) {
+      // sigue a fallback
+    }
+  }
+
+  // 3) Fallback: copiar mensaje y abrir canal
   navigator.clipboard?.writeText(mensaje).catch(() => {});
   window.open(numeroDestino, "_blank");
 
@@ -74,11 +83,21 @@ async function enviarReporte(event) {
     alert("Abrimos el canal de WhatsApp. Copiamos el mensaje; pegalo si no aparece y adjunta la foto.");
   }
 
+  limpiarFormulario();
+}
+
+function limpiarFormulario() {
   const form = document.getElementById("report-form");
   form?.reset();
-
-  const photoPreview = document.getElementById("photo-preview");
+  document.getElementById("photo-preview")?.classList.add("hidden");
   const ubicacionStatus = document.getElementById("ubicacion-status");
-  if (photoPreview) photoPreview.classList.add("hidden");
   if (ubicacionStatus) ubicacionStatus.textContent = "Solo se usa para contactar a la comunidad.";
+}
+
+function mostrarAviso(texto) {
+  if (typeof showAppModal === "function") {
+    showAppModal({ title: "Reporte listo", message: texto });
+  } else {
+    alert(texto);
+  }
 }

@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<<<<<<< HEAD
   <title>Reportar mascota encontrada - OruPets</title>
   <meta name="theme-color" content="#0b1324" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,12 +13,6 @@
 
 
 
-=======
-  <title>Reportar mascota encontrada | OruPets</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
->>>>>>> df0e16d1284515566e8ceb672b1f3d3120564fdd
   <style>
     :root { --font-base: 'Inter', 'SF Pro Display', 'Segoe UI', system-ui, -apple-system, sans-serif; }
     body { font-family: var(--font-base); letter-spacing: -0.01em; scroll-behavior: smooth; }
@@ -31,7 +24,6 @@
     .reveal.is-visible { opacity: 1; transform: translateY(0); }
   </style> 
   <script src="https://cdn.tailwindcss.com"></script>
-<<<<<<< HEAD
   <script src="/assets/js/cart.js" defer></script>
   <script src="/assets/js/report.js" defer></script>
   <script src="/assets/js/app.js" defer></script>
@@ -52,44 +44,6 @@
       <div class="h-2 rounded-full loader-bar"></div>
     </div>
   </div>
-=======
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
-</head>
-<body>
-  <header>
-    <p class="pill">Reporte seguro</p>
-    <h1>Reportar mascota encontrada</h1>
-    <p class="small">Sube una foto y la analizamos al instante con IA. Solo permitimos perros o gatos y bloqueamos contenido inseguro antes de enviarlo.</p>
-  </header>
-
-  <main>
-    <section class="card grid grid-2">
-      <div class="grid" style="gap: 12px;">
-        <div>
-          <label for="photo-input">Foto de la mascota *</label>
-          <div class="file-drop" id="photo-drop">
-            <strong>Click o arrastra una imagen</strong>
-            <p class="small">Acepta formatos .jpg, .png, .heic. Obligatoria para continuar.</p>
-            <input type="file" id="photo-input" accept="image/*" />
-          </div>
-          <div class="file-meta" id="file-meta">Ningún archivo seleccionado.</div>
-        </div>
-        <div class="preview empty" id="photo-preview">
-          <img id="preview-img" alt="Vista previa" />
-        </div>
-        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
-          <button class="btn-primary" id="submit-btn">Enviar reporte</button>
-          <div class="status" id="analyze-status">Esperando una foto para analizar.</div>
-          <div class="status" id="supabase-notice"></div>
-        </div>
-        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px;">
-          <button class="btn-secondary" id="analyze-btn">Analizar foto con IA</button>
-          <button class="btn-primary" id="submit-btn">Enviar reporte</button>
-        </div>
-        <div class="status" id="analyze-status">Esperando una foto para analizar.</div>
-      </div>
->>>>>>> df0e16d1284515566e8ceb672b1f3d3120564fdd
 
   <div id="navbar"></div>
 
@@ -98,11 +52,7 @@
       <br>
       <p class="text-xs font-semibold text-white/60 uppercase tracking-[0.12em]">Reportar</p>
       <h1 class="text-3xl md:text-4xl font-black tracking-tight">Mascota encontrada</h1>
-<<<<<<< HEAD
       <p class="text-white/75 text-sm md:text-base max-w-3xl">Esta alerta es para mascotas sin collar OruPets. Se enviara directo a la comunidad en WhatsApp.</p>
-=======
-      <p class="text-white/75 text-sm md:text-base max-w-3xl">Esta alerta es para mascotas sin collar OruPets. Se enviará directo a la comunidad en WhatsApp.</p>
->>>>>>> df0e16d1284515566e8ceb672b1f3d3120564fdd
     </header>
 
     <section class="reveal grid grid-cols-1 xl:grid-cols-[1.05fr_0.95fr] gap-6 items-start">
@@ -111,49 +61,27 @@
         <div class="absolute -bottom-14 -left-14 w-56 h-56 bg-white/5 blur-3xl rounded-full"></div>
         <div class="relative space-y-4">
           <div class="flex items-center gap-2 text-xs font-semibold bg-white/10 border border-white/15 px-3 py-1 rounded-full w-fit backdrop-blur">
-<<<<<<< HEAD
             Alerta segura
           </div>
           <h2 class="text-2xl font-bold text-white">Reporta en 3 pasos rapidos</h2>
           <p class="text-white/75 text-sm">Sube o toma una foto, comparte tu ubicacion y agrega una nota corta. Nosotros abrimos WhatsApp con todo listo.</p>
-=======
-            Alerta segura con IA
-          </div>
-          <h2 class="text-2xl font-bold text-white">Reporta en 3 pasos rápidos</h2>
-          <p class="text-white/75 text-sm">Sube o toma una foto, comparte tu ubicación y agrega una nota corta. Validamos con IA que sea perro o gato y bloqueamos contenido inapropiado.</p>
->>>>>>> df0e16d1284515566e8ceb672b1f3d3120564fdd
 
           <div class="grid sm:grid-cols-2 gap-3 text-sm">
             <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
               <p class="text-amber-300 font-semibold mb-1">1. Foto</p>
-<<<<<<< HEAD
               <p class="text-white/70">Abre la camara o sube una imagen.</p>
             </div>
             <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
               <p class="text-amber-300 font-semibold mb-1">2. Ubicacion</p>
-=======
-              <p class="text-white/70">Abre la cámara o sube una imagen.</p>
-            </div>
-            <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
-              <p class="text-amber-300 font-semibold mb-1">2. Ubicación</p>
->>>>>>> df0e16d1284515566e8ceb672b1f3d3120564fdd
               <p class="text-white/70">Un toque para compartir GPS o escribe la referencia.</p>
             </div>
             <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
               <p class="text-amber-300 font-semibold mb-1">3. Destino</p>
-<<<<<<< HEAD
               <p class="text-white/70">Se envia directo a la comunidad OruPets.</p>
             </div>
             <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
               <p class="text-amber-300 font-semibold mb-1">Tip rapido</p>
               <p class="text-white/70"><span class="w-2 h-2 rounded-full bg-emerald-300 inline-block animate-pulse"></span> Manten al perro/gato en un lugar seguro mientras envias la alerta.</p>
-=======
-              <p class="text-white/70">Se envía directo a la comunidad OruPets.</p>
-            </div>
-            <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
-              <p class="text-amber-300 font-semibold mb-1">Tip rápido</p>
-              <p class="text-white/70"><span class="w-2 h-2 rounded-full bg-emerald-300 inline-block animate-pulse"></span> Mantén al perro/gato en un lugar seguro mientras envías la alerta.</p>
->>>>>>> df0e16d1284515566e8ceb672b1f3d3120564fdd
             </div>
           </div>
           <div class="flex flex-wrap items-center gap-3 text-sm text-white/70">
@@ -167,10 +95,7 @@
             </div>
           </div>
         </div>
-<<<<<<< HEAD
       </div>
-=======
->>>>>>> df0e16d1284515566e8ceb672b1f3d3120564fdd
 
       <div class="relative rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-black/30 overflow-hidden">
         <div class="absolute -top-10 right-4 w-32 h-32 bg-amber-200/10 blur-3xl rounded-full"></div>
@@ -179,29 +104,19 @@
             <div>
               <p class="text-xs font-semibold text-white/60 uppercase tracking-[0.14em]">Destino</p>
               <h3 class="text-xl font-semibold text-white">Alertaremos a la comunidad OruPets</h3>
-<<<<<<< HEAD
      
-=======
->>>>>>> df0e16d1284515566e8ceb672b1f3d3120564fdd
             </div>
             <div class="flex items-center gap-2 bg-emerald-400/20 text-emerald-100 border border-emerald-300/30 rounded-full px-4 py-2 text-xs font-semibold">
               Comunidad activa 24/7
             </div>
           </div>
 
-<<<<<<< HEAD
           <form id="report-form" class="space-y-4" onsubmit="enviarReporte(event)">
             <input type="hidden" id="destino" name="destino" value="comunidad">
 
             <div class="grid sm:grid-cols-2 gap-3">
               <div class="space-y-2">
                 <label for="foto-mascota" class="text-xs font-semibold text-white/70">Foto rapida</label>
-=======
-          <div class="space-y-4">
-            <div class="grid sm:grid-cols-2 gap-3">
-              <div class="space-y-2">
-                <label for="foto-mascota" class="text-xs font-semibold text-white/70">Foto rápida</label>
->>>>>>> df0e16d1284515566e8ceb672b1f3d3120564fdd
                 <div id="photo-trigger" class="group relative border-2 border-dashed border-white/20 bg-white/10 hover:border-amber-300 hover:bg-white/15 transition rounded-xl p-4 cursor-pointer">
                   <div class="flex items-center justify-between gap-3">
                     <div class="flex items-center gap-3">
@@ -212,11 +127,7 @@
                       </div>
                       <div>
                         <p class="text-sm font-semibold text-white">Tomar o subir foto</p>
-<<<<<<< HEAD
                         <p class="text-xs text-white/60">Se adjunta en WhatsApp</p>
-=======
-                        <p class="text-xs text-white/60">Analizamos y validamos automáticamente</p>
->>>>>>> df0e16d1284515566e8ceb672b1f3d3120564fdd
                       </div>
                     </div>
                     <span class="text-[11px] font-semibold uppercase tracking-wide text-amber-200/90">Tocar</span>
@@ -226,22 +137,14 @@
                     <img id="photo-preview-img" src="" alt="Foto de la mascota" class="w-full h-32 object-cover">
                     <div class="px-3 py-2 text-xs text-white/70 flex items-center justify-between">
                       <span id="photo-filename" class="truncate"></span>
-<<<<<<< HEAD
                       <span class="text-amber-200/80">Adjunta al enviar</span>
-=======
-                      <span class="text-amber-200/80" id="analyze-status">Sube una foto para analizar</span>
->>>>>>> df0e16d1284515566e8ceb672b1f3d3120564fdd
                     </div>
                   </div>
                 </div>
               </div>
 
               <div class="space-y-2">
-<<<<<<< HEAD
                 <label for="ubicacion" class="text-xs font-semibold text-white/70">Ubicacion</label>
-=======
-                <label for="ubicacion" class="text-xs font-semibold text-white/70">Ubicación</label>
->>>>>>> df0e16d1284515566e8ceb672b1f3d3120564fdd
                 <div class="bg-white/10 border border-white/15 rounded-xl p-3 space-y-2">
                   <div class="flex gap-2">
                     <input id="ubicacion" type="text" placeholder="Comparte GPS o un punto de referencia" class="flex-1 bg-transparent text-white placeholder-white/50 outline-none text-sm">
@@ -255,7 +158,6 @@
             </div>
 
             <div class="space-y-2">
-<<<<<<< HEAD
               <label for="mensaje" class="text-xs font-semibold text-white/70">Descripcion (opcional)</label>
               <textarea id="mensaje" class="w-full bg-white/10 border border-white/15 rounded-xl px-3 py-3 text-white placeholder-white/50 focus:border-amber-300 outline-none transition min-h-[110px]" placeholder="Color, estado, collar, referencia de calle, etc."></textarea>
             </div>
@@ -277,49 +179,6 @@
           Gracias por ayudar a que vuelva a casa.
             </p>
           </form>
-=======
-              <label for="mensaje" class="text-xs font-semibold text-white/70">Descripción (opcional)</label>
-              <textarea id="mensaje" class="w-full bg-white/10 border border-white/15 rounded-xl px-3 py-3 text-white placeholder-white/50 focus:border-amber-300 outline-none transition min-h-[110px]" placeholder="Color, estado, collar, referencia de calle, etc."></textarea>
-            </div>
-
-            <div class="grid sm:grid-cols-[1.1fr_0.9fr] gap-3">
-              <div class="space-y-2 rounded-2xl border border-white/15 bg-white/5 p-3">
-                <p class="text-xs font-semibold text-white/60 uppercase tracking-[0.14em]">Resultados de la IA</p>
-                <div class="flex items-center justify-between text-sm">
-                  <span class="text-white/70">Tipo detectado</span>
-                  <span class="font-semibold" id="result-type">Sin foto</span>
-                </div>
-                <div class="flex items-center justify-between text-sm">
-                  <span class="text-white/70">Raza estimada</span>
-                  <span class="font-semibold" id="result-breed">-</span>
-                </div>
-                <div class="flex items-center justify-between text-sm">
-                  <span class="text-white/70">Contenido seguro</span>
-                  <span class="font-semibold" id="result-nsfw">Sin revisar</span>
-                </div>
-                <p class="text-[11px] text-white/60" id="confidence-text"></p>
-                <p class="text-[11px] text-amber-200" id="supabase-notice"></p>
-              </div>
-              <div class="space-y-3">
-                <button id="submit-btn" type="button" class="w-full bg-amber-400 hover:bg-amber-300 text-[#0a0f1c] py-3 rounded-xl font-semibold shadow-lg shadow-amber-500/30 flex items-center justify-center gap-2 transition disabled:opacity-60 disabled:cursor-not-allowed">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 4h16v12H5.17L4 17.17V4zm4 4h8m-8 4h5" />
-                  </svg>
-                  Enviar reporte
-                </button>
-                <div class="text-xs text-white/60 bg-white/5 border border-white/10 rounded-xl p-3 space-y-1">
-                  <p class="font-semibold text-white">Envío seguro</p>
-                  <p id="status-helper">El análisis se ejecuta automáticamente al subir la foto.</p>
-                  <p class="text-amber-200" id="mode-helper"></p>
-                </div>
-              </div>
-            </div>
-
-            <p class="text-xs text-white/60 text-center">
-              Gracias por ayudar a que vuelva a casa.
-            </p>
-          </div>
->>>>>>> df0e16d1284515566e8ceb672b1f3d3120564fdd
         </div>
       </div>
     </section>
@@ -327,7 +186,6 @@
 
   <div id="footer"></div>
 
-<<<<<<< HEAD
 
 <script type="module">
   import { analizarFoto } from "/assets/js/ia.js";
@@ -376,8 +234,6 @@
   }
 </script>
 
-=======
->>>>>>> df0e16d1284515566e8ceb672b1f3d3120564fdd
   <script>
     (function() {
       const photoInput = document.getElementById("foto-mascota");
@@ -387,19 +243,6 @@
       const photoFilename = document.getElementById("photo-filename");
 
       photoTrigger?.addEventListener("click", () => photoInput?.click());
-<<<<<<< HEAD
-=======
-      photoTrigger?.addEventListener("dragover", (ev) => { ev.preventDefault(); photoTrigger.classList.add('border-amber-300'); });
-      photoTrigger?.addEventListener("dragleave", () => photoTrigger.classList.remove('border-amber-300'));
-      photoTrigger?.addEventListener("drop", (ev) => {
-        ev.preventDefault();
-        photoTrigger.classList.remove('border-amber-300');
-        if (ev.dataTransfer?.files?.[0]) {
-          photoInput.files = ev.dataTransfer.files;
-          photoInput.dispatchEvent(new Event('change'));
-        }
-      });
->>>>>>> df0e16d1284515566e8ceb672b1f3d3120564fdd
       photoInput?.addEventListener("change", () => {
         const file = photoInput.files?.[0];
         if (file) {
@@ -418,33 +261,19 @@
 
       const obtenerGPS = () => {
         if (!navigator.geolocation) {
-<<<<<<< HEAD
           ubicacionStatus.textContent = "Tu navegador no permite compartir ubicacion. Escribe una referencia.";
           return;
         }
         ubicacionStatus.textContent = "Solicitando ubicacion segura...";
-=======
-          ubicacionStatus.textContent = "Tu navegador no permite compartir ubicación. Escribe una referencia.";
-          return;
-        }
-        ubicacionStatus.textContent = "Solicitando ubicación segura...";
->>>>>>> df0e16d1284515566e8ceb672b1f3d3120564fdd
         navigator.geolocation.getCurrentPosition(
           (pos) => {
             const { latitude, longitude } = pos.coords;
             const mapsLink = "https://maps.google.com/?q=" + latitude + "," + longitude;
             ubicacionInput.value = mapsLink;
-<<<<<<< HEAD
             ubicacionStatus.textContent = "Ubicacion agregada. Puedes editarla si quieres.";
           },
           () => {
             ubicacionStatus.textContent = "No pudimos obtener la ubicacion. Escribe una referencia manual.";
-=======
-            ubicacionStatus.textContent = "Ubicación agregada. Puedes editarla si quieres.";
-          },
-          () => {
-            ubicacionStatus.textContent = "No pudimos obtener la ubicación. Escribe una referencia manual.";
->>>>>>> df0e16d1284515566e8ceb672b1f3d3120564fdd
           },
           { enableHighAccuracy: true, timeout: 8000 }
         );
@@ -481,9 +310,5 @@
       setTimeout(hide, 5000);
     })();
   </script>
-<<<<<<< HEAD
-=======
-  <script type="module" src="./js/main.js"></script>
->>>>>>> df0e16d1284515566e8ceb672b1f3d3120564fdd
 </body>
 </html>
