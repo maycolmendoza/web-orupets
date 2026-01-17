@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Completar Pedido - OruPets</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --font-base: 'Inter', 'SF Pro Display', 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    body { font-family: var(--font-base); letter-spacing: -0.01em; scroll-behavior: smooth; }
+    h1, h2, h3 { font-family: var(--font-base); letter-spacing: -0.02em; }
+    @keyframes shimmer { 0% { transform: translateX(-100%);} 100% { transform: translateX(100%);} }
+    .loader-bar { position: relative; overflow: hidden; background: rgba(255,255,255,0.08); }
+    .loader-bar::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent); animation: shimmer 1.8s ease-in-out infinite; }
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 700ms cubic-bezier(0.22,1,0.36,1), transform 700ms cubic-bezier(0.22,1,0.36,1); will-change: opacity, transform; }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/assets/js/products.js"></script>
+  <script src="/assets/js/cart.js" defer></script>
+  <script src="/assets/js/checkout.js" defer></script>
+  <script src="/assets/js/app.js" defer></script>
+</head>
+<body class="bg-[#05070d] text-white min-h-screen relative">
+  <div class="absolute inset-0 bg-gradient-to-br from-[#05070d] via-[#0b1324] to-[#0f1c32] opacity-90 pointer-events-none"></div>
+  <div id="app-loader" class="fixed inset-0 z-[120] bg-slate-950/90 backdrop-blur-sm flex items-center justify-center transition-opacity duration-400">
+    <div class="w-[320px] max-w-[80%] rounded-2xl border border-white/10 bg-[#0b1221] shadow-2xl shadow-black/60 p-5 space-y-3">
+      <div class="flex items-center gap-3">
+        <span class="relative flex h-10 w-10 items-center justify-center rounded-full bg-amber-400 text-slate-950 font-black text-xl shadow-inner shadow-black/50 overflow-hidden">
+          <img src="/assets/img/logo.jpg" alt="OruPets" class="w-full h-full object-cover pointer-events-none select-none" draggable="false" oncontextmenu="return false;">
+        </span>
+        <div class="space-y-1">
+          <p class="text-sm font-semibold text-white">Preparando checkout</p>
+          <p class="text-xs text-white/60">Confirmando carrito y datos...</p>
+        </div>
+      </div>
+      <div class="h-2 rounded-full loader-bar"></div>
+    </div>
+  </div>
+
+  <div id="navbar"></div>
+
+  <section class="relative max-w-5xl mx-auto mt-16 px-4 space-y-6 z-10">
+    <header class="space-y-2 reveal">
+      <p class="text-xs font-semibold text-white/60 uppercase tracking-[0.12em]">Checkout</p>
+      <h1 class="text-3xl md:text-4xl font-black tracking-tight text-white">Completar mi pedido</h1>
+      <p class="text-white/70 text-sm max-w-2xl">Confirma tus datos de contacto y direccion. Tu collar NFC/QR llegar&aacute; listo para usarse.</p>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] gap-6 reveal">
+      <div class="bg-[#0c121f]/90 border border-white/10 rounded-2xl shadow-2xl shadow-black/30 p-6 space-y-4">
+        <h2 class="text-xl font-bold text-white">Datos del cliente</h2>
+        <form id="checkout-form" class="grid grid-cols-1 gap-4" onsubmit="finalizarPedido(event)">
+          <input id="nombre" type="text" placeholder="Nombre completo" class="bg-white/5 border border-white/15 rounded-lg px-3 py-3 text-white placeholder-white/50 focus:border-amber-300 outline-none transition" required>
+          <input id="telefono" type="tel" placeholder="Telefono" class="bg-white/5 border border-white/15 rounded-lg px-3 py-3 text-white placeholder-white/50 focus:border-amber-300 outline-none transition" required>
+          <select id="entrega" class="bg-white/5 border border-white/15 rounded-lg px-3 py-3 text-white focus:border-amber-300 outline-none transition" required>
+            <option value="">Metodo de entrega</option>
+            <option value="envio">Envio por Shalom</option>
+            <option value="recojo">Recojo en punto de entrega</option>
+          </select>
+
+          <div id="grupo-envio" class="space-y-3">
+            <p class="text-xs font-semibold text-white/70 uppercase tracking-[0.08em]">Envio por Shalom</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <input id="departamento" type="text" placeholder="Departamento" class="bg-white/5 border border-white/15 rounded-lg px-3 py-3 text-white placeholder-white/50 focus:border-amber-300 outline-none transition">
+              <input id="provincia" type="text" placeholder="Provincia" class="bg-white/5 border border-white/15 rounded-lg px-3 py-3 text-white placeholder-white/50 focus:border-amber-300 outline-none transition">
+            </div>
+            <input id="distrito" type="text" placeholder="Distrito" class="bg-white/5 border border-white/15 rounded-lg px-3 py-3 text-white placeholder-white/50 focus:border-amber-300 outline-none transition">
+            <input id="direccion-envio" type="text" placeholder="Direccion exacta y referencia" class="bg-white/5 border border-white/15 rounded-lg px-3 py-3 text-white placeholder-white/50 focus:border-amber-300 outline-none transition">
+          </div>
+
+          <div id="grupo-recojo" class="space-y-2 hidden">
+            <label for="punto-recojo" class="text-xs font-semibold text-white/70">Punto de entrega</label>
+            <select id="punto-recojo" class="bg-white/5 border border-white/15 rounded-lg px-3 py-3 text-white focus:border-amber-300 outline-none transition">
+              <option value="">Selecciona un punto</option>
+              <option value="Plaza Mayor de Nuevo Chimbote">Plaza Mayor de Nuevo Chimbote</option>
+              <option value="Plaza de Armas de Chimbote">Plaza de Armas de Chimbote</option>
+              <option value="Ovalo La Familia (Nuevo Chimbote)">Ovalo La Familia (Nuevo Chimbote)</option>
+            </select>
+          </div>
+
+          <textarea id="comentarios" placeholder="Comentarios (opcional)" class="bg-white/5 border border-white/15 rounded-lg px-3 py-3 text-white placeholder-white/50 focus:border-amber-300 outline-none transition min-h-[100px]"></textarea>
+
+          <button class="bg-amber-400 hover:bg-amber-300 text-[#0a0f1c] py-3 rounded-xl font-bold shadow-lg shadow-black/30 flex items-center justify-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M5 13l4 4L19 7" />
+            </svg>
+            Confirmar pedido
+          </button>
+        </form>
+      </div>
+
+      <div class="bg-[#0c121f]/90 border border-white/10 rounded-2xl shadow-2xl shadow-black/30 p-6 space-y-4">
+        <h2 class="text-xl font-bold text-white">Resumen</h2>
+        <div id="resumen-items" class="space-y-2 text-sm text-white/70"></div>
+
+        <p class="text-lg font-bold mt-4 text-white">
+          Total: <span id="resumen-total" class="text-amber-200">S/ 0</span>
+        </p>
+        <p id="checkout-empty" class="hidden text-red-300 text-sm mt-2">Agrega productos para continuar.</p>
+        <a href="/carrito/" class="inline-flex items-center gap-2 text-sm font-semibold text-amber-300 hover:text-amber-200">
+          Volver al carrito
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 19l-7-7 7-7" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div id="footer"></div>
+
+  <script>
+    (function() {
+      const sections = Array.from(document.querySelectorAll("section, header, .grid"));
+      if (!("IntersectionObserver" in window) || !sections.length) return;
+      sections.forEach(sec => sec.classList.add("reveal"));
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
+      sections.forEach(sec => obs.observe(sec));
+    })();
+  </script>
+  <script>
+    (function() {
+      const loader = document.getElementById("app-loader");
+      if (!loader) return;
+      const hide = () => {
+        loader.classList.add("opacity-0", "pointer-events-none");
+        setTimeout(() => loader.remove(), 500);
+      };
+      window.addEventListener("load", () => setTimeout(hide, 320));
+      setTimeout(hide, 5000);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+
+
+
+<button id="testIA" style="padding:10px;background:#222;color:#fff">
+  Probar IA OruPets
+</button>
+
+<input type="file" id="inputIA" accept="image/*" style="display:none;">
+
+
+<script>
+    document.getElementById("testIA").onclick = () => {
+  document.getElementById("inputIA").click();
+};
+
+document.getElementById("inputIA").onchange = async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = async () => {
+    const base64 = reader.result.split(",")[1];
+    console.log("BASE64 OK:", base64.substring(0,40));
+
+    try {
+      const r = await fetch("https://orupets-ia.orupetsperu.workers.dev/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "facebook/detr-resnet-50",
+          imageBase64: base64
+        })
+      });
+
+      const txt = await r.text();
+      console.log("RESPUESTA DEL WORKER:", txt);
+
+    } catch (err) {
+      console.error("ERROR FETCH:", err);
+    }
+  };
+
+  reader.readAsDataURL(file);
+};
+
+</script>

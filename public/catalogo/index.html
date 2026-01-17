@@ -1,0 +1,696 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Catalogo OruPets</title>
+  <link rel="shortcut icon" href="../assets/icons/favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --bg: #030712;
+      --card: #0b1020;
+      --glass: rgba(255,255,255,0.05);
+      --accent: #7dd3fc;
+      --accent-2: #c084fc;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+    }
+    body { font-family: 'Space Grotesk', 'Inter', system-ui, -apple-system, sans-serif; letter-spacing: -0.01em; background: var(--bg); }
+    .bg-grid {
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(125,211,252,0.08), transparent 32%),
+        radial-gradient(circle at 80% 10%, rgba(192,132,252,0.08), transparent 30%),
+        linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: auto, auto, 120px 120px, 120px 120px;
+    }
+    .card-3d {
+      transition: transform 320ms ease, box-shadow 320ms ease, border-color 320ms ease;
+      box-shadow: 0 24px 70px rgba(0,0,0,0.45);
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+    .card-3d:hover { transform: translateY(-6px) scale(1.01); border-color: rgba(125,211,252,0.4); box-shadow: 0 30px 90px rgba(0,0,0,0.55); }
+    .img-zoom { transition: transform 360ms ease; }
+    .card-3d:hover .img-zoom { transform: scale(1.05); }
+    .glass { background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03)); backdrop-filter: blur(14px); }
+    .tag-dot { box-shadow: 0 0 0 10px rgba(125,211,252,0.08); }
+    .orbit { position: absolute; inset: -35%; border-radius: 9999px; border: 1px solid rgba(255,255,255,0.04); transform: rotate(-8deg); }
+    .chip-active { background: white; color: #0b1020; border-color: transparent; }
+    .chip { background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.15); }
+    .hero-cta { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #0b1020; box-shadow: 0 20px 45px rgba(125,211,252,0.2); border: 1px solid rgba(255,255,255,0.15); }
+    .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 26px 55px rgba(125,211,252,0.28); }
+    .hero-ghost { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.18); }
+    .hero-ghost:hover { background: rgba(255,255,255,0.12); }
+    .hero-stat { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); }
+    .hero-filter { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: white; }
+    .hero-filter:hover { background: rgba(255,255,255,0.12); }
+    .hero-filter-active { background: white; color: #0b1020; border-color: transparent; }
+    .hero-dot { width: 8px; height: 8px; border-radius: 9999px; background: rgba(255,255,255,0.35); transition: transform 180ms ease, background 180ms ease; }
+    .hero-dot.active { background: var(--accent); transform: scale(1.2); box-shadow: 0 0 0 4px rgba(125,211,252,0.2); }
+    .hero-image { transition: opacity 260ms ease, transform 360ms ease; }
+    .hero-float { animation: float 7s ease-in-out infinite; }
+    .reveal-up { opacity: 0; transform: translateY(12px); animation: revealUp 600ms ease forwards; }
+    .reveal-delay-1 { animation-delay: 90ms; }
+    .reveal-delay-2 { animation-delay: 160ms; }
+    .reveal-delay-3 { animation-delay: 230ms; }
+    .reveal-delay-4 { animation-delay: 300ms; }
+    .reveal-delay-5 { animation-delay: 370ms; }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+    @keyframes revealUp { to { opacity: 1; transform: translateY(0); } }
+  </style>
+  <script src="/assets/js/products.js"></script>
+  <script src="/assets/js/cart.js" defer></script>
+  <script src="/assets/js/app.js" defer></script>
+</head>
+<body class="text-[var(--text)] min-h-screen flex flex-col relative overflow-x-hidden">
+  <div class="absolute inset-0 bg-grid opacity-80 pointer-events-none"></div>
+  <div class="absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-black/60 pointer-events-none"></div>
+
+  <div id="navbar"></div>
+
+  <main class="relative flex-1">
+    <section class="max-w-6xl mx-auto px-4 pb-14 pt-16 space-y-10">
+
+      
+
+
+      <div class="relative overflow-hidden rounded-3xl border border-white/10 glass p-8 md:p-12 shadow-2xl">
+        <div class="orbit"></div>
+        <div class="absolute -left-24 -bottom-24 h-64 w-64 bg-[var(--accent)]/15 blur-3xl"></div>
+        <div class="absolute -right-14 -top-16 h-56 w-56 bg-[var(--accent-2)]/15 blur-3xl"></div>
+
+
+
+
+
+
+        
+
+
+
+        <div class="grid grid-cols-1 lg:grid-cols-[1.08fr_0.92fr] gap-8 lg:gap-12 items-center relative z-10">
+                <div id="hero-carousel" class="relative w-full rounded-[28px] overflow-hidden border border-white/15 bg-gradient-to-br from-white/10 to-white/5 shadow-2xl reveal-up reveal-delay-2">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(125,211,252,0.12),transparent_45%),radial-gradient(circle_at_80%_20%,rgba(192,132,252,0.14),transparent_45%)]"></div>
+            <div class="aspect-[4/5] relative flex items-center justify-center">
+              <div class="absolute top-4 right-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/40 border border-white/15 text-xs font-semibold">
+                <span class="h-2 w-2 rounded-full bg-emerald-300 animate-pulse"></span>
+                Vista 3D lista
+              </div>
+              <div class="absolute top-4 left-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/40 border border-white/15 text-xs font-semibold">
+                <span class="h-2 w-2 rounded-full bg-[var(--accent)]"></span>
+                <span id="hero-tag">Urbano</span>
+                <span class="text-white/60" id="hero-counter">01/03</span>
+              </div>
+              <img id="hero-image" src="https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&w=1200&q=80" alt="Mascota con outfit OruPets para paseo urbano" class="relative z-10 h-full w-full object-cover img-zoom hero-image">
+              <div class="absolute bottom-5 left-5 px-4 py-3 rounded-2xl bg-black/50 border border-white/10 text-sm text-[var(--text)] hero-float">
+                <p id="hero-caption-title" class="font-semibold">Paseo urbano</p>
+                <p id="hero-caption-text" class="text-[var(--muted)] text-xs">Arnes reflectivo y ajuste rapido para salir a caminar.</p>
+              </div>
+              <div class="absolute bottom-5 right-5 flex flex-col gap-2 text-xs font-semibold">
+                <div class="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-black/45 border border-white/15 text-xs font-semibold">
+                  <button type="button" class="transition hover:text-[var(--accent)]" data-hero-action="prev">Anterior</button>
+                  <span class="opacity-50">/</span>
+                  <button type="button" class="transition hover:text-[var(--accent)]" data-hero-action="next">Siguiente</button>
+                </div>
+                <div class="flex items-center justify-center gap-2">
+                  <button type="button" class="hero-dot active" data-hero-dot="0" aria-label="Look 1"></button>
+                  <button type="button" class="hero-dot" data-hero-dot="1" aria-label="Look 2"></button>
+                  <button type="button" class="hero-dot" data-hero-dot="2" aria-label="Look 3"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="space-y-6">
+            
+            <div class="flex flex-wrap items-center gap-3 reveal-up">
+         
+              <div class="inline-flex items-center gap-2 text-xs font-semibold px-3 py-1 rounded-full bg-white/5 border border-white/15">
+                <span class="h-1.5 w-1.5 rounded-full bg-emerald-300"></span>
+                Actualizado hoy
+              </div>
+            </div>
+            <h1 class="text-3xl md:text-5xl font-semibold leading-tight reveal-up reveal-delay-1">
+              Estilo, comodidad y seguridad en cada paseo.
+            </h1>
+            <p class="text-[var(--muted)] text-lg max-w-xl reveal-up reveal-delay-2">
+              Descubre outfits premium, accesorios inteligentes y vista previa 3D lista para elegir la talla ideal.
+            </p>
+            <div class="flex flex-wrap gap-3 reveal-up reveal-delay-3">
+              <button id="scroll-catalog" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-semibold hero-cta transition">
+                Explorar catalogo
+              </button>
+              <button id="share-catalog" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-white font-semibold hero-ghost transition">
+                Compartir catalogo
+              </button>
+          
+            </div>
+            <p id="hero-status" class="text-xs text-[var(--muted)] min-h-[1.1rem] reveal-up reveal-delay-4"></p>
+       
+        
+          </div>
+    
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div class="space-y-1">
+          <p class="text-xs font-semibold text-[var(--muted)] uppercase tracking-[0.2em]">Experiencia premium</p>
+          <h2 class="text-2xl md:text-3xl font-semibold">Visualiza el outfit en 3D.</h2>
+          <p class="text-sm text-[var(--muted)]">Selecciona la talla y compártelo fácilmente antes de comprar</p>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <a href="/carrito/" class="px-4 py-2 rounded-xl bg-white/10 border border-white/15 text-sm font-semibold hover:bg-white/20 transition">Ver carrito</a>
+          <button id="wa-cart" class="px-4 py-2 rounded-xl bg-emerald-400 text-slate-900 text-sm font-semibold shadow-lg shadow-emerald-900/40 hover:-translate-y-0.5 transition">Enviar seleccion a WhatsApp</button>
+        </div>
+      </div>
+
+      <div class="bg-white/5 border border-white/10 rounded-2xl p-4 flex flex-col gap-4 shadow-lg shadow-black/30">
+        <div class="flex flex-col lg:flex-row gap-3 lg:items-center lg:justify-between">
+          <div class="flex flex-wrap gap-2">
+            <button class="px-4 py-2 rounded-full text-xs font-semibold chip chip-active" data-badge="all">Todos</button>
+            <button class="px-4 py-2 rounded-full text-xs font-semibold chip" data-badge="Nuevo">Nuevo</button>
+            <button class="px-4 py-2 rounded-full text-xs font-semibold chip" data-badge="Tendencia">Tendencia</button>
+            <button class="px-4 py-2 rounded-full text-xs font-semibold chip" data-badge="Mas vendido">Mas vendido</button>
+          </div>
+          <div class="flex flex-wrap gap-2 items-center">
+            <input id="search" type="text" placeholder="Buscar" class="w-full sm:w-56 bg-white/5 border border-white/15 rounded-xl px-3 py-2 text-sm placeholder-white/60 focus:border-[var(--accent)] outline-none" />
+            <select id="category" class="bg-white/5 border border-white/15 rounded-xl px-3 py-2 text-sm focus:border-[var(--accent)] outline-none text-white">
+              <option value="all">Categorias</option>
+            </select>
+          </div>
+        </div>
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between text-xs text-[var(--muted)] gap-2" id="meta-info">
+          <span>Listo.</span>
+          <span>Orden: sin orden.</span>
+        </div>
+      </div>
+
+      <div id="catalogo" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6"></div>
+      <div class="flex items-center justify-center">
+        <button id="load-more" class="px-4 py-3 rounded-xl bg-white/10 border border-white/15 text-white text-sm font-semibold hover:bg-white/20 transition hidden">Cargar mas</button>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer"></div>
+
+  <script>
+    const WA_NUMBER = "51999999999"; // Reemplaza por tu numero de WhatsApp
+    const FALLBACK_IMG = "https://images.unsplash.com/photo-1505628346881-b72b27e84530?auto=format&fit=crop&w=900&q=80";
+    const SIZES = ["XS", "S", "M", "L", "XL"];
+    const selectedSizes = {};
+
+    const heroImage = document.getElementById("hero-image");
+    const heroTag = document.getElementById("hero-tag");
+    const heroCounter = document.getElementById("hero-counter");
+    const heroCaptionTitle = document.getElementById("hero-caption-title");
+    const heroCaptionText = document.getElementById("hero-caption-text");
+    const heroDots = document.querySelectorAll("[data-hero-dot]");
+    const heroStatus = document.getElementById("hero-status");
+    const heroFilters = document.querySelectorAll("[data-hero-badge]");
+    const scrollCatalogBtn = document.getElementById("scroll-catalog");
+    const copyCatalogBtn = document.getElementById("copy-catalog");
+    const heroPrevBtn = document.querySelector("[data-hero-action='prev']");
+    const heroNextBtn = document.querySelector("[data-hero-action='next']");
+    const heroCarousel = document.getElementById("hero-carousel");
+    const heroStatProducts = document.querySelector("[data-stat='products']");
+    const heroStatCategories = document.querySelector("[data-stat='categories']");
+    const heroStatPrice = document.querySelector("[data-stat='price']");
+
+    const catalogEl = document.getElementById("catalogo");
+    const searchInput = document.getElementById("search");
+    const categorySelect = document.getElementById("category");
+    const badgeButtons = document.querySelectorAll("[data-badge]");
+    const loadMoreBtn = document.getElementById("load-more");
+    const metaInfo = document.getElementById("meta-info");
+
+    const PAGE_SIZE = 9;
+    let currentPage = 1;
+    let currentBadge = "all";
+    let currentCategory = "all";
+    let searchTerm = "";
+
+    const getSize = (id) => selectedSizes[id] || "M";
+
+    const badgeStyle = (badge = "") => {
+      const b = badge.toLowerCase();
+      if (b.includes("nuevo")) return "bg-blue-500/15 text-blue-100 border border-blue-300/30";
+      if (b.includes("vendo")) return "bg-emerald-500/15 text-emerald-100 border border-emerald-300/30";
+      if (b.includes("tenden")) return "bg-amber-500/15 text-amber-100 border border-amber-300/30";
+      return "bg-white/10 text-white border border-white/15";
+    };
+
+    const HERO_SLIDES = [
+      {
+        src: "https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&w=1200&q=80",
+        alt: "Mascota con outfit OruPets para paseo urbano",
+        tag: "Urbano",
+        title: "Paseo urbano",
+        note: "Arnes reflectivo y ajuste rapido para salir a caminar."
+      },
+      {
+        src: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=1200&q=80",
+        alt: "Mascota lista para aventura OruPets",
+        tag: "Aventura",
+        title: "Listo para trekking",
+        note: "Material repelente al agua y tiras seguras para rutas largas."
+      },
+      {
+        src: "https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=1200&q=80",
+        alt: "Mascota en modo relax con outfit OruPets",
+        tag: "Confort",
+        title: "Relax en casa",
+        note: "Texturas suaves y ligeras para interiores con estilo."
+      }
+    ];
+
+    const HERO_AUTO_MS = 6500;
+    let heroIndex = 0;
+    let heroStatusTimer;
+    let heroAutoTimer;
+
+    const setHeroStatus = (message = "") => {
+      if (!heroStatus) return;
+      heroStatus.textContent = message;
+      clearTimeout(heroStatusTimer);
+      if (message) {
+        heroStatusTimer = setTimeout(() => {
+          heroStatus.textContent = "";
+        }, 2400);
+      }
+    };
+
+    const setHeroFilterActive = (target) => {
+      heroFilters.forEach((btn) => btn.classList.remove("hero-filter-active"));
+      if (target) target.classList.add("hero-filter-active");
+    };
+
+    const scrollToCatalog = () => {
+      catalogEl?.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+
+    const setHeroSlide = (index) => {
+      if (!heroImage || !HERO_SLIDES.length) return;
+      const total = HERO_SLIDES.length;
+      heroIndex = (index + total) % total;
+      const slide = HERO_SLIDES[heroIndex];
+      const nextImage = new Image();
+
+      heroTag && (heroTag.textContent = slide.tag);
+      heroCounter && (heroCounter.textContent = `${String(heroIndex + 1).padStart(2, "0")}/${String(total).padStart(2, "0")}`);
+      heroCaptionTitle && (heroCaptionTitle.textContent = slide.title);
+      heroCaptionText && (heroCaptionText.textContent = slide.note);
+      heroDots.forEach((dot, idx) => dot.classList.toggle("active", idx === heroIndex));
+
+      heroImage.style.opacity = "0.15";
+      nextImage.onerror = () => {
+        heroImage.src = FALLBACK_IMG;
+        heroImage.alt = "Vista previa OruPets";
+        heroImage.style.opacity = "1";
+      };
+      nextImage.onload = () => {
+        heroImage.src = slide.src;
+        heroImage.alt = slide.alt || "Mascota con outfit OruPets";
+        heroImage.style.opacity = "1";
+      };
+      nextImage.src = slide.src;
+    };
+
+    const stopHeroAuto = () => {
+      if (!heroAutoTimer) return;
+      clearInterval(heroAutoTimer);
+      heroAutoTimer = null;
+    };
+
+    const startHeroAuto = () => {
+      if (!HERO_SLIDES.length) return;
+      stopHeroAuto();
+      heroAutoTimer = setInterval(() => {
+        setHeroSlide(heroIndex + 1);
+      }, HERO_AUTO_MS);
+    };
+
+    const resetHeroAuto = () => {
+      stopHeroAuto();
+      startHeroAuto();
+    };
+
+    const updateHeroStats = () => {
+      if (!Array.isArray(PRODUCTS)) return;
+      const categories = new Set(PRODUCTS.map((p) => p.categoria || "Otros"));
+      const prices = PRODUCTS.map((p) => Number(p.precio)).filter((p) => !Number.isNaN(p) && p > 0);
+      heroStatProducts && (heroStatProducts.textContent = `${PRODUCTS.length}+`);
+      heroStatCategories && (heroStatCategories.textContent = `${categories.size}`);
+      heroStatPrice && (heroStatPrice.textContent = prices.length ? `S/ ${Math.min(...prices)}` : "S/ --");
+    };
+
+    const copyToClipboard = async (text) => {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+        return true;
+      }
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.setAttribute("readonly", "true");
+      textarea.style.position = "fixed";
+      textarea.style.top = "-1000px";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      let ok = false;
+      try {
+        ok = document.execCommand("copy");
+      } catch (e) {
+        ok = false;
+      }
+      document.body.removeChild(textarea);
+      return ok;
+    };
+
+    const sharePayload = async (payload, statusMessage) => {
+      if (navigator.share) {
+        try {
+          await navigator.share(payload);
+          return "shared";
+        } catch (e) {
+          if (e && e.name === "AbortError") return "aborted";
+        }
+      }
+      const copied = await copyToClipboard(payload.url);
+      if (copied && statusMessage && typeof showAppPush === "function") showAppPush(statusMessage);
+      return copied ? "copied" : "failed";
+    };
+
+    function populateCategories() {
+      if (!categorySelect || !Array.isArray(PRODUCTS)) return;
+      const cats = Array.from(new Set(PRODUCTS.map(p => p.categoria || "Otros")));
+      categorySelect.innerHTML = '<option value="all">Categorias</option>' + cats.map(c => `<option value="${c}">${c}</option>`).join("");
+    }
+
+    function applyFilters() {
+      if (!Array.isArray(PRODUCTS)) return { items: [], total: 0 };
+      let items = [...PRODUCTS];
+      if (currentBadge !== "all") items = items.filter(p => (p.badge || "").toLowerCase() === currentBadge.toLowerCase());
+      if (currentCategory !== "all") items = items.filter(p => (p.categoria || "Otros") === currentCategory);
+      if (searchTerm) {
+        const term = searchTerm.toLowerCase();
+        items = items.filter(p => (p.nombre || "").toLowerCase().includes(term) || (p.desc || "").toLowerCase().includes(term));
+      }
+      return { items, total: items.length };
+    }
+
+    function renderCatalog() {
+      if (!catalogEl || !Array.isArray(PRODUCTS)) return;
+      const { items, total } = applyFilters();
+      const visible = items.slice(0, currentPage * PAGE_SIZE);
+
+      catalogEl.innerHTML = visible.map((p) => {
+        const sizeActive = getSize(p.id);
+        const img = p.img || FALLBACK_IMG;
+        return `
+          <article class="relative card-3d rounded-3xl overflow-hidden bg-[var(--card)]">
+            <div class="relative h-72 bg-black overflow-hidden">
+              <img src="${img}" alt="${p.nombre}" class="h-full w-full object-cover img-zoom" loading="lazy" onerror="this.src='${FALLBACK_IMG}'">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+              <div class="absolute top-4 left-4 inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold ${badgeStyle(p.badge)}">
+                ${p.badge || "Destacado"}
+              </div>
+              <div class="absolute bottom-4 right-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur text-xs font-semibold border border-white/20">
+                <span class="h-2 w-2 rounded-full bg-emerald-300 animate-pulse"></span>
+                3D listo
+              </div>
+            </div>
+
+            <div class="p-5 space-y-4">
+              <div class="flex items-start justify-between gap-3">
+                <div>
+                  <h3 class="text-xl font-semibold">${p.nombre}</h3>
+                  <p class="text-xs text-[var(--muted)]">${p.categoria || "Ropa & accesorios"}</p>
+                </div>
+                <p class="text-amber-200 font-bold text-lg">S/ ${p.precio}</p>
+              </div>
+
+              <p class="text-sm text-[var(--muted)] leading-relaxed">${p.desc}</p>
+
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="text-xs text-[var(--muted)]">Talla:</span>
+                <div class="flex gap-2" data-size-group="${p.id}">
+                  ${SIZES.map((s) => `
+                    <button class="px-3 py-1.5 rounded-full text-xs font-semibold border transition ${s === sizeActive ? "bg-white text-slate-900 border-white" : "bg-white/5 border-white/15 text-[var(--text)] hover:bg-white/10"}" data-size="${s}" data-product="${p.id}">
+                      ${s}
+                    </button>
+                  `).join("")}
+                </div>
+              </div>
+
+              <div class="flex flex-wrap gap-2">
+                <button class="flex-1 min-w-[160px] px-4 py-3 rounded-xl bg-gradient-to-r from-[var(--accent)] to-[var(--accent-2)] text-black font-semibold shadow-lg shadow-[var(--accent)]/30 hover:shadow-[var(--accent-2)]/40 transition" data-action="details" data-product="${p.id}">
+                  Ver detalles
+                </button>
+                <button class="px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white font-semibold hover:bg-white/15 transition" onclick="addToCart('${p.id}')">
+                  Agregar
+                </button>
+              </div>
+
+              <div class="flex flex-wrap gap-2 text-sm">
+                <button class="flex-1 min-w-[140px] px-4 py-2 rounded-lg bg-white/5 border border-white/15 text-white hover:bg-white/10 transition inline-flex items-center justify-center gap-2" data-action="share" data-product="${p.id}">
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M4 12v7a1 1 0 0 0 1 1h3m-4-8V5a1 1 0 0 1 1-1h3m-4 8h0m7-8 5 5m0 0-5 5m5-5H8"/></svg>
+                  Compartir
+                </button>
+                <button class="flex-1 min-w-[140px] px-4 py-2 rounded-lg bg-emerald-400/90 text-slate-900 font-semibold hover:brightness-110 transition inline-flex items-center justify-center gap-2" data-action="wa" data-product="${p.id}">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2c-5.52 0-10 4.4-10 9.82 0 1.73.46 3.41 1.35 4.89l-1.43 5.23 5.35-1.4a10.1 10.1 0 0 0 4.72 1.2h.01c5.52 0 10-4.4 10-9.82 0-2.62-1.1-5.08-3.08-6.93A10.3 10.3 0 0 0 12.04 2Zm5.82 14.24c-.24.67-1.33 1.28-1.85 1.36-.48.07-1.08.1-1.74-.11-.4-.13-.92-.3-1.58-.59-2.78-1.2-4.6-4-4.74-4.19-.14-.19-1.13-1.5-1.13-2.86 0-1.37.72-2.04.98-2.32.26-.28.57-.35.76-.35h.54c.17 0 .4-.07.63.48.24.57.82 1.97.89 2.11.07.14.12.31.02.5-.1.21-.16.34-.3.52-.14.17-.3.39-.43.52-.14.14-.28.29-.12.57.17.28.76 1.26 1.62 2.05 1.12.99 2.07 1.3 2.36 1.44.29.14.46.12.63-.07.17-.19.72-.83.91-1.12.19-.28.38-.24.63-.14.26.1 1.63.76 1.91.9.28.14.47.21.54.33.07.12.07.7-.17 1.37Z"/></svg>
+                  Consultar por WhatsApp
+                </button>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      bindCardActions();
+      updateMeta(total, visible.length);
+      toggleLoadMore(visible.length < total);
+    }
+
+    function updateMeta(total, shown) {
+      if (!metaInfo) return;
+      metaInfo.innerHTML = `<span>Mostrando ${shown} de ${total} productos</span><span>Page size ${PAGE_SIZE} | Scrolla o carga mas cuando crezca el inventario.</span>`;
+    }
+
+    function toggleLoadMore(show) {
+      if (!loadMoreBtn) return;
+      loadMoreBtn.classList.toggle("hidden", !show);
+    }
+
+    function bindCardActions() {
+      document.querySelectorAll("[data-size]").forEach((btn) => {
+        btn.onclick = () => {
+          const size = btn.getAttribute("data-size");
+          const id = btn.getAttribute("data-product");
+          selectedSizes[id] = size;
+          renderCatalog();
+          if (typeof showAppPush === "function") showAppPush("Talla seleccionada: " + size, "success");
+        };
+      });
+
+      document.querySelectorAll("[data-action='details']").forEach((btn) => {
+        btn.onclick = () => {
+          const id = btn.getAttribute("data-product");
+          const product = PRODUCTS.find((p) => p.id === id);
+          if (!product) return;
+          const size = getSize(id);
+          if (typeof showAppModal === "function") {
+            showAppModal({
+              title: product.nombre,
+              message: `Talla elegida: ${size}. Lista para visor 3D, selector de tallas y pago Izipay (proximamente).`,
+              url: window.location.origin + "/catalogo/#" + product.id
+            });
+          }
+        };
+      });
+
+      document.querySelectorAll("[data-action='share']").forEach((btn) => {
+        btn.onclick = async () => {
+          const id = btn.getAttribute("data-product");
+          const product = PRODUCTS.find((p) => p.id === id);
+          if (!product) return;
+          const payload = {
+            title: product.nombre + " | OruPets",
+            text: "Mira como se ve puesto y elige talla. Vista 3D pronto.",
+            url: window.location.origin + "/catalogo/#" + product.id
+          };
+          const result = await sharePayload(payload, "Enlace copiado para compartir");
+          if (result === "failed") console.warn("No se pudo compartir");
+        };
+      });
+
+      document.querySelectorAll("[data-action='wa']").forEach((btn) => {
+        btn.onclick = () => {
+          const id = btn.getAttribute("data-product");
+          sendToWhatsApp(id);
+        };
+      });
+    }
+
+    function sendToWhatsApp(productId) {
+      const product = PRODUCTS.find((p) => p.id === productId);
+      if (!product) return;
+      const size = getSize(productId);
+      const msg = [
+        "Hola, quiero este producto de OruPets:",
+        "- " + product.nombre,
+        "Talla elegida: " + size,
+        "Precio: S/ " + product.precio,
+        "Link: " + window.location.origin + "/catalogo/#" + product.id
+      ].join("\n");
+      const url = "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(msg);
+      window.open(url, "_blank");
+    }
+
+    function sendCartToWhatsApp() {
+      if (typeof getCart !== "function") return;
+      const cart = getCart();
+      if (!cart.length) {
+        if (typeof showAppPush === "function") showAppPush("Tu seleccion esta vacia");
+        return;
+      }
+      const lines = ["Hola, esta es mi seleccion de OruPets:"];
+      cart.forEach((item, i) => {
+        const p = PRODUCTS.find((pr) => pr.id === item.id);
+        if (p) lines.push(`${i + 1}. ${p.nombre} x${item.qty || 1} (S/ ${p.precio})`);
+      });
+      lines.push("Enlace: " + window.location.origin + "/carrito/");
+      const url = "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(lines.join("\n"));
+      window.open(url, "_blank");
+    }
+
+    function setBadgeActive(target) {
+      badgeButtons.forEach(btn => btn.classList.remove("chip-active"));
+      if (target) target.classList.add("chip-active");
+    }
+
+    badgeButtons.forEach(btn => {
+      btn.onclick = () => {
+        currentBadge = btn.getAttribute("data-badge") || "all";
+        currentPage = 1;
+        setBadgeActive(btn);
+        const heroMatch = Array.from(heroFilters).find((heroBtn) => (heroBtn.getAttribute("data-hero-badge") || "").toLowerCase() === currentBadge.toLowerCase());
+        setHeroFilterActive(heroMatch);
+        renderCatalog();
+      };
+    });
+
+    if (searchInput) {
+      let t;
+      searchInput.addEventListener("input", (e) => {
+        clearTimeout(t);
+        t = setTimeout(() => {
+          searchTerm = e.target.value || "";
+          currentPage = 1;
+          renderCatalog();
+        }, 180);
+      });
+    }
+
+    if (categorySelect) {
+      categorySelect.addEventListener("change", (e) => {
+        currentCategory = e.target.value || "all";
+        currentPage = 1;
+        renderCatalog();
+      });
+    }
+
+    loadMoreBtn?.addEventListener("click", () => {
+      currentPage += 1;
+      renderCatalog();
+    });
+
+    document.getElementById("wa-cart")?.addEventListener("click", sendCartToWhatsApp);
+
+    scrollCatalogBtn?.addEventListener("click", () => {
+      scrollToCatalog();
+      setHeroStatus("Explorando el catalogo...");
+    });
+
+    copyCatalogBtn?.addEventListener("click", async () => {
+      const ok = await copyToClipboard(window.location.href);
+      if (ok) {
+        setHeroStatus("Enlace copiado. Listo para compartir.");
+        if (typeof showAppPush === "function") showAppPush("Enlace copiado para compartir");
+      } else {
+        setHeroStatus("No se pudo copiar el enlace.");
+      }
+    });
+
+    heroPrevBtn?.addEventListener("click", () => {
+      setHeroSlide(heroIndex - 1);
+      resetHeroAuto();
+    });
+    heroNextBtn?.addEventListener("click", () => {
+      setHeroSlide(heroIndex + 1);
+      resetHeroAuto();
+    });
+    heroDots.forEach((dot) => {
+      dot.addEventListener("click", () => {
+        const idx = Number(dot.getAttribute("data-hero-dot"));
+        if (!Number.isNaN(idx)) setHeroSlide(idx);
+        resetHeroAuto();
+      });
+    });
+
+    heroFilters.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const badge = btn.getAttribute("data-hero-badge") || "all";
+        currentBadge = badge;
+        currentPage = 1;
+        const match = Array.from(badgeButtons).find((chip) => (chip.getAttribute("data-badge") || "").toLowerCase() === badge.toLowerCase());
+        setBadgeActive(match);
+        setHeroFilterActive(btn);
+        renderCatalog();
+        scrollToCatalog();
+        setHeroStatus(`Filtro aplicado: ${badge === "all" ? "Todos" : badge}`);
+        resetHeroAuto();
+      });
+    });
+
+    document.getElementById("share-catalog")?.addEventListener("click", async () => {
+      const payload = {
+        title: "Catalogo OruPets",
+        text: "Ropa y accesorios premium listos para 3D y tallas.",
+        url: window.location.href
+      };
+      const result = await sharePayload(payload, "Enlace copiado para compartir");
+      if (result === "shared") setHeroStatus("Gracias por compartir.");
+      if (result === "copied") setHeroStatus("Enlace copiado. Listo para compartir.");
+      if (result === "failed") setHeroStatus("No se pudo compartir.");
+    });
+
+    window.addEventListener("DOMContentLoaded", () => {
+      populateCategories();
+      renderCatalog();
+      updateHeroStats();
+      heroImage?.addEventListener("error", () => {
+        heroImage.src = FALLBACK_IMG;
+      });
+      setHeroSlide(0);
+      setHeroFilterActive(document.querySelector("[data-hero-badge='all']"));
+      startHeroAuto();
+      heroCarousel?.addEventListener("mouseenter", stopHeroAuto);
+      heroCarousel?.addEventListener("mouseleave", startHeroAuto);
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          stopHeroAuto();
+        } else {
+          startHeroAuto();
+        }
+      });
+      if (typeof updateCartCount === "function") updateCartCount();
+    });
+  </script>
+</body>
+</html>
