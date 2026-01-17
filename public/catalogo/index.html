@@ -14,8 +14,8 @@
       --bg: #030712;
       --card: #0b1020;
       --glass: rgba(255,255,255,0.05);
-      --accent: #7dd3fc;
-      --accent-2: #c084fc;
+      --accent: #38bdf8;
+      --accent-2: #fbbf24;
       --text: #e5e7eb;
       --muted: #9ca3af;
     }
@@ -41,8 +41,8 @@
     .orbit { position: absolute; inset: -35%; border-radius: 9999px; border: 1px solid rgba(255,255,255,0.04); transform: rotate(-8deg); }
     .chip-active { background: white; color: #0b1020; border-color: transparent; }
     .chip { background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.15); }
-    .hero-cta { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #0b1020; box-shadow: 0 20px 45px rgba(125,211,252,0.2); border: 1px solid rgba(255,255,255,0.15); }
-    .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 26px 55px rgba(125,211,252,0.28); }
+    .hero-cta { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #0b1020; box-shadow: 0 20px 45px rgba(56,189,248,0.2); border: 1px solid rgba(255,255,255,0.15); }
+    .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 26px 55px rgba(56,189,248,0.28); }
     .hero-ghost { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.18); }
     .hero-ghost:hover { background: rgba(255,255,255,0.12); }
     .hero-stat { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); }
@@ -59,6 +59,85 @@
     .reveal-delay-3 { animation-delay: 230ms; }
     .reveal-delay-4 { animation-delay: 300ms; }
     .reveal-delay-5 { animation-delay: 370ms; }
+    .hero-panel { position: relative; }
+    .hero-pattern {
+      background-image:
+        radial-gradient(circle at 32px 28px, rgba(255,255,255,0.16) 0 6px, transparent 7px),
+        radial-gradient(circle at 60px 20px, rgba(255,255,255,0.12) 0 7px, transparent 8px),
+        radial-gradient(circle at 88px 28px, rgba(255,255,255,0.16) 0 6px, transparent 7px),
+        radial-gradient(ellipse at 60px 62px, rgba(255,255,255,0.08) 0 18px, transparent 19px);
+      background-size: 120px 120px;
+      background-repeat: repeat;
+      opacity: 0.6;
+    }
+    .hero-orb { animation: float 8s ease-in-out infinite; }
+    .hero-orb-delay { animation-delay: 1.6s; }
+    .icon-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: white;
+      transition: transform 200ms ease, background 200ms ease, border-color 200ms ease;
+    }
+    .icon-btn:hover { background: rgba(255,255,255,0.14); transform: translateY(-1px); border-color: rgba(255,255,255,0.35); }
+    .icon-wa { background: rgba(52, 211, 153, 0.25); border-color: rgba(52, 211, 153, 0.45); color: #0b1020; }
+    .icon-wa:hover { background: rgba(52, 211, 153, 0.4); }
+    .favorite-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease; }
+    .favorite-card:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.3); box-shadow: 0 18px 40px rgba(0,0,0,0.35); }
+    .detail-backdrop { background: rgba(3,7,18,0.75); backdrop-filter: blur(8px); opacity: 0; transition: opacity 240ms ease; }
+    .detail-panel {
+      background: linear-gradient(135deg, rgba(15,23,42,0.98), rgba(6,10,20,0.96));
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 40px 120px rgba(0,0,0,0.6);
+      transform: translateY(36px);
+      opacity: 0;
+      transition: transform 260ms ease, opacity 260ms ease;
+    }
+    .detail-overlay.show .detail-backdrop { opacity: 1; }
+    .detail-overlay.show .detail-panel { transform: translateY(0); opacity: 1; }
+    .favorites-panel {
+      background: linear-gradient(135deg, rgba(15,23,42,0.98), rgba(6,10,20,0.96));
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 40px 120px rgba(0,0,0,0.6);
+      transform: translateY(36px);
+      opacity: 0;
+      transition: transform 260ms ease, opacity 260ms ease;
+    }
+    .favorites-overlay.show .detail-backdrop { opacity: 1; }
+    .favorites-overlay.show .favorites-panel { transform: translateY(0); opacity: 1; }
+    .detail-media { background: #0b1020; border: 1px solid rgba(255,255,255,0.08); }
+    .detail-chip { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); color: white; }
+    .detail-tag { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.16); }
+    .detail-feed-item { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); }
+    .detail-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 36px;
+      height: 36px;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      transition: background 200ms ease, transform 200ms ease;
+    }
+    .detail-nav:hover { background: rgba(255,255,255,0.2); transform: translateY(-50%) scale(1.03); }
+    .detail-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 9999px;
+      background: rgba(255,255,255,0.4);
+      transition: transform 200ms ease, background 200ms ease;
+    }
+    .detail-dot.active { background: var(--accent); transform: scale(1.2); box-shadow: 0 0 0 4px rgba(56,189,248,0.2); }
     @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
     @keyframes revealUp { to { opacity: 1; transform: translateY(0); } }
   </style>
@@ -78,81 +157,33 @@
       
 
 
-      <div class="relative overflow-hidden rounded-3xl border border-white/10 glass p-8 md:p-12 shadow-2xl">
-        <div class="orbit"></div>
-        <div class="absolute -left-24 -bottom-24 h-64 w-64 bg-[var(--accent)]/15 blur-3xl"></div>
-        <div class="absolute -right-14 -top-16 h-56 w-56 bg-[var(--accent-2)]/15 blur-3xl"></div>
+      <div class="relative overflow-hidden rounded-3xl border border-white/10 glass hero-panel p-6 md:p-12 shadow-2xl">
+        <div class="hero-pattern absolute inset-0"></div>
+        <div class="absolute -left-24 -bottom-24 h-56 w-56 bg-[var(--accent)]/20 blur-3xl"></div>
+        <div class="absolute -right-10 -top-16 h-64 w-64 bg-[var(--accent-2)]/20 blur-3xl"></div>
+        <div class="absolute right-10 top-10 h-16 w-16 rounded-full border border-white/10 bg-white/5 hero-orb"></div>
+        <div class="absolute left-12 bottom-10 h-12 w-12 rounded-2xl border border-white/10 bg-white/5 hero-orb hero-orb-delay"></div>
 
-
-
-
-
-
-        
-
-
-
-        <div class="grid grid-cols-1 lg:grid-cols-[1.08fr_0.92fr] gap-8 lg:gap-12 items-center relative z-10">
-                <div id="hero-carousel" class="relative w-full rounded-[28px] overflow-hidden border border-white/15 bg-gradient-to-br from-white/10 to-white/5 shadow-2xl reveal-up reveal-delay-2">
-            <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(125,211,252,0.12),transparent_45%),radial-gradient(circle_at_80%_20%,rgba(192,132,252,0.14),transparent_45%)]"></div>
-            <div class="aspect-[4/5] relative flex items-center justify-center">
-              <div class="absolute top-4 right-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/40 border border-white/15 text-xs font-semibold">
-                <span class="h-2 w-2 rounded-full bg-emerald-300 animate-pulse"></span>
-                Vista 3D lista
-              </div>
-              <div class="absolute top-4 left-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/40 border border-white/15 text-xs font-semibold">
-                <span class="h-2 w-2 rounded-full bg-[var(--accent)]"></span>
-                <span id="hero-tag">Urbano</span>
-                <span class="text-white/60" id="hero-counter">01/03</span>
-              </div>
-              <img id="hero-image" src="https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&w=1200&q=80" alt="Mascota con outfit OruPets para paseo urbano" class="relative z-10 h-full w-full object-cover img-zoom hero-image">
-              <div class="absolute bottom-5 left-5 px-4 py-3 rounded-2xl bg-black/50 border border-white/10 text-sm text-[var(--text)] hero-float">
-                <p id="hero-caption-title" class="font-semibold">Paseo urbano</p>
-                <p id="hero-caption-text" class="text-[var(--muted)] text-xs">Arnes reflectivo y ajuste rapido para salir a caminar.</p>
-              </div>
-              <div class="absolute bottom-5 right-5 flex flex-col gap-2 text-xs font-semibold">
-                <div class="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-black/45 border border-white/15 text-xs font-semibold">
-                  <button type="button" class="transition hover:text-[var(--accent)]" data-hero-action="prev">Anterior</button>
-                  <span class="opacity-50">/</span>
-                  <button type="button" class="transition hover:text-[var(--accent)]" data-hero-action="next">Siguiente</button>
-                </div>
-                <div class="flex items-center justify-center gap-2">
-                  <button type="button" class="hero-dot active" data-hero-dot="0" aria-label="Look 1"></button>
-                  <button type="button" class="hero-dot" data-hero-dot="1" aria-label="Look 2"></button>
-                  <button type="button" class="hero-dot" data-hero-dot="2" aria-label="Look 3"></button>
-                </div>
-              </div>
-            </div>
+        <div class="relative z-10 flex flex-col items-center text-center gap-5 max-w-2xl mx-auto">
+          <div class="inline-flex items-center gap-2 text-xs font-semibold px-3 py-1 rounded-full bg-white/10 border border-white/20 reveal-up">
+            <span class="h-2 w-2 rounded-full bg-emerald-300 tag-dot"></span>
+            Seccion catalogo
           </div>
-          <div class="space-y-6">
-            
-            <div class="flex flex-wrap items-center gap-3 reveal-up">
-         
-              <div class="inline-flex items-center gap-2 text-xs font-semibold px-3 py-1 rounded-full bg-white/5 border border-white/15">
-                <span class="h-1.5 w-1.5 rounded-full bg-emerald-300"></span>
-                Actualizado hoy
-              </div>
-            </div>
-            <h1 class="text-3xl md:text-5xl font-semibold leading-tight reveal-up reveal-delay-1">
-              Estilo, comodidad y seguridad en cada paseo.
-            </h1>
-            <p class="text-[var(--muted)] text-lg max-w-xl reveal-up reveal-delay-2">
-              Descubre outfits premium, accesorios inteligentes y vista previa 3D lista para elegir la talla ideal.
-            </p>
-            <div class="flex flex-wrap gap-3 reveal-up reveal-delay-3">
-              <button id="scroll-catalog" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-semibold hero-cta transition">
-                Explorar catalogo
-              </button>
-              <button id="share-catalog" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-white font-semibold hero-ghost transition">
-                Compartir catalogo
-              </button>
-          
-            </div>
-            <p id="hero-status" class="text-xs text-[var(--muted)] min-h-[1.1rem] reveal-up reveal-delay-4"></p>
-       
-        
+          <h1 class="text-3xl md:text-5xl font-semibold leading-tight reveal-up reveal-delay-1">
+            Todo el universo OruPets en un solo catalogo.
+          </h1>
+          <p class="text-[var(--muted)] text-lg reveal-up reveal-delay-2">
+            Looks listos para paseos y aventuras. Abre cada tarjeta para ver el detalle como un post.
+          </p>
+          <div class="flex flex-wrap justify-center gap-3 reveal-up reveal-delay-3">
+            <button id="scroll-catalog" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-semibold hero-cta transition">
+              Explorar catalogo
+            </button>
+            <button id="share-catalog" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-white font-semibold hero-ghost transition">
+              Compartir catalogo
+            </button>
           </div>
-    
+          <p id="hero-status" class="text-xs text-[var(--muted)] min-h-[1.1rem] reveal-up reveal-delay-4"></p>
         </div>
       </div>
 
@@ -160,11 +191,11 @@
         <div class="space-y-1">
           <p class="text-xs font-semibold text-[var(--muted)] uppercase tracking-[0.2em]">Experiencia premium</p>
           <h2 class="text-2xl md:text-3xl font-semibold">Visualiza el outfit en 3D.</h2>
-          <p class="text-sm text-[var(--muted)]">Selecciona la talla y compártelo fácilmente antes de comprar</p>
+          <p class="text-sm text-[var(--muted)]">Selecciona la talla y compartelo antes de comprar.</p>
         </div>
         <div class="flex flex-wrap gap-2">
-          <a href="/carrito/" class="px-4 py-2 rounded-xl bg-white/10 border border-white/15 text-sm font-semibold hover:bg-white/20 transition">Ver carrito</a>
-          <button id="wa-cart" class="px-4 py-2 rounded-xl bg-emerald-400 text-slate-900 text-sm font-semibold shadow-lg shadow-emerald-900/40 hover:-translate-y-0.5 transition">Enviar seleccion a WhatsApp</button>
+          <a href="/carrito/" class="w-full sm:w-auto px-4 py-2 rounded-xl bg-white/10 border border-white/15 text-sm font-semibold hover:bg-white/20 transition">Ver carrito</a>
+          <button id="wa-cart" class="w-full sm:w-auto px-4 py-2 rounded-xl bg-emerald-400 text-slate-900 text-sm font-semibold shadow-lg shadow-emerald-900/40 hover:-translate-y-0.5 transition">Enviar seleccion a WhatsApp</button>
         </div>
       </div>
 
@@ -181,6 +212,10 @@
             <select id="category" class="bg-white/5 border border-white/15 rounded-xl px-3 py-2 text-sm focus:border-[var(--accent)] outline-none text-white">
               <option value="all">Categorias</option>
             </select>
+            <button id="open-favorites" class="w-full sm:w-auto px-4 py-2 rounded-xl bg-white/10 border border-white/15 text-xs font-semibold hover:bg-white/20 transition inline-flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M20.8 7.6a4.7 4.7 0 0 0-6.6 0L12 9.8l-2.2-2.2a4.7 4.7 0 0 0-6.6 6.6l2.2 2.2L12 21l6.6-6.6 2.2-2.2a4.7 4.7 0 0 0 0-6.6Z"/></svg>
+              Favoritos
+            </button>
           </div>
         </div>
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between text-xs text-[var(--muted)] gap-2" id="meta-info">
@@ -189,12 +224,108 @@
         </div>
       </div>
 
-      <div id="catalogo" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6"></div>
+      <div id="catalogo" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
       <div class="flex items-center justify-center">
         <button id="load-more" class="px-4 py-3 rounded-xl bg-white/10 border border-white/15 text-white text-sm font-semibold hover:bg-white/20 transition hidden">Cargar mas</button>
       </div>
     </section>
   </main>
+
+  <section id="product-detail" class="detail-overlay fixed inset-0 z-[60] hidden flex items-center justify-center px-4 py-6">
+    <div class="detail-backdrop absolute inset-0"></div>
+    <div id="detail-panel" class="relative detail-panel w-full max-w-5xl max-h-[90vh] overflow-x-hidden overflow-y-auto rounded-3xl">
+      <button id="detail-close" data-detail-close class="fixed sm:absolute top-4 right-4 z-30 p-2 rounded-full bg-white/10 border border-white/15 hover:bg-white/20 transition" aria-label="Cerrar detalle">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M6 6l12 12M18 6l-12 12" />
+        </svg>
+      </button>
+      <div class="grid grid-cols-1 lg:grid-cols-[1.08fr_0.92fr] gap-6 p-5 sm:p-6 lg:p-8">
+        <div class="space-y-4">
+          <div class="relative detail-media rounded-2xl overflow-hidden">
+            <img id="detail-image" src="" alt="Detalle producto" class="w-full h-64 sm:h-80 lg:h-[420px] object-cover" />
+            <button id="detail-prev" class="detail-nav left-3" aria-label="Foto anterior">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <button id="detail-next" class="detail-nav right-3" aria-label="Foto siguiente">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 6l6 6-6 6"/></svg>
+            </button>
+            <div id="detail-dots" class="absolute bottom-4 right-4 flex items-center gap-2"></div>
+            <div id="detail-badge" class="absolute top-4 left-4 inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold"></div>
+            <div class="absolute bottom-4 left-4 flex flex-wrap gap-2">
+              <span class="detail-chip text-xs font-semibold px-3 py-1 rounded-full">3D listo</span>
+              <span id="detail-category-chip" class="detail-chip text-xs font-semibold px-3 py-1 rounded-full"></span>
+            </div>
+          </div>
+          <div class="flex flex-wrap items-center gap-2 text-xs text-[var(--muted)]">
+            <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10">Vista 360</span>
+            <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10">Entrega rapida</span>
+            <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10">Soporte real</span>
+          </div>
+        </div>
+        <div class="flex flex-col gap-5">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <img id="detail-avatar" src="" alt="Avatar producto" class="h-10 w-10 rounded-full object-cover" />
+              <div>
+                <p class="text-[0.65rem] uppercase tracking-[0.2em] text-[var(--muted)]">OruPets Studio</p>
+                <p class="text-sm text-white/80">Catalogo en vivo</p>
+              </div>
+            </div>
+            <button class="px-3 py-2 rounded-full text-xs font-semibold bg-white/10 border border-white/15 hover:bg-white/20 transition" data-detail-action="save" aria-pressed="false">Guardar</button>
+          </div>
+          <div class="space-y-2">
+            <h2 id="detail-name" class="text-2xl md:text-3xl font-semibold"></h2>
+            <div class="flex items-center gap-3 text-sm text-[var(--muted)]">
+              <span id="detail-category"></span>
+              <span class="h-1 w-1 rounded-full bg-white/30"></span>
+              <span id="detail-price" class="text-amber-200 font-semibold"></span>
+            </div>
+          </div>
+          <p id="detail-desc" class="text-sm text-[var(--muted)] leading-relaxed"></p>
+          <div>
+            <p class="text-xs uppercase tracking-[0.2em] text-[var(--muted)]">Mood</p>
+            <div id="detail-tags" class="mt-3 flex flex-wrap gap-2"></div>
+          </div>
+          <div>
+            <p class="text-xs uppercase tracking-[0.2em] text-[var(--muted)]">Talla</p>
+            <div id="detail-sizes" class="mt-3 flex flex-wrap gap-2"></div>
+          </div>
+          <div class="flex items-center gap-3">
+            <button id="detail-add" class="flex-1 px-5 py-3 rounded-xl bg-gradient-to-r from-[var(--accent)] to-[var(--accent-2)] text-slate-900 font-semibold shadow-lg shadow-[var(--accent)]/30 hover:-translate-y-0.5 transition" data-detail-action="buy">Comprar ahora</button>
+            <button class="icon-btn" data-detail-action="share" aria-label="Compartir">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M4 12v7a1 1 0 0 0 1 1h3m-4-8V5a1 1 0 0 1 1-1h3m-4 8h0m7-8 5 5m0 0-5 5m5-5H8"/></svg>
+            </button>
+            <button class="icon-btn icon-wa" data-detail-action="wa" aria-label="WhatsApp">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2c-5.52 0-10 4.4-10 9.82 0 1.73.46 3.41 1.35 4.89l-1.43 5.23 5.35-1.4a10.1 10.1 0 0 0 4.72 1.2h.01c5.52 0 10-4.4 10-9.82 0-2.62-1.1-5.08-3.08-6.93A10.3 10.3 0 0 0 12.04 2Zm5.82 14.24c-.24.67-1.33 1.28-1.85 1.36-.48.07-1.08.1-1.74-.11-.4-.13-.92-.3-1.58-.59-2.78-1.2-4.6-4-4.74-4.19-.14-.19-1.13-1.5-1.13-2.86 0-1.37.72-2.04.98-2.32.26-.28.57-.35.76-.35h.54c.17 0 .4-.07.63.48.24.57.82 1.97.89 2.11.07.14.12.31.02.5-.1.21-.16.34-.3.52-.14.17-.3.39-.43.52-.14.14-.28.29-.12.57.17.28.76 1.26 1.62 2.05 1.12.99 2.07 1.3 2.36 1.44.29.14.46.12.63-.07.17-.19.72-.83.91-1.12.19-.28.38-.24.63-.14.26.1 1.63.76 1.91.9.28.14.47.21.54.33.07.12.07.7-.17 1.37Z"/></svg>
+            </button>
+          </div>
+          <div class="space-y-3">
+            <p class="text-xs uppercase tracking-[0.2em] text-[var(--muted)]">Actividad</p>
+            <div id="detail-feed" class="grid gap-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="favorites-view" class="favorites-overlay fixed inset-0 z-[58] hidden flex items-center justify-center px-4 py-6">
+    <div class="detail-backdrop absolute inset-0"></div>
+    <div class="favorites-panel relative w-full max-w-4xl max-h-[85vh] overflow-x-hidden overflow-y-auto rounded-3xl p-5 sm:p-6">
+      <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+        <div class="space-y-1">
+          <p class="text-xs font-semibold text-[var(--muted)] uppercase tracking-[0.2em]">Favoritos</p>
+          <h3 class="text-lg sm:text-xl font-semibold">Guardados para ver despues</h3>
+          <p id="favorites-count" class="text-xs text-[var(--muted)]">0 guardados</p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <button id="favorites-clear" class="w-full sm:w-auto px-4 py-2 rounded-xl bg-white/10 border border-white/15 text-xs font-semibold hover:bg-white/20 transition">Limpiar favoritos</button>
+          <button id="favorites-close" class="w-full sm:w-auto px-4 py-2 rounded-xl bg-white/10 border border-white/15 text-xs font-semibold hover:bg-white/20 transition">Cerrar</button>
+        </div>
+      </div>
+      <p id="favorites-empty" class="text-sm text-[var(--muted)] mt-3">Aun no guardas productos. Abre una tarjeta y toca Guardar.</p>
+      <div id="favorites-list" class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 hidden"></div>
+    </div>
+  </section>
 
   <div id="footer"></div>
 
@@ -202,24 +333,14 @@
     const WA_NUMBER = "51999999999"; // Reemplaza por tu numero de WhatsApp
     const FALLBACK_IMG = "https://images.unsplash.com/photo-1505628346881-b72b27e84530?auto=format&fit=crop&w=900&q=80";
     const SIZES = ["XS", "S", "M", "L", "XL"];
+    const FAVORITES_KEY = "orupets:favorites";
     const selectedSizes = {};
+    let productsCache = [];
+    let favorites = new Set();
 
-    const heroImage = document.getElementById("hero-image");
-    const heroTag = document.getElementById("hero-tag");
-    const heroCounter = document.getElementById("hero-counter");
-    const heroCaptionTitle = document.getElementById("hero-caption-title");
-    const heroCaptionText = document.getElementById("hero-caption-text");
-    const heroDots = document.querySelectorAll("[data-hero-dot]");
     const heroStatus = document.getElementById("hero-status");
-    const heroFilters = document.querySelectorAll("[data-hero-badge]");
     const scrollCatalogBtn = document.getElementById("scroll-catalog");
-    const copyCatalogBtn = document.getElementById("copy-catalog");
-    const heroPrevBtn = document.querySelector("[data-hero-action='prev']");
-    const heroNextBtn = document.querySelector("[data-hero-action='next']");
-    const heroCarousel = document.getElementById("hero-carousel");
-    const heroStatProducts = document.querySelector("[data-stat='products']");
-    const heroStatCategories = document.querySelector("[data-stat='categories']");
-    const heroStatPrice = document.querySelector("[data-stat='price']");
+    const shareCatalogBtn = document.getElementById("share-catalog");
 
     const catalogEl = document.getElementById("catalogo");
     const searchInput = document.getElementById("search");
@@ -227,14 +348,47 @@
     const badgeButtons = document.querySelectorAll("[data-badge]");
     const loadMoreBtn = document.getElementById("load-more");
     const metaInfo = document.getElementById("meta-info");
+    const favoritesList = document.getElementById("favorites-list");
+    const favoritesEmpty = document.getElementById("favorites-empty");
+    const favoritesCount = document.getElementById("favorites-count");
+    const favoritesClear = document.getElementById("favorites-clear");
+    const detailOverlay = document.getElementById("product-detail");
+    const detailCloseBtn = document.getElementById("detail-close");
+    const detailImage = document.getElementById("detail-image");
+    const detailAvatar = document.getElementById("detail-avatar");
+    const detailName = document.getElementById("detail-name");
+    const detailCategory = document.getElementById("detail-category");
+    const detailPrice = document.getElementById("detail-price");
+    const detailDesc = document.getElementById("detail-desc");
+    const detailBadge = document.getElementById("detail-badge");
+    const detailCategoryChip = document.getElementById("detail-category-chip");
+    const detailTags = document.getElementById("detail-tags");
+    const detailSizes = document.getElementById("detail-sizes");
+    const detailFeed = document.getElementById("detail-feed");
+    const detailSaveBtn = document.querySelector("[data-detail-action='save']");
+    const detailPrevBtn = document.getElementById("detail-prev");
+    const detailNextBtn = document.getElementById("detail-next");
+    const detailDots = document.getElementById("detail-dots");
+    const favoritesView = document.getElementById("favorites-view");
+    const favoritesOpen = document.getElementById("open-favorites");
+    const favoritesClose = document.getElementById("favorites-close");
 
     const PAGE_SIZE = 9;
     let currentPage = 1;
     let currentBadge = "all";
     let currentCategory = "all";
     let searchTerm = "";
+    let activeDetailId = null;
+    let detailImages = [];
+    let detailIndex = 0;
 
     const getSize = (id) => selectedSizes[id] || "M";
+    const getProducts = () => {
+      if (productsCache.length) return productsCache;
+      if (Array.isArray(PRODUCTS)) return PRODUCTS;
+      return [];
+    };
+    const findProductById = (id) => getProducts().find((p) => String(p.id) === String(id));
 
     const badgeStyle = (badge = "") => {
       const b = badge.toLowerCase();
@@ -243,35 +397,7 @@
       if (b.includes("tenden")) return "bg-amber-500/15 text-amber-100 border border-amber-300/30";
       return "bg-white/10 text-white border border-white/15";
     };
-
-    const HERO_SLIDES = [
-      {
-        src: "https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&w=1200&q=80",
-        alt: "Mascota con outfit OruPets para paseo urbano",
-        tag: "Urbano",
-        title: "Paseo urbano",
-        note: "Arnes reflectivo y ajuste rapido para salir a caminar."
-      },
-      {
-        src: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=1200&q=80",
-        alt: "Mascota lista para aventura OruPets",
-        tag: "Aventura",
-        title: "Listo para trekking",
-        note: "Material repelente al agua y tiras seguras para rutas largas."
-      },
-      {
-        src: "https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=1200&q=80",
-        alt: "Mascota en modo relax con outfit OruPets",
-        tag: "Confort",
-        title: "Relax en casa",
-        note: "Texturas suaves y ligeras para interiores con estilo."
-      }
-    ];
-
-    const HERO_AUTO_MS = 6500;
-    let heroIndex = 0;
     let heroStatusTimer;
-    let heroAutoTimer;
 
     const setHeroStatus = (message = "") => {
       if (!heroStatus) return;
@@ -284,68 +410,8 @@
       }
     };
 
-    const setHeroFilterActive = (target) => {
-      heroFilters.forEach((btn) => btn.classList.remove("hero-filter-active"));
-      if (target) target.classList.add("hero-filter-active");
-    };
-
     const scrollToCatalog = () => {
       catalogEl?.scrollIntoView({ behavior: "smooth", block: "start" });
-    };
-
-    const setHeroSlide = (index) => {
-      if (!heroImage || !HERO_SLIDES.length) return;
-      const total = HERO_SLIDES.length;
-      heroIndex = (index + total) % total;
-      const slide = HERO_SLIDES[heroIndex];
-      const nextImage = new Image();
-
-      heroTag && (heroTag.textContent = slide.tag);
-      heroCounter && (heroCounter.textContent = `${String(heroIndex + 1).padStart(2, "0")}/${String(total).padStart(2, "0")}`);
-      heroCaptionTitle && (heroCaptionTitle.textContent = slide.title);
-      heroCaptionText && (heroCaptionText.textContent = slide.note);
-      heroDots.forEach((dot, idx) => dot.classList.toggle("active", idx === heroIndex));
-
-      heroImage.style.opacity = "0.15";
-      nextImage.onerror = () => {
-        heroImage.src = FALLBACK_IMG;
-        heroImage.alt = "Vista previa OruPets";
-        heroImage.style.opacity = "1";
-      };
-      nextImage.onload = () => {
-        heroImage.src = slide.src;
-        heroImage.alt = slide.alt || "Mascota con outfit OruPets";
-        heroImage.style.opacity = "1";
-      };
-      nextImage.src = slide.src;
-    };
-
-    const stopHeroAuto = () => {
-      if (!heroAutoTimer) return;
-      clearInterval(heroAutoTimer);
-      heroAutoTimer = null;
-    };
-
-    const startHeroAuto = () => {
-      if (!HERO_SLIDES.length) return;
-      stopHeroAuto();
-      heroAutoTimer = setInterval(() => {
-        setHeroSlide(heroIndex + 1);
-      }, HERO_AUTO_MS);
-    };
-
-    const resetHeroAuto = () => {
-      stopHeroAuto();
-      startHeroAuto();
-    };
-
-    const updateHeroStats = () => {
-      if (!Array.isArray(PRODUCTS)) return;
-      const categories = new Set(PRODUCTS.map((p) => p.categoria || "Otros"));
-      const prices = PRODUCTS.map((p) => Number(p.precio)).filter((p) => !Number.isNaN(p) && p > 0);
-      heroStatProducts && (heroStatProducts.textContent = `${PRODUCTS.length}+`);
-      heroStatCategories && (heroStatCategories.textContent = `${categories.size}`);
-      heroStatPrice && (heroStatPrice.textContent = prices.length ? `S/ ${Math.min(...prices)}` : "S/ --");
     };
 
     const copyToClipboard = async (text) => {
@@ -386,15 +452,135 @@
       return copied ? "copied" : "failed";
     };
 
+    const normalizeProducts = (items = []) => {
+      if (!Array.isArray(items)) return [];
+      return items.map((p, idx) => ({
+        id: String(p?.id ?? p?.sku ?? idx),
+        nombre: p?.nombre ?? p?.name ?? "Producto",
+        precio: p?.precio ?? p?.price ?? "--",
+        desc: p?.desc ?? p?.descripcion ?? p?.description ?? "",
+        categoria: p?.categoria ?? p?.category ?? "Otros",
+        badge: p?.badge ?? p?.tag ?? "",
+        img: p?.img ?? p?.image ?? "",
+        galeria: (() => {
+          const raw = p?.galeria ?? p?.gallery ?? p?.imagenes ?? p?.images ?? [];
+          const list = Array.isArray(raw) ? raw : [raw];
+          return list.filter(Boolean);
+        })()
+      }));
+    };
+
+    async function loadProducts() {
+      const apiUrl = typeof window.PRODUCTS_API_URL === "string" ? window.PRODUCTS_API_URL.trim() : "";
+      if (apiUrl) {
+        try {
+          const res = await fetch(apiUrl);
+          if (res.ok) {
+            const data = await res.json();
+            const list = Array.isArray(data) ? data : data?.items || data?.data || [];
+            productsCache = normalizeProducts(list);
+          }
+        } catch (e) {
+          productsCache = [];
+        }
+      }
+      if (!productsCache.length && Array.isArray(PRODUCTS)) {
+        productsCache = normalizeProducts(PRODUCTS);
+      }
+      return productsCache;
+    }
+
+    function loadFavorites() {
+      if (!favorites || typeof favorites.clear !== "function") favorites = new Set();
+      try {
+        const raw = localStorage.getItem(FAVORITES_KEY);
+        const ids = raw ? JSON.parse(raw) : [];
+        favorites = new Set(Array.isArray(ids) ? ids.map(String) : []);
+      } catch {
+        favorites = new Set();
+      }
+    }
+
+    function saveFavorites() {
+      try {
+        localStorage.setItem(FAVORITES_KEY, JSON.stringify(Array.from(favorites)));
+      } catch {
+        // Sin almacenamiento disponible.
+      }
+    }
+
+    function syncDetailFavoriteButton(productId) {
+      if (!detailSaveBtn) return;
+      const saved = favorites.has(String(productId));
+      detailSaveBtn.textContent = saved ? "Guardado" : "Guardar";
+      detailSaveBtn.setAttribute("aria-pressed", saved ? "true" : "false");
+      detailSaveBtn.classList.toggle("bg-emerald-400", saved);
+      detailSaveBtn.classList.toggle("text-slate-900", saved);
+      detailSaveBtn.classList.toggle("border-emerald-200", saved);
+      detailSaveBtn.classList.toggle("bg-white/10", !saved);
+      detailSaveBtn.classList.toggle("text-white", !saved);
+      detailSaveBtn.classList.toggle("border-white/15", !saved);
+    }
+
+    function renderFavorites() {
+      if (!favoritesList || !favoritesEmpty || !favoritesCount) return;
+      const items = Array.from(favorites)
+        .map((id) => findProductById(id))
+        .filter(Boolean);
+      favoritesCount.textContent = `${items.length} guardados`;
+      favoritesEmpty.classList.toggle("hidden", items.length > 0);
+      favoritesList.classList.toggle("hidden", items.length === 0);
+      if (favoritesClear) {
+        favoritesClear.classList.toggle("opacity-50", items.length === 0);
+        favoritesClear.classList.toggle("pointer-events-none", items.length === 0);
+        favoritesClear.setAttribute("aria-disabled", items.length === 0 ? "true" : "false");
+      }
+      favoritesList.innerHTML = items.map((p) => `
+        <article class="favorite-card rounded-2xl p-4 flex items-center gap-4" data-favorite-card data-product="${p.id}" tabindex="0" role="button">
+          <img src="${p.img || FALLBACK_IMG}" alt="${p.nombre}" class="h-16 w-16 rounded-xl object-cover" loading="lazy" onerror="this.src='${FALLBACK_IMG}'">
+          <div class="flex-1">
+            <p class="text-sm font-semibold">${p.nombre}</p>
+            <p class="text-xs text-[var(--muted)]">${p.categoria || "Ropa & accesorios"}</p>
+            <p class="text-sm text-amber-200 font-semibold mt-1">S/ ${p.precio}</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button class="icon-btn" data-favorite-action="open" aria-label="Abrir detalle">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6.93 0c-1.73 4.1-5.67 7-9.93 7S3.8 16.1 2.07 12C3.8 7.9 7.74 5 12 5s8.2 2.9 9.93 7Z"/></svg>
+            </button>
+            <button class="icon-btn" data-favorite-action="remove" aria-label="Quitar favorito">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M6 18 18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function toggleFavorite(productId) {
+      if (!productId) return;
+      const id = String(productId);
+      if (favorites.has(id)) {
+        favorites.delete(id);
+        if (typeof showAppPush === "function") showAppPush("Quitado de favoritos");
+      } else {
+        favorites.add(id);
+        if (typeof showAppPush === "function") showAppPush("Guardado en favoritos", "success");
+      }
+      saveFavorites();
+      syncDetailFavoriteButton(id);
+      renderFavorites();
+    }
+
     function populateCategories() {
-      if (!categorySelect || !Array.isArray(PRODUCTS)) return;
-      const cats = Array.from(new Set(PRODUCTS.map(p => p.categoria || "Otros")));
+      if (!categorySelect) return;
+      const list = getProducts();
+      const cats = Array.from(new Set(list.map(p => p.categoria || "Otros")));
       categorySelect.innerHTML = '<option value="all">Categorias</option>' + cats.map(c => `<option value="${c}">${c}</option>`).join("");
     }
 
     function applyFilters() {
-      if (!Array.isArray(PRODUCTS)) return { items: [], total: 0 };
-      let items = [...PRODUCTS];
+      const list = getProducts();
+      if (!list.length) return { items: [], total: 0 };
+      let items = [...list];
       if (currentBadge !== "all") items = items.filter(p => (p.badge || "").toLowerCase() === currentBadge.toLowerCase());
       if (currentCategory !== "all") items = items.filter(p => (p.categoria || "Otros") === currentCategory);
       if (searchTerm) {
@@ -405,24 +591,31 @@
     }
 
     function renderCatalog() {
-      if (!catalogEl || !Array.isArray(PRODUCTS)) return;
+      if (!catalogEl) return;
       const { items, total } = applyFilters();
       const visible = items.slice(0, currentPage * PAGE_SIZE);
 
       catalogEl.innerHTML = visible.map((p) => {
         const sizeActive = getSize(p.id);
         const img = p.img || FALLBACK_IMG;
+        const desc = p.desc || "";
         return `
-          <article class="relative card-3d rounded-3xl overflow-hidden bg-[var(--card)]">
-            <div class="relative h-72 bg-black overflow-hidden">
+          <article class="group relative card-3d rounded-3xl overflow-hidden bg-[var(--card)] cursor-pointer" data-product-card data-product="${p.id}" tabindex="0" role="button">
+            <div class="relative h-60 sm:h-72 bg-black/80 overflow-hidden">
               <img src="${img}" alt="${p.nombre}" class="h-full w-full object-cover img-zoom" loading="lazy" onerror="this.src='${FALLBACK_IMG}'">
-              <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
               <div class="absolute top-4 left-4 inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold ${badgeStyle(p.badge)}">
                 ${p.badge || "Destacado"}
               </div>
-              <div class="absolute bottom-4 right-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur text-xs font-semibold border border-white/20">
+              <button class="icon-btn absolute top-4 right-4" data-action="details" data-product="${p.id}" aria-label="Ver detalles">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6.93 0c-1.73 4.1-5.67 7-9.93 7S3.8 16.1 2.07 12C3.8 7.9 7.74 5 12 5s8.2 2.9 9.93 7Z"/></svg>
+              </button>
+              <div class="absolute bottom-4 left-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur text-xs font-semibold border border-white/20">
                 <span class="h-2 w-2 rounded-full bg-emerald-300 animate-pulse"></span>
                 3D listo
+              </div>
+              <div class="absolute inset-0 flex items-end justify-center pb-6 opacity-0 group-hover:opacity-100 transition">
+                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-white/15 border border-white/20 backdrop-blur">Ver look completo</span>
               </div>
             </div>
 
@@ -435,11 +628,11 @@
                 <p class="text-amber-200 font-bold text-lg">S/ ${p.precio}</p>
               </div>
 
-              <p class="text-sm text-[var(--muted)] leading-relaxed">${p.desc}</p>
+              <p class="text-sm text-[var(--muted)] leading-relaxed min-h-[3rem]">${desc}</p>
 
               <div class="flex items-center gap-2 flex-wrap">
                 <span class="text-xs text-[var(--muted)]">Talla:</span>
-                <div class="flex gap-2" data-size-group="${p.id}">
+                <div class="flex gap-2 flex-wrap" data-size-group="${p.id}">
                   ${SIZES.map((s) => `
                     <button class="px-3 py-1.5 rounded-full text-xs font-semibold border transition ${s === sizeActive ? "bg-white text-slate-900 border-white" : "bg-white/5 border-white/15 text-[var(--text)] hover:bg-white/10"}" data-size="${s}" data-product="${p.id}">
                       ${s}
@@ -448,38 +641,31 @@
                 </div>
               </div>
 
-              <div class="flex flex-wrap gap-2">
-                <button class="flex-1 min-w-[160px] px-4 py-3 rounded-xl bg-gradient-to-r from-[var(--accent)] to-[var(--accent-2)] text-black font-semibold shadow-lg shadow-[var(--accent)]/30 hover:shadow-[var(--accent-2)]/40 transition" data-action="details" data-product="${p.id}">
-                  Ver detalles
-                </button>
-                <button class="px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white font-semibold hover:bg-white/15 transition" onclick="addToCart('${p.id}')">
+              <div class="flex items-center justify-between gap-3">
+                <button class="flex-1 px-4 py-3 rounded-xl bg-gradient-to-r from-[var(--accent)] to-[var(--accent-2)] text-slate-900 font-semibold shadow-lg shadow-[var(--accent)]/30 hover:-translate-y-0.5 transition" data-action="add" data-product="${p.id}">
                   Agregar
                 </button>
-              </div>
-
-              <div class="flex flex-wrap gap-2 text-sm">
-                <button class="flex-1 min-w-[140px] px-4 py-2 rounded-lg bg-white/5 border border-white/15 text-white hover:bg-white/10 transition inline-flex items-center justify-center gap-2" data-action="share" data-product="${p.id}">
-                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M4 12v7a1 1 0 0 0 1 1h3m-4-8V5a1 1 0 0 1 1-1h3m-4 8h0m7-8 5 5m0 0-5 5m5-5H8"/></svg>
-                  Compartir
-                </button>
-                <button class="flex-1 min-w-[140px] px-4 py-2 rounded-lg bg-emerald-400/90 text-slate-900 font-semibold hover:brightness-110 transition inline-flex items-center justify-center gap-2" data-action="wa" data-product="${p.id}">
-                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2c-5.52 0-10 4.4-10 9.82 0 1.73.46 3.41 1.35 4.89l-1.43 5.23 5.35-1.4a10.1 10.1 0 0 0 4.72 1.2h.01c5.52 0 10-4.4 10-9.82 0-2.62-1.1-5.08-3.08-6.93A10.3 10.3 0 0 0 12.04 2Zm5.82 14.24c-.24.67-1.33 1.28-1.85 1.36-.48.07-1.08.1-1.74-.11-.4-.13-.92-.3-1.58-.59-2.78-1.2-4.6-4-4.74-4.19-.14-.19-1.13-1.5-1.13-2.86 0-1.37.72-2.04.98-2.32.26-.28.57-.35.76-.35h.54c.17 0 .4-.07.63.48.24.57.82 1.97.89 2.11.07.14.12.31.02.5-.1.21-.16.34-.3.52-.14.17-.3.39-.43.52-.14.14-.28.29-.12.57.17.28.76 1.26 1.62 2.05 1.12.99 2.07 1.3 2.36 1.44.29.14.46.12.63-.07.17-.19.72-.83.91-1.12.19-.28.38-.24.63-.14.26.1 1.63.76 1.91.9.28.14.47.21.54.33.07.12.07.7-.17 1.37Z"/></svg>
-                  Consultar por WhatsApp
-                </button>
+                <div class="flex items-center gap-2">
+                  <button class="icon-btn" data-action="share" data-product="${p.id}" aria-label="Compartir">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M4 12v7a1 1 0 0 0 1 1h3m-4-8V5a1 1 0 0 1 1-1h3m-4 8h0m7-8 5 5m0 0-5 5m5-5H8"/></svg>
+                  </button>
+                  <button class="icon-btn icon-wa" data-action="wa" data-product="${p.id}" aria-label="WhatsApp">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2c-5.52 0-10 4.4-10 9.82 0 1.73.46 3.41 1.35 4.89l-1.43 5.23 5.35-1.4a10.1 10.1 0 0 0 4.72 1.2h.01c5.52 0 10-4.4 10-9.82 0-2.62-1.1-5.08-3.08-6.93A10.3 10.3 0 0 0 12.04 2Zm5.82 14.24c-.24.67-1.33 1.28-1.85 1.36-.48.07-1.08.1-1.74-.11-.4-.13-.92-.3-1.58-.59-2.78-1.2-4.6-4-4.74-4.19-.14-.19-1.13-1.5-1.13-2.86 0-1.37.72-2.04.98-2.32.26-.28.57-.35.76-.35h.54c.17 0 .4-.07.63.48.24.57.82 1.97.89 2.11.07.14.12.31.02.5-.1.21-.16.34-.3.52-.14.17-.3.39-.43.52-.14.14-.28.29-.12.57.17.28.76 1.26 1.62 2.05 1.12.99 2.07 1.3 2.36 1.44.29.14.46.12.63-.07.17-.19.72-.83.91-1.12.19-.28.38-.24.63-.14.26.1 1.63.76 1.91.9.28.14.47.21.54.33.07.12.07.7-.17 1.37Z"/></svg>
+                  </button>
+                </div>
               </div>
             </div>
           </article>
         `;
       }).join("");
 
-      bindCardActions();
       updateMeta(total, visible.length);
       toggleLoadMore(visible.length < total);
     }
 
     function updateMeta(total, shown) {
       if (!metaInfo) return;
-      metaInfo.innerHTML = `<span>Mostrando ${shown} de ${total} productos</span><span>Page size ${PAGE_SIZE} | Scrolla o carga mas cuando crezca el inventario.</span>`;
+      metaInfo.innerHTML = `<span>Mostrando ${shown} de ${total} productos</span><span>Explora y abre cada tarjeta para ver el detalle.</span>`;
     }
 
     function toggleLoadMore(show) {
@@ -487,58 +673,9 @@
       loadMoreBtn.classList.toggle("hidden", !show);
     }
 
-    function bindCardActions() {
-      document.querySelectorAll("[data-size]").forEach((btn) => {
-        btn.onclick = () => {
-          const size = btn.getAttribute("data-size");
-          const id = btn.getAttribute("data-product");
-          selectedSizes[id] = size;
-          renderCatalog();
-          if (typeof showAppPush === "function") showAppPush("Talla seleccionada: " + size, "success");
-        };
-      });
-
-      document.querySelectorAll("[data-action='details']").forEach((btn) => {
-        btn.onclick = () => {
-          const id = btn.getAttribute("data-product");
-          const product = PRODUCTS.find((p) => p.id === id);
-          if (!product) return;
-          const size = getSize(id);
-          if (typeof showAppModal === "function") {
-            showAppModal({
-              title: product.nombre,
-              message: `Talla elegida: ${size}. Lista para visor 3D, selector de tallas y pago Izipay (proximamente).`,
-              url: window.location.origin + "/catalogo/#" + product.id
-            });
-          }
-        };
-      });
-
-      document.querySelectorAll("[data-action='share']").forEach((btn) => {
-        btn.onclick = async () => {
-          const id = btn.getAttribute("data-product");
-          const product = PRODUCTS.find((p) => p.id === id);
-          if (!product) return;
-          const payload = {
-            title: product.nombre + " | OruPets",
-            text: "Mira como se ve puesto y elige talla. Vista 3D pronto.",
-            url: window.location.origin + "/catalogo/#" + product.id
-          };
-          const result = await sharePayload(payload, "Enlace copiado para compartir");
-          if (result === "failed") console.warn("No se pudo compartir");
-        };
-      });
-
-      document.querySelectorAll("[data-action='wa']").forEach((btn) => {
-        btn.onclick = () => {
-          const id = btn.getAttribute("data-product");
-          sendToWhatsApp(id);
-        };
-      });
-    }
 
     function sendToWhatsApp(productId) {
-      const product = PRODUCTS.find((p) => p.id === productId);
+      const product = findProductById(productId);
       if (!product) return;
       const size = getSize(productId);
       const msg = [
@@ -561,7 +698,7 @@
       }
       const lines = ["Hola, esta es mi seleccion de OruPets:"];
       cart.forEach((item, i) => {
-        const p = PRODUCTS.find((pr) => pr.id === item.id);
+        const p = findProductById(item.id);
         if (p) lines.push(`${i + 1}. ${p.nombre} x${item.qty || 1} (S/ ${p.precio})`);
       });
       lines.push("Enlace: " + window.location.origin + "/carrito/");
@@ -574,13 +711,164 @@
       if (target) target.classList.add("chip-active");
     }
 
+    function renderDetailTags(product) {
+      if (!detailTags) return;
+      const tags = [];
+      if (product.badge) tags.push(product.badge);
+      tags.push("Ajuste comodo");
+      tags.push("Paseo seguro");
+      if (product.categoria) tags.push(product.categoria);
+      const unique = Array.from(new Set(tags)).slice(0, 4);
+      detailTags.innerHTML = unique.map(tag => `<span class="detail-tag px-3 py-1 rounded-full text-xs font-semibold text-white">${tag}</span>`).join("");
+    }
+
+    function renderDetailSizes(productId) {
+      if (!detailSizes) return;
+      const sizeActive = getSize(productId);
+      detailSizes.innerHTML = SIZES.map((s) => `
+        <button class="px-3 py-2 rounded-full text-xs font-semibold border transition ${s === sizeActive ? "bg-white text-slate-900 border-white" : "bg-white/5 border-white/15 text-[var(--text)] hover:bg-white/10"}" data-detail-size="${s}">
+          ${s}
+        </button>
+      `).join("");
+    }
+
+    function renderDetailFeed(product, sizeActive) {
+      if (!detailFeed) return;
+      const lines = [
+        `Tip: mide pecho y cuello antes de elegir ${sizeActive}.`,
+        `Nuevo look ${product.badge ? product.badge.toLowerCase() : "listo"} para paseos.`,
+        "Pide video real o foto por WhatsApp."
+      ];
+      detailFeed.innerHTML = lines.map((line) => `
+        <div class="detail-feed-item px-3 py-2 rounded-xl text-sm text-white/80 flex items-start gap-2">
+          <span class="h-2 w-2 rounded-full bg-emerald-300 mt-1"></span>
+          <span>${line}</span>
+        </div>
+      `).join("");
+    }
+
+    function renderDetailSlider() {
+      if (!detailImage) return;
+      const total = detailImages.length;
+      const current = detailImages[detailIndex] || FALLBACK_IMG;
+      detailImage.src = current;
+      detailPrevBtn?.classList.toggle("hidden", total < 2);
+      detailNextBtn?.classList.toggle("hidden", total < 2);
+      if (detailDots) {
+        detailDots.classList.toggle("hidden", total < 2);
+        detailDots.innerHTML = detailImages.map((_, idx) => `
+          <button class="detail-dot ${idx === detailIndex ? "active" : ""}" data-detail-dot="${idx}" aria-label="Ir a foto ${idx + 1}"></button>
+        `).join("");
+      }
+    }
+
+    function setDetailSlide(nextIndex) {
+      const total = detailImages.length;
+      if (!total) return;
+      detailIndex = (nextIndex + total) % total;
+      renderDetailSlider();
+    }
+
+    function openOverlay(overlayEl) {
+      if (!overlayEl) return;
+      if (overlayEl._hideTimer) {
+        clearTimeout(overlayEl._hideTimer);
+        overlayEl._hideTimer = null;
+      }
+      overlayEl.classList.remove("hidden");
+      requestAnimationFrame(() => overlayEl.classList.add("show"));
+    }
+
+    function closeOverlay(overlayEl) {
+      if (!overlayEl) return;
+      overlayEl.classList.remove("show");
+      if (overlayEl._hideTimer) clearTimeout(overlayEl._hideTimer);
+      overlayEl._hideTimer = setTimeout(() => {
+        overlayEl.classList.add("hidden");
+        overlayEl._hideTimer = null;
+      }, 260);
+    }
+
+    function openDetail(productId) {
+      if (!detailOverlay) return;
+      if (favoritesView?.classList.contains("show")) {
+        closeOverlay(favoritesView);
+      }
+      const product = findProductById(productId);
+      if (!product) return;
+      activeDetailId = productId;
+      const sizeActive = getSize(productId);
+      const img = product.img || FALLBACK_IMG;
+      const rawGallery = product.galeria || product.imagenes || product.images || product.gallery || [];
+      const gallery = Array.isArray(rawGallery) ? rawGallery : [rawGallery];
+      detailImages = gallery.filter(Boolean);
+      if (!detailImages.length) detailImages = [img];
+      detailIndex = 0;
+
+      if (detailImage) {
+        detailImage.src = img;
+        detailImage.alt = product.nombre || "Detalle producto";
+        detailImage.onerror = () => {
+          detailImage.src = FALLBACK_IMG;
+        };
+      }
+      if (detailAvatar) {
+        detailAvatar.src = detailImages[0] || img;
+        detailAvatar.alt = product.nombre || "Avatar producto";
+      }
+      if (detailName) detailName.textContent = product.nombre || "Producto";
+      if (detailCategory) detailCategory.textContent = product.categoria || "Ropa & accesorios";
+      if (detailPrice) detailPrice.textContent = `S/ ${product.precio}`;
+      if (detailDesc) detailDesc.textContent = product.desc || "Detalle premium para tu mascota.";
+      if (detailCategoryChip) detailCategoryChip.textContent = product.categoria || "Ropa & accesorios";
+
+      if (detailBadge) {
+        detailBadge.className = `absolute top-4 left-4 inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold ${badgeStyle(product.badge)}`;
+        detailBadge.textContent = product.badge || "Destacado";
+      }
+
+      renderDetailTags(product);
+      renderDetailSizes(productId);
+      renderDetailFeed(product, sizeActive);
+      syncDetailFavoriteButton(productId);
+      renderDetailSlider();
+
+      openOverlay(detailOverlay);
+      document.body.classList.add("overflow-hidden");
+    }
+
+    function closeDetail() {
+      if (!detailOverlay) return;
+      closeOverlay(detailOverlay);
+      if (!favoritesView?.classList.contains("show")) {
+        document.body.classList.remove("overflow-hidden");
+      }
+      activeDetailId = null;
+    }
+
+    function openFavorites() {
+      if (!favoritesView) return;
+      if (detailOverlay?.classList.contains("show")) {
+        closeOverlay(detailOverlay);
+      }
+      renderFavorites();
+      openOverlay(favoritesView);
+      document.body.classList.add("overflow-hidden");
+    }
+
+    function closeFavorites() {
+      if (!favoritesView) return;
+      closeOverlay(favoritesView);
+      if (!detailOverlay?.classList.contains("show")) {
+        document.body.classList.remove("overflow-hidden");
+      }
+    }
+
     badgeButtons.forEach(btn => {
       btn.onclick = () => {
         currentBadge = btn.getAttribute("data-badge") || "all";
         currentPage = 1;
         setBadgeActive(btn);
-        const heroMatch = Array.from(heroFilters).find((heroBtn) => (heroBtn.getAttribute("data-hero-badge") || "").toLowerCase() === currentBadge.toLowerCase());
-        setHeroFilterActive(heroMatch);
         renderCatalog();
       };
     });
@@ -617,48 +905,7 @@
       setHeroStatus("Explorando el catalogo...");
     });
 
-    copyCatalogBtn?.addEventListener("click", async () => {
-      const ok = await copyToClipboard(window.location.href);
-      if (ok) {
-        setHeroStatus("Enlace copiado. Listo para compartir.");
-        if (typeof showAppPush === "function") showAppPush("Enlace copiado para compartir");
-      } else {
-        setHeroStatus("No se pudo copiar el enlace.");
-      }
-    });
-
-    heroPrevBtn?.addEventListener("click", () => {
-      setHeroSlide(heroIndex - 1);
-      resetHeroAuto();
-    });
-    heroNextBtn?.addEventListener("click", () => {
-      setHeroSlide(heroIndex + 1);
-      resetHeroAuto();
-    });
-    heroDots.forEach((dot) => {
-      dot.addEventListener("click", () => {
-        const idx = Number(dot.getAttribute("data-hero-dot"));
-        if (!Number.isNaN(idx)) setHeroSlide(idx);
-        resetHeroAuto();
-      });
-    });
-
-    heroFilters.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const badge = btn.getAttribute("data-hero-badge") || "all";
-        currentBadge = badge;
-        currentPage = 1;
-        const match = Array.from(badgeButtons).find((chip) => (chip.getAttribute("data-badge") || "").toLowerCase() === badge.toLowerCase());
-        setBadgeActive(match);
-        setHeroFilterActive(btn);
-        renderCatalog();
-        scrollToCatalog();
-        setHeroStatus(`Filtro aplicado: ${badge === "all" ? "Todos" : badge}`);
-        resetHeroAuto();
-      });
-    });
-
-    document.getElementById("share-catalog")?.addEventListener("click", async () => {
+    shareCatalogBtn?.addEventListener("click", async () => {
       const payload = {
         title: "Catalogo OruPets",
         text: "Ropa y accesorios premium listos para 3D y tallas.",
@@ -670,25 +917,189 @@
       if (result === "failed") setHeroStatus("No se pudo compartir.");
     });
 
-    window.addEventListener("DOMContentLoaded", () => {
+    catalogEl?.addEventListener("click", async (e) => {
+      if (!getProducts().length) return;
+      const sizeBtn = e.target.closest("[data-size]");
+      if (sizeBtn) {
+        const size = sizeBtn.getAttribute("data-size");
+        const id = sizeBtn.getAttribute("data-product");
+        selectedSizes[id] = size;
+        renderCatalog();
+        if (typeof showAppPush === "function") showAppPush("Talla seleccionada: " + size, "success");
+        return;
+      }
+
+      const actionBtn = e.target.closest("[data-action]");
+      if (actionBtn) {
+        const action = actionBtn.getAttribute("data-action");
+        const id = actionBtn.getAttribute("data-product");
+        const product = findProductById(id);
+        if (!product) return;
+
+        if (action === "details") {
+          openDetail(id);
+          return;
+        }
+        if (action === "add") {
+          if (typeof addToCart === "function") addToCart(id);
+          if (typeof showAppPush === "function") showAppPush("Agregado al carrito", "success");
+          return;
+        }
+        if (action === "share") {
+          const payload = {
+            title: product.nombre + " | OruPets",
+            text: "Mira como se ve puesto y elige talla.",
+            url: window.location.origin + "/catalogo/#" + product.id
+          };
+          const result = await sharePayload(payload, "Enlace copiado para compartir");
+          if (result === "failed") console.warn("No se pudo compartir");
+          return;
+        }
+        if (action === "wa") {
+          sendToWhatsApp(id);
+          return;
+        }
+      }
+
+      const card = e.target.closest("[data-product-card]");
+      if (card) {
+        const id = card.getAttribute("data-product");
+        openDetail(id);
+      }
+    });
+
+    catalogEl?.addEventListener("keydown", (e) => {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      if (e.target.closest("[data-size]") || e.target.closest("[data-action]")) return;
+      const card = e.target.closest("[data-product-card]");
+      if (!card) return;
+      e.preventDefault();
+      const id = card.getAttribute("data-product");
+      openDetail(id);
+    });
+
+    detailSizes?.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-detail-size]");
+      if (!btn || !activeDetailId) return;
+      const size = btn.getAttribute("data-detail-size");
+      selectedSizes[activeDetailId] = size;
+      renderDetailSizes(activeDetailId);
+      renderDetailFeed(findProductById(activeDetailId) || {}, size);
+      renderCatalog();
+      if (typeof showAppPush === "function") showAppPush("Talla seleccionada: " + size, "success");
+    });
+
+    detailOverlay?.addEventListener("click", async (e) => {
+      if (e.target === detailOverlay || e.target.closest(".detail-backdrop") || e.target.closest("[data-detail-close]")) {
+        closeDetail();
+        return;
+      }
+      const actionBtn = e.target.closest("[data-detail-action]");
+      if (!actionBtn || !activeDetailId) return;
+      const action = actionBtn.getAttribute("data-detail-action");
+      if (action === "buy") {
+        if (typeof addToCart === "function") addToCart(activeDetailId);
+        window.location.href = "/checkout/";
+        return;
+      }
+      if (action === "wa") {
+        sendToWhatsApp(activeDetailId);
+        return;
+      }
+      if (action === "share") {
+        const product = findProductById(activeDetailId);
+        if (!product) return;
+        const payload = {
+          title: product.nombre + " | OruPets",
+          text: "Mira como se ve puesto y elige talla.",
+          url: window.location.origin + "/catalogo/#" + product.id
+        };
+        const result = await sharePayload(payload, "Enlace copiado para compartir");
+        if (result === "failed") console.warn("No se pudo compartir");
+        return;
+      }
+      if (action === "save") {
+        toggleFavorite(activeDetailId);
+      }
+    });
+
+    detailPrevBtn?.addEventListener("click", () => setDetailSlide(detailIndex - 1));
+    detailNextBtn?.addEventListener("click", () => setDetailSlide(detailIndex + 1));
+    detailDots?.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-detail-dot]");
+      if (!btn) return;
+      const idx = Number(btn.getAttribute("data-detail-dot"));
+      if (!Number.isNaN(idx)) setDetailSlide(idx);
+    });
+
+    detailCloseBtn?.addEventListener("click", closeDetail);
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape") return;
+      if (favoritesView && !favoritesView.classList.contains("hidden")) {
+        closeFavorites();
+        return;
+      }
+      if (!detailOverlay?.classList.contains("hidden")) {
+        closeDetail();
+      }
+    });
+
+    favoritesOpen?.addEventListener("click", openFavorites);
+    favoritesClose?.addEventListener("click", closeFavorites);
+    favoritesView?.addEventListener("click", (e) => {
+      if (e.target === favoritesView || e.target.closest(".detail-backdrop")) {
+        closeFavorites();
+      }
+    });
+
+    favoritesList?.addEventListener("click", (e) => {
+      const card = e.target.closest("[data-favorite-card]");
+      if (!card) return;
+      const id = card.getAttribute("data-product");
+      const actionBtn = e.target.closest("[data-favorite-action]");
+      if (actionBtn?.getAttribute("data-favorite-action") === "remove") {
+        toggleFavorite(id);
+        return;
+      }
+      openDetail(id);
+    });
+
+    favoritesList?.addEventListener("keydown", (e) => {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      if (e.target.closest("[data-favorite-action]")) return;
+      const card = e.target.closest("[data-favorite-card]");
+      if (!card) return;
+      e.preventDefault();
+      const id = card.getAttribute("data-product");
+      openDetail(id);
+    });
+
+    favoritesClear?.addEventListener("click", async () => {
+      if (!favorites.size) return;
+      let ok = true;
+      if (typeof showAppConfirm === "function") {
+        ok = await showAppConfirm({
+          title: "Limpiar favoritos",
+          message: "Se eliminaran todos los guardados.",
+          confirmText: "Limpiar",
+          cancelText: "Cancelar"
+        });
+      } else {
+        ok = window.confirm("Se eliminaran todos los favoritos. Deseas continuar?");
+      }
+      if (!ok) return;
+      favorites.clear();
+      saveFavorites();
+      renderFavorites();
+      if (activeDetailId) syncDetailFavoriteButton(activeDetailId);
+    });
+
+    window.addEventListener("DOMContentLoaded", async () => {
+      await loadProducts();
+      loadFavorites();
+      renderFavorites();
       populateCategories();
       renderCatalog();
-      updateHeroStats();
-      heroImage?.addEventListener("error", () => {
-        heroImage.src = FALLBACK_IMG;
-      });
-      setHeroSlide(0);
-      setHeroFilterActive(document.querySelector("[data-hero-badge='all']"));
-      startHeroAuto();
-      heroCarousel?.addEventListener("mouseenter", stopHeroAuto);
-      heroCarousel?.addEventListener("mouseleave", startHeroAuto);
-      document.addEventListener("visibilitychange", () => {
-        if (document.hidden) {
-          stopHeroAuto();
-        } else {
-          startHeroAuto();
-        }
-      });
       if (typeof updateCartCount === "function") updateCartCount();
     });
   </script>
