@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clasificador gato/perro ONNX (local)</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#0b1221;color:#e7ecf5;padding:16px}h1{margin:0 0 8px}p{margin:0 0 12px}
+    .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+    .btn{background:#f6c343;color:#0b1221;border:none;border-radius:10px;padding:10px 16px;font-weight:700;cursor:pointer}
+    .ghost{background:transparent;border:1px solid #f6c343;color:#f6c343}
+    .panel{margin-top:14px;padding:12px;border:1px solid #1f2937;border-radius:12px;background:#0f172a}
+    .media{position:relative;min-height:320px;background:#0f172a;border:1px solid #1f2937;border-radius:12px;overflow:hidden}
+    .media img,.media canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+    .pill{background:#f6c343;color:#0b1221;border-radius:999px;padding:2px 10px;font-weight:700;margin-left:6px}
+    .hidden{display:none}
+    .modal{position:fixed;inset:0;display:grid;place-items:center;z-index:50}
+    .modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(2px)}
+    .modal-content{position:relative;background:#0f172a;border:1px solid #1f2937;border-radius:14px;padding:18px 20px;max-width:360px;width:90%;box-shadow:0 20px 50px rgba(0,0,0,0.4);z-index:2}
+    .modal-content h3{margin:0 0 8px}.modal-content p{margin:0 0 14px;color:#c8d2e4}.modal-content .btn{width:100%;justify-content:center}
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
+</head>
+<body>
+  <h1>Clasificador local (gato/perro/razas) en ONNX</h1>
+  <p>Todo corre en tu navegador, usando <code>models/cat_dog_breeds.onnx</code>. Si no es mascota, te lo dir&aacute;.</p>
+  <div class="row">
+    <label class="btn">Subir imagen<input id="file-input" type="file" accept="image/*" style="display:none"></label>
+    <button id="demo-btn" class="btn ghost">Imagen demo</button>
+  </div>
+  <div class="panel media" id="media">
+    <img id="img" alt="Imagen" />
+    <canvas id="canvas"></canvas>
+  </div>
+  <div class="panel">
+    <p id="status">Carga una imagen.</p>
+    <ul id="details"></ul>
+  </div>
+
+  <script>
+    // Ruta absoluta desde la raiz del server. Asegurate de colocar el modelo en /onnx-demo/models/cat_dog_breeds.onnx
+    const MODEL_URL = "/onnx-demo/models/cat_dog_breeds.onnx"; 
+    const imgEl = document.getElementById("img");
+    const canvas = document.getElementById("canvas");
+    const fileInput = document.getElementById("file-input");
+    const demoBtn = document.getElementById("demo-btn");
+    const statusEl = document.getElementById("status");
+    const detailsEl = document.getElementById("details");
+
+    let session = null;
+    let inputShape = null;
+    const REQUIRED_BATCH = 10; // el modelo exige batch 10 segun el error
+    const FALLBACK_LABELS = ["cat","dog","beagle","bulldog","labrador","german_shepherd","persian_cat","siamese_cat","maine_coon","ragdoll","sphynx","breed1","breed2","breed3"]; // si no conocemos el modelo
+
+    function resizeCanvas() {
+      canvas.width = imgEl.clientWidth || 320;
+      canvas.height = imgEl.clientHeight || 320;
+    }
+    window.addEventListener("resize", resizeCanvas);
+
+    async function loadModel() {
+      statusEl.textContent = "Cargando modelo ONNX...";
+      session = await ort.InferenceSession.create(MODEL_URL, { executionProviders: ["wasm"] });
+      const meta = session.inputMetadata[session.inputNames[0]];
+      inputShape = meta?.dimensions || null;
+      statusEl.textContent = "Modelo cargado. Sube una imagen.";
+    }
+
+    function preprocess(img) {
+      const size = inputShape?.slice(-2)[0] || 224;
+      const detectedBatch = (inputShape && Number.isFinite(inputShape[0]) && inputShape[0] > 1) ? inputShape[0] : 1;
+      const batch = detectedBatch === 1 ? REQUIRED_BATCH : detectedBatch;
+      const c = document.createElement("canvas");
+      c.width = size; c.height = size;
+      const ctx = c.getContext("2d");
+      ctx.drawImage(img, 0, 0, size, size);
+      const { data } = ctx.getImageData(0,0,size,size);
+      const single = new Float32Array(size*size*3);
+      for (let i=0;i<size*size;i++) {
+        single[i*3]   = data[i*4]/255;
+        single[i*3+1] = data[i*4+1]/255;
+        single[i*3+2] = data[i*4+2]/255;
+      }
+      const float32 = new Float32Array(batch * size * size * 3);
+      for (let b=0;b<batch;b++) float32.set(single, b * size * size * 3);
+      return new ort.Tensor("float32", float32, [batch,3,size,size]);
+    }
+
+    async function classify(img) {
+      const input = preprocess(img);
+      const feeds = { [session.inputNames[0]]: input };
+      const out = await session.run(feeds);
+      const logits = out[session.outputNames[0]].data;
+      const stride = logits.length / (inputShape ? (inputShape[0] || REQUIRED_BATCH) : REQUIRED_BATCH);
+      const firstSample = Array.from(logits.slice(0, stride));
+      const probs = softmax(firstSample);
+      const idx = argmax(probs);
+      const label = (session.outputNames.includes("labels") && out.labels) ? out.labels[idx] : (FALLBACK_LABELS[idx] || `clase_${idx}`);
+      return { label, score: probs[idx], probs };
+    }
+
+    function softmax(arr){const m=Math.max(...arr);const exps=arr.map(v=>Math.exp(v-m));const s=exps.reduce((a,b)=>a+b,0);return exps.map(v=>v/s)}
+    function argmax(arr){return arr.reduce((b,v,i)=>(v>arr[b]?i:b),0)}
+
+    function drawBox(label, score) {
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.strokeStyle="#f6c343"; ctx.lineWidth=3;
+      ctx.strokeRect(2,2,canvas.width-4,canvas.height-4);
+      const text = `${label} ${(score*100).toFixed(1)}%`;
+      ctx.fillStyle="rgba(246,195,67,0.85)";
+      ctx.fillRect(6,6, ctx.measureText(text).width+10, 22);
+      ctx.fillStyle="#0b1221";
+      ctx.font="16px Arial";
+      ctx.fillText(text, 10, 22);
+    }
+
+    async function handle(img) {
+      resizeCanvas();
+      statusEl.textContent = "Procesando...";
+      detailsEl.innerHTML = "";
+      try {
+        const res = await classify(img);
+        const labelLower = res.label.toLowerCase();
+        const isPetKeyword = labelLower.includes("cat") || labelLower.includes("dog");
+        const isPet = isPetKeyword || res.score >= 0.30; // heuristica: alta confianza => asumir mascota
+        if (!isPet) {
+          alert("No es perro/gato. La imagen no parece ser de un perro o gato.");
+          statusEl.textContent = "No es mascota.";
+          drawBox("no-mascota", res.score);
+          return;
+        }
+        statusEl.textContent = "Detectado: " + res.label;
+        drawBox(res.label, res.score);
+        const age = res.score > 0.7 ? "adulto" : res.score > 0.4 ? "joven" : "cachorro";
+        detailsEl.innerHTML = `
+          <li>Tipo/raza: ${res.label} <span class="pill">${(res.score*100).toFixed(1)}%</span></li>
+          <li>Edad estimada (heuristica): ${age}</li>
+        `;
+      } catch (err) {
+        console.error(err);
+        statusEl.textContent = "Error al inferir. Revisa consola.";
+      }
+    }
+
+    fileInput.addEventListener("change", e => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      const url = URL.createObjectURL(file);
+      imgEl.onload = ()=> handle(imgEl);
+      imgEl.src = url;
+    });
+
+    demoBtn.addEventListener("click", () => {
+      const demo = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAYAAAD7h3OgAAAACXBIWXMAAAsTAAALEwEAmpwYAAAEtUlEQVR4nO3csW3bMBCF4f1/6z1JJsqFiKiMWvF0/gD1zGOim6vrWHxj5Lr+37VE7LJkiRJkiRJkiRJOqTwH6W9d2v22nV1t2cZ15q73zjFes7uDh1Sm4fEJ9fXHn+Xl7/dp3f9vdObfX8xlf2rf7/voL9zzk6XVh7wF41yM2z9+ZeqD8b2j4B/2D2cuM9eXm4+pcjj2b08OKf9ur7Wv7Y6P3e8BVjWzCvVLqvVvrXu17+tXet+u/cdzZh/8nZOS87fFNVt/sVO33lDHXvH6YvRvfP9G0bXybgGtt/b3Dz5+V30TTe+Pjpfjfgz5V2W0s/H4uwB+f5Tv6U6Dn6bpnY8eh3tt8CqdvXy7oH+2YB/9F3yKDL7G9PULcptn0fFxuBf7ZgH/0XfIoMvsb09Qtyp2fh88pw/vn0lmYH/Nbn3/KDy+xsD+z8VhN2uq+GHD0xJ9P1f1Q7pL2S7xyOr3DP76lOvT3jFw+YG/NZqf/tfQQ++G/8jk7x2jD66NY7A8aF1j+w2D9rhn+YTvAyB8/PXQqM2yubd6h8+YDf1W1D3/4HgPvqoJfpeZb/ifPLp/A3pXQu9ML8b1lHQ3++B4D76qCX6XmW/4nzx6f4baPsJfCH/xZ3r+nFzA7+qt7f46vP6D8L3/79NP0PjvtX3YtJkiRJkiRJkiRJ0n8B7cRYI02yZgQAAAAASUVORK5CYII=";
+      imgEl.onload = ()=> handle(imgEl);
+      imgEl.src = demo;
+    });
+
+    loadModel().catch(err => {
+      console.error(err);
+      statusEl.textContent = "No se pudo cargar el modelo (ver consola).";
+      alert("No se cargo el modelo. Asegura que exista /onnx-demo/models/cat_dog_breeds.onnx en el servidor.");
+    });
+  </script>
+</body>
+</html>
